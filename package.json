@@ -1,0 +1,13 @@
+{
+  "name": "azwo",
+  "version": "0.1.0",
+  "description": "أداة إسناد موحّدة: تحدد من أي منصة جاء العميل فعلاً وتقارنها بما تدّعيه المنصات",
+  "type": "module",
+  "private": true,
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --no-warnings=ExperimentalWarning src/server.js",
+    "seed": "node --no-warnings=ExperimentalWarning scripts/seed.js",
+    "test": "node --no-warnings=ExperimentalWarning --test \"test/*.test.js\""
+  }
+}

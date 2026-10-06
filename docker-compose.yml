@@ -1,0 +1,11 @@
+services:
+  tracking:
+    build: .
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - tracking-data:/data
+    env_file: .env
+volumes:
+  tracking-data:
