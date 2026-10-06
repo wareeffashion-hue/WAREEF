@@ -5,7 +5,7 @@ import { GRACE_DAYS, OVERAGE, PLANS, TRIAL_DAYS } from './plans.js';
 
 export function createOrganization(db, { name, now = Date.now() }) {
   name = String(name || '').trim().slice(0, 100);
-  if (!name) throw new HttpError(400, 'اسم الشركة مطلوب');
+  if (!name) throw new HttpError(400, 'يرجى إدخال اسم الشركة');
   const res = db.prepare(`INSERT INTO organizations (name, plan, status, trial_ends_at, created_at) VALUES (?, 'trial', 'trialing', ?, ?)`)
     .run(name, now + TRIAL_DAYS * DAY, now);
   return Number(res.lastInsertRowid);
@@ -59,14 +59,14 @@ export function counts(db, orgId) {
 export function assertCanAdd(db, org, what) {
   const plan = planOf(org);
   const c = counts(db, org.id);
-  if (what === 'store' && c.stores >= plan.stores) throw new HttpError(402, `باقتك تسمح بـ ${plan.stores} متجر. رقِّ الباقة لإضافة المزيد.`);
-  if (what === 'member' && c.members >= plan.members) throw new HttpError(402, `باقتك تسمح بـ ${plan.members} أعضاء. رقِّ الباقة لإضافة المزيد.`);
+  if (what === 'store' && c.stores >= plan.stores) throw new HttpError(402, `وصلت إلى حد باقتك (${plan.stores} متاجر). رقِّ باقتك لإضافة المزيد.`);
+  if (what === 'member' && c.members >= plan.members) throw new HttpError(402, `وصلت إلى حد باقتك (${plan.members} أعضاء). رقِّ باقتك لإضافة المزيد.`);
 }
 
 export function assertDashboardAccess(org) {
   const state = orgState(org);
-  if (state === 'suspended') throw new HttpError(403, 'الحساب موقوف. تواصل مع الدعم.');
-  if (state !== 'ok') throw new HttpError(402, 'انتهى اشتراكك. جدّد من صفحة الاشتراك عشان تشوف تقاريرك (البيانات محفوظة).');
+  if (state === 'suspended') throw new HttpError(403, 'الحساب موقوف مؤقتاً. تواصل مع الدعم.');
+  if (state !== 'ok') throw new HttpError(402, 'انتهى اشتراكك، وبياناتك محفوظة. جدّد من صفحة الاشتراك لاستعادة تقاريرك.');
 }
 
 // ------------------------------------------------------------- metering

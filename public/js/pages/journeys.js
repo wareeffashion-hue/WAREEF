@@ -48,20 +48,20 @@ export default async function journeys(ctx) {
       j.path.length ? j.path.flatMap((p, i) => [
         i ? h('span', { class: 'arrow' }, '←') : null,
         h('span', { class: 'chip', title: [p.campaign, DEVICE_LABELS[p.device]].filter(Boolean).join(' · ') }, dot(p.channel), label(p.channel), p.device ? h('span', { class: 'muted' }, DEVICE_LABELS[p.device]) : null),
-      ]) : h('span', { class: 'muted' }, 'بدون مسار معروف'),
+      ]) : h('span', { class: 'muted' }, 'مسار غير معروف'),
       h('span', { class: 'arrow' }, '·'),
       Object.entries(j.credits).map(([ch, c]) => h('span', { class: 'chip' }, label(ch), h('span', { class: 'pct' }, fmt.pct(c))))));
   const recent = h('ol', { class: 'journeys' }, r.recent.length ? r.recent.slice(0, 20).map(journeyItem) : [h('li', { class: 'empty' }, 'لا توجد تحويلات في هذه الفترة')]);
   const more = r.recent.length > 20 ? h('div', { class: 'code-actions', style: { paddingTop: '12px' } }, h('button', {
     class: 'btn sm', onclick: (e) => { recent.replaceChildren(...r.recent.map(journeyItem)); e.target.remove(); },
-  }, `عرض كل ${r.recent.length}`)) : null;
+  }, `عرض الكل (${r.recent.length})`)) : null;
 
   return h('div', { class: 'view' },
-    pageHead('الإسناد والرحلات', 'كيف يوصل العميل للشراء؟ ونفس المبيعات كيف تتوزع بكل نموذج إسناد'),
-    card({ title: 'مقارنة نماذج الإسناد', sub: 'المبيعات الفعلية ثابتة؛ اللي يتغير طريقة توزيعها. قناة قوية في "أول نقرة" تجيب عملاء جدد، وقوية في "آخر نقرة" تقفل البيعة' }, compare),
+    pageHead('الإسناد والرحلات', 'كيف يصل العميل إلى الشراء، وكيف تتوزع المبيعات نفسها في كل نموذج إسناد'),
+    card({ title: 'مقارنة نماذج الإسناد', sub: 'المبيعات الفعلية ثابتة، وما يتغير هو طريقة توزيعها. القناة القوية في "أول نقرة" تجلب عملاء جدداً، والقوية في "آخر نقرة" تُتمّ عملية البيع' }, compare),
     h('div', { class: 'grid-2' },
-      card({ title: 'عدد نقاط التواصل قبل الشراء' }, barList({ items: Object.entries(r.touches).map(([k, v]) => ({ label: k === '1' ? 'زيارة وحدة' : `${k} زيارات`, value: v, sub: fmt.pct(v / totalTouches) })) })),
-      card({ title: 'المدة من أول زيارة حتى الشراء' }, barList({ items: Object.entries(r.lag).map(([k, v]) => ({ label: k === '0' ? 'نفس اليوم' : `${k} يوم`, value: v, sub: fmt.pct(v / totalLag) })) }))),
-    card({ title: 'أكثر المسارات تكراراً', sub: 'تسلسل القنوات قبل الطلب (المكرر المتتالي يُدمج)' }, paths),
-    card({ title: 'آخر التحويلات ورحلتها', sub: 'المسار الكامل عبر كل أجهزة العميل، والنسبة اللي أخذتها كل منصة' }, recent, more));
+      card({ title: 'عدد نقاط التواصل قبل الشراء' }, barList({ items: Object.entries(r.touches).map(([k, v]) => ({ label: k === '1' ? 'زيارة واحدة' : `${k} زيارات`, value: v, sub: fmt.pct(v / totalTouches) })) })),
+      card({ title: 'المدة من أول زيارة حتى الشراء' }, barList({ items: Object.entries(r.lag).map(([k, v]) => ({ label: k === '0' ? 'اليوم نفسه' : `${k} يوم`, value: v, sub: fmt.pct(v / totalLag) })) }))),
+    card({ title: 'أكثر المسارات تكراراً', sub: 'تسلسل القنوات قبل الطلب (تُدمج القناة المتكررة على التوالي)' }, paths),
+    card({ title: 'أحدث التحويلات ورحلاتها', sub: 'المسار الكامل عبر جميع أجهزة العميل، والحصة التي نالتها كل منصة' }, recent, more));
 }

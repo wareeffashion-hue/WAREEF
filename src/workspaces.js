@@ -7,7 +7,7 @@ const key = (prefix, bytes) => `${prefix}_${randomBytes(bytes).toString('base64u
 export function createWorkspace(db, { name, currency = 'SAR', orgId }) {
   if (!orgId) throw new Error('orgId is required');
   name = String(name || '').trim().slice(0, 100);
-  if (!name) throw new HttpError(400, 'اسم العميل مطلوب');
+  if (!name) throw new HttpError(400, 'يرجى إدخال اسم المتجر');
   const res = db.prepare(`INSERT INTO workspaces (name, site_key, api_key, webhook_secret, currency, org_id, created_at)
                           VALUES (?, ?, ?, ?, ?, ?, ?)`)
     .run(name, key('site', 9), key('key', 24), randomBytes(24).toString('hex'), String(currency || 'SAR').toUpperCase().slice(0, 3), orgId, Date.now());
@@ -41,7 +41,7 @@ export function listWorkspaces(db, user) {
 export function updateWorkspace(db, id, patch) {
   const ws = getWorkspace(db, id);
   const name = patch.name != null ? String(patch.name).trim().slice(0, 100) : ws.name;
-  if (!name) throw new HttpError(400, 'اسم العميل مطلوب');
+  if (!name) throw new HttpError(400, 'يرجى إدخال اسم المتجر');
   const currency = patch.currency != null ? String(patch.currency).toUpperCase().slice(0, 3) : ws.currency;
   const model = patch.default_model != null ? String(patch.default_model) : ws.default_model;
   if (!MODELS[model]) throw new HttpError(400, 'invalid model');

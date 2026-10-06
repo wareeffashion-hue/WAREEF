@@ -5,7 +5,7 @@ import { pageHead } from './common.js';
 const METRICS = {
   revenue: ['المبيعات', fmt.money],
   orders: ['الطلبات', fmt.int],
-  spend: ['الصرف', fmt.money],
+  spend: ['الإنفاق', fmt.money],
   roas: ['ROAS', fmt.ratio],
   leads: ['التواصل', fmt.int],
   sessions: ['الزيارات', fmt.int],
@@ -49,7 +49,7 @@ export default async function analytics(ctx) {
       { key: 'orders', label: 'الطلبات', num: true },
       { key: 'leads', label: 'التواصل', num: true },
       { key: 'sessions', label: 'الزيارات', num: true },
-      { key: 'spend', label: 'الصرف', num: true, render: (d) => fmt.money(d.spend) },
+      { key: 'spend', label: 'الإنفاق', num: true, render: (d) => fmt.money(d.spend) },
       { key: 'roas', label: 'ROAS', num: true, render: (d) => fmt.ratio(d.roas) },
       { key: 'platform_revenue', label: 'تدّعيه المنصات', num: true, render: (d) => fmt.money(d.platform_revenue) },
       { key: 'new_customers', label: 'عملاء جدد', num: true },
@@ -58,15 +58,15 @@ export default async function analytics(ctx) {
   });
 
   return h('div', { class: 'view' },
-    pageHead('التحليلات', 'الاتجاه اليومي لكل مقياس، مقارنة بالفترة السابقة بنفس الطول'),
+    pageHead('التحليلات', 'تطوّر كل مقياس يوماً بيوم، مقارنةً بفترة سابقة مساوية في الطول'),
     h('div', { class: 'kpis' },
-      kpi({ label: 'الزيارات', value: fmt.int(c.sessions), change: r.change.sessions, sub: `${fmt.int(c.visitors)} زائر` }),
+      kpi({ label: 'الزيارات', value: fmt.int(c.sessions), change: r.change.sessions, sub: `${fmt.int(c.visitors)} زائر فريد` }),
       kpi({ label: 'معدل التحويل', value: fmt.pct(c.conversion_rate), change: r.change.conversion_rate }),
       kpi({ label: 'متوسط الطلب', value: fmt.money(c.aov), change: r.change.aov }),
-      kpi({ label: 'الظهور', value: fmt.compact(c.impressions), change: r.change.impressions, sub: `${fmt.compact(c.clicks)} نقرة` }),
+      kpi({ label: 'مرات الظهور', value: fmt.compact(c.impressions), change: r.change.impressions, sub: `${fmt.compact(c.clicks)} نقرة` }),
       kpi({ label: 'تكلفة التواصل', value: fmt.money2(c.cpl), change: r.change.cpl, invert: true })),
     card({ title: 'الاتجاه اليومي', actions: tabs }, chartBox),
     card({ title: 'المبيعات المنسوبة لكل منصة يومياً', sub: 'حسب نموذج الإسناد المختار' },
-      channelSeries.length ? lineChart({ labels: days, series: channelSeries, tooltipFormat: fmt.money }) : h('div', { class: 'empty' }, 'لا توجد مبيعات منسوبة لمنصات مدفوعة')),
+      channelSeries.length ? lineChart({ labels: days, series: channelSeries, tooltipFormat: fmt.money }) : h('div', { class: 'empty' }, 'لا توجد مبيعات منسوبة إلى المنصات المدفوعة في هذه الفترة')),
     card({ title: 'الجدول اليومي', actions: h('button', { class: 'btn ghost sm', onclick: () => tbl.exportCsv() }, 'تصدير CSV') }, tbl));
 }

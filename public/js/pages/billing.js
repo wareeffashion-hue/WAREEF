@@ -4,7 +4,7 @@ import { pageHead } from './common.js';
 const STATE_TEXT = {
   ok: ['فعّال', 'good'], grace: ['منتهي (فترة سماح)', 'bad'], locked: ['منتهي', 'bad'], suspended: ['موقوف', 'bad'],
 };
-const STATUS_TEXT = { paid: 'مدفوع', initiated: 'بانتظار الدفع', failed: 'فشل', expired: 'منتهي', canceled: 'ملغي' };
+const STATUS_TEXT = { paid: 'مدفوع', initiated: 'بانتظار الدفع', failed: 'فشل', expired: 'منتهي', canceled: 'ملغى' };
 const sar = (n) => `${new Intl.NumberFormat('en-US').format(n)} ر.س`;
 
 function meter(label, used, limit) {
@@ -17,7 +17,7 @@ function meter(label, used, limit) {
 export default async function billing(ctx) {
   if (/paid=1/.test(location.hash)) {
     const r = await ctx.api.post('/api/billing/verify').catch(() => ({}));
-    if (r.applied) toast('تم تفعيل اشتراكك، شكراً لك ✓');
+    if (r.applied) toast('تم تفعيل اشتراكك بنجاح. شكراً لثقتك ✓');
     history.replaceState(null, '', '#/billing');
   }
   const b = await ctx.api.get('/api/billing');
@@ -30,9 +30,9 @@ export default async function billing(ctx) {
 
   const plansBox = h('div');
   function drawPlans() {
-    const seg = h('div', { class: 'seg' }, [['monthly', 'شهري'], ['yearly', 'سنوي (شهرين مجاناً)']].map(([k, n]) =>
+    const seg = h('div', { class: 'seg' }, [['monthly', 'شهري'], ['yearly', 'سنوي (شهران مجاناً)']].map(([k, n]) =>
       h('button', { class: k === cycle ? 'active' : '', onclick: () => { cycle = k; drawPlans(); } }, n)));
-    plansBox.replaceChildren(card({ title: trial || org.state !== 'ok' ? 'اختر باقتك' : 'تغيير أو تجديد الباقة', sub: 'الدفع عبر مدى، فيزا/ماستركارد، Apple Pay أو STC Pay. الأسعار شاملة الضريبة. التجديد المبكر يُضاف بعد نهاية فترتك الحالية.', actions: seg },
+    plansBox.replaceChildren(card({ title: trial || org.state !== 'ok' ? 'اختر باقتك' : 'تغيير أو تجديد الباقة', sub: 'ادفع عبر مدى أو فيزا/ماستركارد أو Apple Pay أو STC Pay. الأسعار شاملة ضريبة القيمة المضافة، ويبدأ التجديد المبكر بعد انتهاء فترتك الحالية.', actions: seg },
       h('div', { class: 'plans-grid' }, b.plans.map((p) => {
         const current = p.id === org.plan;
         return h('div', { class: `plan-card ${current ? 'current' : ''}` },
@@ -43,7 +43,7 @@ export default async function billing(ctx) {
             class: `btn ${p.popular || current ? 'primary' : ''}`,
             disabled: !b.enabled,
             onclick: async (e) => {
-              e.target.disabled = true; e.target.textContent = 'جاري التحويل للدفع…';
+              e.target.disabled = true; e.target.textContent = 'جارٍ التحويل إلى الدفع…';
               try {
                 const r = await ctx.api.post('/api/billing/checkout', { plan: p.id, cycle });
                 location.href = r.url;
@@ -51,7 +51,7 @@ export default async function billing(ctx) {
             },
           }, current && !trial ? 'جدّد' : 'اشترك') : null);
       })),
-      b.enabled ? null : h('div', { class: 'note warn' }, 'الدفع الإلكتروني غير مفعّل بعد. تواصل معنا لتفعيل اشتراكك.')));
+      b.enabled ? null : h('div', { class: 'note warn' }, 'الدفع الإلكتروني غير متاح حالياً. تواصل معنا وسنفعّل اشتراكك.')));
   }
   drawPlans();
 
@@ -64,20 +64,20 @@ export default async function billing(ctx) {
       { key: 'status', label: 'الحالة', render: (p) => h('span', { class: `tag ${p.status === 'paid' ? 'good' : ''}` }, STATUS_TEXT[p.status] || p.status) },
       { key: 'period_end', label: 'حتى', render: (p) => (p.period_end ? fmt.date(p.period_end) : '—') },
     ],
-  }) : h('div', { class: 'empty' }, 'لا توجد مدفوعات بعد');
+  }) : h('div', { class: 'empty' }, 'لا توجد مدفوعات حتى الآن');
 
   return h('div', { class: 'view' },
     pageHead('الاشتراك والفوترة', org.name),
     h('div', { class: 'kpis' },
       h('div', { class: 'kpi' }, h('div', { class: 'kpi-label' }, 'الباقة'), h('div', { class: 'kpi-value' }, org.plan_name), h('div', { class: 'kpi-sub' }, h('span', { class: `tag ${stateTone}` }, stateText))),
-      h('div', { class: 'kpi' }, h('div', { class: 'kpi-label' }, trial ? 'التجربة تنتهي' : 'الاشتراك ينتهي'), h('div', { class: 'kpi-value' }, org.access_ends_at ? fmt.date(org.access_ends_at) : '—'),
-        h('div', { class: 'kpi-sub' }, org.access_ends_at ? (org.access_ends_at > Date.now() ? `باقي ${Math.ceil((org.access_ends_at - Date.now()) / 86400000)} يوم` : 'منتهي') : '')),
-      h('div', { class: 'kpi' }, h('div', { class: 'kpi-label' }, 'الاستخدام هذا الشهر'),
+      h('div', { class: 'kpi' }, h('div', { class: 'kpi-label' }, trial ? 'تنتهي الفترة التجريبية' : 'ينتهي الاشتراك'), h('div', { class: 'kpi-value' }, org.access_ends_at ? fmt.date(org.access_ends_at) : '—'),
+        h('div', { class: 'kpi-sub' }, org.access_ends_at ? (org.access_ends_at > Date.now() ? `يتبقّى ${Math.ceil((org.access_ends_at - Date.now()) / 86400000)} يوم` : 'منتهي') : '')),
+      h('div', { class: 'kpi' }, h('div', { class: 'kpi-label' }, 'استخدام هذا الشهر'),
         h('div', { style: { display: 'grid', gap: '10px', marginTop: '8px' } },
           meter('الأحداث', org.usage.events, org.limits.events),
           meter('المتاجر', org.usage.stores, org.limits.stores),
           meter('الأعضاء', org.usage.members, org.limits.members)))),
-    org.state === 'grace' ? h('div', { class: 'banner bad' }, `انتهى اشتراكك. التتبع مستمر ${org.grace_days} أيام بعد الانتهاء عشان ما تضيع بياناتك، والتقارير مقفلة حتى التجديد.`) : null,
+    org.state === 'grace' ? h('div', { class: 'banner bad' }, `انتهى اشتراكك. يستمر التتبّع ${org.grace_days} أيام بعد الانتهاء حتى لا تفقد أي بيانات، وتبقى التقارير مقفلة حتى التجديد.`) : null,
     plansBox,
     isAdmin ? card({ title: 'سجل المدفوعات' }, payments) : null);
 }

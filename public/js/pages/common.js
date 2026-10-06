@@ -30,7 +30,7 @@ export function attributionColumns({ first, leads = true, platform = true, deliv
     );
   }
   cols.push(
-    { key: 'spend', label: 'الصرف', num: true, render: (r) => (r.spend ? fmt.money(r.spend) : '—') },
+    { key: 'spend', label: 'الإنفاق', num: true, render: (r) => (r.spend ? fmt.money(r.spend) : '—') },
     { key: 'roas', label: 'ROAS الحقيقي', num: true, strong: true, render: (r) => fmt.ratio(r.roas) },
   );
   if (platform) cols.push({ key: 'platform_roas', label: 'ROAS المنصة', num: true, cls: () => 'muted', render: (r) => fmt.ratio(r.platform_roas) });

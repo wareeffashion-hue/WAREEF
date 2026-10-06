@@ -149,7 +149,7 @@ export function createApp(db) {
   });
 
   r.post('/api/auth/signup', async ({ req, res }) => {
-    if (!signupLimit(clientIp(req))) throw new HttpError(429, 'محاولات كثيرة، حاول لاحقاً');
+    if (!signupLimit(clientIp(req))) throw new HttpError(429, 'محاولات كثيرة. حاول مرة أخرى لاحقاً');
     const body = parseJson(await readBody(req));
     const out = signup(db, body);
     const user = db.prepare('SELECT name, email FROM users WHERE id = ?').get(out.userId);
@@ -158,13 +158,13 @@ export function createApp(db) {
   });
 
   r.post('/api/auth/login', async ({ req, res }) => {
-    if (!loginLimit(clientIp(req))) throw new HttpError(429, 'محاولات كثيرة، حاول بعد ربع ساعة');
+    if (!loginLimit(clientIp(req))) throw new HttpError(429, 'محاولات كثيرة. حاول مرة أخرى بعد 15 دقيقة');
     const { email, password } = parseJson(await readBody(req));
     send(res, 200, { ok: true }, { 'Set-Cookie': sessionCookie(login(db, email, password)) });
   });
 
   r.post('/api/auth/forgot', async ({ req }) => {
-    if (!loginLimit(clientIp(req))) throw new HttpError(429, 'محاولات كثيرة، حاول بعد ربع ساعة');
+    if (!loginLimit(clientIp(req))) throw new HttpError(429, 'محاولات كثيرة. حاول مرة أخرى بعد 15 دقيقة');
     const { email } = parseJson(await readBody(req));
     const reset = createPasswordReset(db, email);
     if (reset) await resetEmail(publicUrl(req), reset.user, reset.token);
@@ -220,7 +220,7 @@ export function createApp(db) {
     const target = orgUser(user, params.id);
     const body = parseJson(await readBody(req));
     if (body.role && !['admin', 'member'].includes(body.role)) throw new HttpError(400, 'invalid role');
-    if (target.id === user.id && body.role && body.role !== 'admin') throw new HttpError(400, 'ما تقدر تشيل صلاحية المدير عن نفسك');
+    if (target.id === user.id && body.role && body.role !== 'admin') throw new HttpError(400, 'لا يمكنك إزالة صلاحية المدير عن حسابك');
     transaction(db, () => {
       if (body.role) db.prepare('UPDATE users SET role = ? WHERE id = ?').run(body.role, target.id);
       if (body.name) db.prepare('UPDATE users SET name = ? WHERE id = ?').run(String(body.name).slice(0, 100), target.id);
@@ -237,7 +237,7 @@ export function createApp(db) {
   r.delete('/api/users/:id', ({ user, params }) => {
     requireAdmin(user);
     const target = orgUser(user, params.id);
-    if (target.id === user.id) throw new HttpError(400, 'ما تقدر تحذف نفسك');
+    if (target.id === user.id) throw new HttpError(400, 'لا يمكنك حذف حسابك من الفريق');
     db.prepare('DELETE FROM users WHERE id = ?').run(target.id);
     return { ok: true };
   }, { auth: true });
@@ -345,7 +345,7 @@ export function createApp(db) {
 
   r.post('/api/billing/checkout', async ({ req, user, org }) => {
     requireAdmin(user);
-    if (org.status === 'suspended') throw new HttpError(403, 'الحساب موقوف. تواصل مع الدعم.');
+    if (org.status === 'suspended') throw new HttpError(403, 'الحساب موقوف مؤقتاً. تواصل مع الدعم.');
     return createCheckout(db, org, parseJson(await readBody(req)), publicUrl(req));
   }, { auth: true });
 
@@ -354,7 +354,7 @@ export function createApp(db) {
   r.put('/api/org', async ({ req, user }) => {
     requireAdmin(user);
     const name = String(parseJson(await readBody(req)).name || '').trim().slice(0, 100);
-    if (!name) throw new HttpError(400, 'الاسم مطلوب');
+    if (!name) throw new HttpError(400, 'يرجى إدخال الاسم');
     db.prepare('UPDATE organizations SET name = ? WHERE id = ?').run(name, user.org_id);
     invalidateOrg(user.org_id);
     return { ok: true };
@@ -394,9 +394,9 @@ export function createApp(db) {
         let org = null;
         if (opts.auth) {
           user = currentUser(db, req);
-          if (!user) throw new HttpError(401, 'سجّل دخولك أولاً');
+          if (!user) throw new HttpError(401, 'يرجى تسجيل الدخول أولاً');
           org = getOrg(db, user.org_id);
-          if (orgState(org) === 'suspended' && !user.is_superadmin && pathname !== '/api/meta') throw new HttpError(403, 'الحساب موقوف. تواصل مع الدعم.');
+          if (orgState(org) === 'suspended' && !user.is_superadmin && pathname !== '/api/meta') throw new HttpError(403, 'الحساب موقوف مؤقتاً. تواصل مع الدعم.');
         }
         const out = await m.handler({ req, res, url, params: m.params, user, org });
         if (!res.headersSent && out !== undefined) send(res, 200, out);
