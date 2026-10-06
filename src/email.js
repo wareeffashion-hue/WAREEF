@@ -5,7 +5,7 @@ import { config } from './config.js';
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 export function layout(title, bodyHtml, cta) {
-  return `<!doctype html><html lang="ar" dir="rtl"><body style="margin:0;background:#f6f6f4;font-family:Tahoma,Arial,sans-serif;color:#12152b">
+  return `<!doctype html><html lang="ar" dir="rtl"><body style="margin:0;background:#f6f6f4;font-family:'Gamila Arabic',Tahoma,Arial,sans-serif;color:#12152b">
 <div style="max-width:520px;margin:0 auto;padding:32px 16px">
   <div style="margin-bottom:16px">${config.publicUrl
     ? `<img src="${esc(config.publicUrl)}/img/logo.png" alt="${esc(config.appName)}" height="40" style="height:40px;width:auto">`

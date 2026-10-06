@@ -1,3 +1,39 @@
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
 :root {
   --bg: #fbfbfa; --surface: #ffffff; --alt: #f3f3f0; --border: #e4e3dd; --text: #12152b; --text-2: #52514e; --muted: #898781;
   --accent: #4335ec; --accent-ink: #3a2ce0; --accent-soft: #eeedfd; --claim: #eb6834;
@@ -7,7 +43,7 @@
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.7 "Gamila Arabic", "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif; }
 a { color: inherit; text-decoration: none; }
 .wrap { max-width: 1120px; margin: 0 auto; padding: 0 20px; }
 .narrow { max-width: 760px; }

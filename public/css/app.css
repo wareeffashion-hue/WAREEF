@@ -1,3 +1,39 @@
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-300.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
+@font-face {
+  font-family: "Gamila Arabic";
+  src: url("/fonts/gamila-700.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  /* Arabic letters only: Latin words and digits fall back to the next font, so numbers stay aligned. */
+  unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF, U+200C-200F;
+}
 :root {
   color-scheme: light;
   --page: #f6f6f4;
@@ -52,7 +88,7 @@
 html, body { margin: 0; }
 body {
   background: var(--page); color: var(--text);
-  font: 14px/1.6 "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
+  font: 14px/1.6 "Gamila Arabic", "IBM Plex Sans Arabic", system-ui, -apple-system, "Segoe UI", Tahoma, sans-serif;
 }
 button, input, select, textarea { font: inherit; color: inherit; }
 a { color: var(--accent-ink); }
