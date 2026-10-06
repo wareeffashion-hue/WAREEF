@@ -21,7 +21,7 @@ export default async function agency(ctx) {
       { key: 'revenue', label: 'المبيعات الفعلية', num: true, strong: true, render: (r) => h('span', {}, fmt.money(r.revenue), ' ', delta(r.change.revenue)) },
       { key: 'orders', label: 'الطلبات', num: true, render: (r) => fmt.int(r.orders) },
       { key: 'leads', label: 'التواصل', num: true, render: (r) => fmt.int(r.leads) },
-      { key: 'spend', label: 'الصرف', num: true, render: (r) => h('span', {}, fmt.money(r.spend), ' ', delta(r.change.spend, true)) },
+      { key: 'spend', label: 'الإنفاق', num: true, render: (r) => h('span', {}, fmt.money(r.spend), ' ', delta(r.change.spend, true)) },
       { key: 'roas', label: 'ROAS الحقيقي', num: true, strong: true, render: (r) => h('span', {}, fmt.ratio(r.roas), ' ', delta(r.change.roas)) },
       { key: 'platform_revenue', label: 'تدّعيه المنصات', num: true, render: (r) => (r.platform_revenue ? fmt.money(r.platform_revenue) : '—') },
       { key: 'claim_gap', label: 'الفجوة', num: true, cls: (r) => (r.claim_gap > 0 ? 'over' : ''), render: (r) => (r.claim_gap == null ? '—' : fmt.money(r.claim_gap)) },
@@ -32,12 +32,12 @@ export default async function agency(ctx) {
   });
 
   return h('div', { class: 'view' },
-    pageHead('لوحة الوكالة', `أداء كل العملاء في مكان واحد · ${list.length} عميل · مقارنة بالفترة السابقة بنفس الطول`),
+    pageHead('لوحة الوكالة', `أداء جميع عملائك في مكان واحد · ${list.length} عميل · مقارنة بالفترة السابقة المماثلة`),
     h('div', { class: 'kpis' },
-      kpi({ label: 'المبيعات الفعلية (كل العملاء)', value: fmt.money(revenue), change: ch(revenue, prevRevenue), sub: `${fmt.int(sum('orders'))} طلب` }),
-      kpi({ label: 'الصرف الإعلاني', value: fmt.money(spend), change: ch(spend, prevSpend), invert: true }),
+      kpi({ label: 'المبيعات الفعلية (جميع العملاء)', value: fmt.money(revenue), change: ch(revenue, prevRevenue), sub: `${fmt.int(sum('orders'))} طلب` }),
+      kpi({ label: 'الإنفاق الإعلاني', value: fmt.money(spend), change: ch(spend, prevSpend), invert: true }),
       kpi({ label: 'ROAS الحقيقي', value: fmt.ratio(spend ? revenue / spend : null), change: ch(spend ? revenue / spend : 0, prevSpend ? prevRevenue / prevSpend : 0) }),
-      kpi({ label: 'ما تدّعيه المنصات', value: claimed ? fmt.money(claimed) : '—', sub: claimed ? `مبالغة ${fmt.pct((claimed - revenue) / revenue)} فوق الحقيقة` : 'ارفع بيانات المنصات', tone: claimed > revenue ? 'alert' : '' }),
+      kpi({ label: 'ما تدّعيه المنصات', value: claimed ? fmt.money(claimed) : '—', sub: claimed ? `تضخيم بنسبة ${fmt.pct((claimed - revenue) / revenue)} فوق المبيعات الفعلية` : 'اربط المنصات لعرض ادعاءاتها', tone: claimed > revenue ? 'alert' : '' }),
       kpi({ label: 'التواصل', value: fmt.int(sum('leads')), sub: `${fmt.int(sum('whatsapp'))} واتساب · ${fmt.int(sum('form'))} نموذج · ${fmt.int(sum('call'))} اتصال` })),
-    card({ title: 'العملاء', sub: 'اضغط على اسم العميل لفتح لوحته', actions: exportButton(tbl) }, tbl));
+    card({ title: 'العملاء', sub: 'انقر اسم أي عميل لفتح لوحته', actions: exportButton(tbl) }, tbl));
 }

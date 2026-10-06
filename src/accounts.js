@@ -14,7 +14,7 @@ export const appUrl = (base, hash = '') => `${base}/app${hash ? `#${hash}` : ''}
 export function signup(db, { name, email, password, company, store }) {
   const first = userCount(db) === 0;
   if (!first && !config.signupEnabled) throw new HttpError(403, 'التسجيل مغلق حالياً');
-  if (!String(company || '').trim()) throw new HttpError(400, 'اسم الشركة / الوكالة مطلوب');
+  if (!String(company || '').trim()) throw new HttpError(400, 'يرجى إدخال اسم الشركة أو الوكالة');
   return transaction(db, () => {
     const orgId = createOrganization(db, { name: company });
     if (first) {
@@ -33,9 +33,9 @@ export function welcomeEmail(base, { name, email }) {
     to: email,
     subject: `أهلاً بك في ${config.appName}`,
     html: layout(`أهلاً ${name} 👋`, // layout escapes the title
-      `<p>حسابك جاهز وعندك <strong>${TRIAL_DAYS} يوم تجربة مجانية</strong> بكل المميزات.</p>
-       <p>أول خطوة: أضف كود التتبع في متجرك واربط طلبات سلة، وخلال ساعات تبدأ تشوف من وين يجي عملاؤك فعلاً.</p>`,
-      { label: 'افتح لوحة التحكم', url: appUrl(base, '/settings') }),
+      `<p>حسابك جاهز، ولديك <strong>${TRIAL_DAYS} يوماً من التجربة المجانية</strong> بكامل المزايا.</p>
+       <p>ابدأ بخطوتين: أضف كود التتبع إلى متجرك، ثم اربط طلبات سلة. خلال ساعات ستعرف من أين يأتي عملاؤك فعلاً.</p>`,
+      { label: 'ابدأ الإعداد', url: appUrl(base, '/settings') }),
   });
 }
 
@@ -44,7 +44,7 @@ export function resetEmail(base, { name, email }, token) {
     to: email,
     subject: 'إعادة تعيين كلمة المرور',
     html: layout('إعادة تعيين كلمة المرور',
-      `<p>مرحباً ${esc(name)}، طلبت إعادة تعيين كلمة المرور. الرابط صالح لمدة ساعة.</p><p style="color:#898781;font-size:13px">إذا ما طلبته، تجاهل هذا الإيميل.</p>`,
+      `<p>مرحباً ${esc(name)}، وصلنا طلب لإعادة تعيين كلمة المرور. الرابط صالح لمدة ساعة واحدة.</p><p style="color:#84839f;font-size:13px">إذا لم تطلب ذلك، تجاهل هذه الرسالة؛ حسابك في أمان.</p>`,
       { label: 'تعيين كلمة مرور جديدة', url: appUrl(base, `/reset/${token}`) }),
   });
 }
@@ -68,10 +68,10 @@ export async function sendLifecycleEmails(db, base, now = Date.now()) {
     await sendEmail({
       to: owner.email,
       subject: kind === 'soon' ? (trial ? 'تجربتك المجانية تنتهي قريباً' : 'اشتراكك ينتهي قريباً') : (trial ? 'انتهت تجربتك المجانية' : 'انتهى اشتراكك'),
-      html: layout(kind === 'soon' ? 'باقي أقل من 3 أيام' : 'انتهت فترة الوصول',
+      html: layout(kind === 'soon' ? 'تبقّى أقل من 3 أيام' : 'انتهت فترة الوصول',
         kind === 'soon'
-          ? `<p>مرحباً ${esc(owner.name)}، ${trial ? 'تجربتك المجانية' : 'اشتراكك'} في ${esc(config.appName)} ينتهي خلال أيام. اشترك عشان تستمر التقارير بدون انقطاع.</p>`
-          : `<p>مرحباً ${esc(owner.name)}، انتهت فترة الوصول. <strong>بياناتك محفوظة</strong> والتتبع مستمر لمدة أسبوع، جدّد خلالها عشان ما تفقد أي بيانات.</p>`,
+          ? `<p>مرحباً ${esc(owner.name)}، ${trial ? 'تجربتك المجانية' : 'اشتراكك'} في ${esc(config.appName)} ينتهي خلال أيام. اختر باقتك لتستمر تقاريرك دون انقطاع.</p>`
+          : `<p>مرحباً ${esc(owner.name)}، انتهت فترة الوصول. <strong>بياناتك محفوظة</strong>، والتتبع مستمر لمدة أسبوع. جدّد اشتراكك خلال هذه المدة حتى لا تفوتك أي بيانات.</p>`,
         { label: 'اختر باقتك', url: appUrl(base, '/billing') }),
     });
     db.prepare('UPDATE organizations SET reminder_sent = ? WHERE id = ?').run(marker, org.id);

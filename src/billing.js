@@ -35,7 +35,7 @@ export function priceOf(plan, cycle) {
 }
 
 export async function createCheckout(db, org, { plan, cycle }, base, { fetchImpl = fetch } = {}) {
-  if (!billingEnabled()) throw new HttpError(503, 'الدفع غير مفعّل بعد. تواصل معنا لتفعيل اشتراكك.');
+  if (!billingEnabled()) throw new HttpError(503, 'الدفع الإلكتروني غير متاح بعد. تواصل معنا وسنفعّل اشتراكك.');
   const sar = priceOf(plan, cycle);
   const invoice = await moyasar(fetchImpl, 'POST', '/invoices', {
     amount: Math.round(sar * 100),
@@ -122,7 +122,7 @@ async function receiptEmail(db, payment) {
   if (!owner) return;
   await sendEmail({
     to: owner.email,
-    subject: 'تم استلام الدفع، شكراً لك',
+    subject: 'شكراً لك، تم استلام الدفع',
     html: layout('تم تفعيل اشتراكك ✓',
       `<p>مرحباً ${esc(owner.name)}، استلمنا ${(payment.amount / 100).toFixed(2)} ر.س لباقة <strong>${esc(PLANS[payment.plan]?.name || payment.plan)}</strong>.</p>
        <p>اشتراكك فعّال حتى ${new Date(row.period_end).toISOString().slice(0, 10)}.</p>`),

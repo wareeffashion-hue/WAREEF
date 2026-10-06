@@ -18,6 +18,6 @@ export default async function creatives(ctx) {
     totals: sumRows(rows),
   });
   return h('div', { class: 'view' },
-    pageHead('الإبداعات', 'أي فيديو أو صورة جابت مبيعات فعلية؟ مبني على utm_content في روابط الإعلانات'),
-    card({ title: 'أداء الإعلانات', sub: `${modelName(ctx, r.params)} · مرتب حسب المبيعات المنسوبة`, actions: exportButton(tbl) }, tbl));
+    pageHead('الإبداعات', 'أي فيديو أو صورة حقق مبيعات فعلية؟ تعتمد النتائج على utm_content في روابط إعلاناتك'),
+    card({ title: 'أداء الإعلانات الإبداعية', sub: `${modelName(ctx, r.params)} · مرتّبة حسب المبيعات المنسوبة`, actions: exportButton(tbl) }, tbl));
 }

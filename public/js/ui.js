@@ -2,11 +2,11 @@
 
 export const CHANNEL_LABELS = {
   google: 'جوجل', meta: 'ميتا', snapchat: 'سناب شات', tiktok: 'تيك توك', x: 'إكس',
-  organic_search: 'بحث عضوي', organic_social: 'سوشال عضوي', email: 'بريد', referral: 'إحالة',
+  organic_search: 'بحث عضوي', organic_social: 'اجتماعي عضوي', email: 'بريد إلكتروني', referral: 'إحالة',
   direct: 'مباشر / غير معروف', other: 'أخرى',
 };
 export const TYPE_LABELS = { purchase: 'طلب', form: 'نموذج', whatsapp: 'واتساب', call: 'اتصال' };
-export const DEVICE_LABELS = { mobile: 'جوال', desktop: 'كمبيوتر', tablet: 'تابلت' };
+export const DEVICE_LABELS = { mobile: 'جوال', desktop: 'حاسوب', tablet: 'جهاز لوحي' };
 export const label = (ch) => CHANNEL_LABELS[ch] || ch;
 
 /** Tiny DOM builder. All text goes through text nodes (campaign names come from URLs). */
@@ -88,7 +88,7 @@ export const empty = (text) => h('div', { class: 'empty' }, text);
  * Sortable table with optional totals row and CSV export.
  * columns: [{key, label, render?(row), value?(row), num?, strong?, csv?(row)}]
  */
-export function table({ columns, rows, totals, sortKey, sortDir = 'desc', exportName, emptyText = 'لا توجد بيانات في هذه الفترة' }) {
+export function table({ columns, rows, totals, sortKey, sortDir = 'desc', exportName, emptyText = 'لا توجد بيانات في الفترة المحددة' }) {
   const wrap = h('div', { class: 'table-block' });
   let key = sortKey;
   let dir = sortDir;
@@ -138,7 +138,7 @@ export async function copy(text, btn) {
   try {
     await navigator.clipboard.writeText(text);
     const old = btn.textContent; btn.textContent = 'تم النسخ ✓'; setTimeout(() => { btn.textContent = old; }, 1500);
-  } catch { toast('ما قدرت أنسخ، انسخ يدوياً', 'bad'); }
+  } catch { toast('تعذّر النسخ تلقائياً. انسخ النص يدوياً.', 'bad'); }
 }
 
 /** Horizontal share bar, used inside table cells. */

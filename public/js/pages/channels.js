@@ -9,13 +9,13 @@ export default async function channels(ctx) {
     totals: sumRows(r.rows),
   });
   return h('div', { class: 'view' },
-    pageHead('القنوات', 'من أين جاء العميل: كل طلب وتواصل منسوب لمصدره مرة وحدة، جنب ما تقوله كل منصة عن نفسها'),
+    pageHead('القنوات', 'من أين يأتي عملاؤك: كل طلب وتواصل يُنسب إلى مصدره مرة واحدة، إلى جانب ما تدّعيه كل منصة لنفسها'),
     card({
-      title: 'من أين جاء العميل',
-      sub: `${modelName(ctx, r.params)} · نافذة ${r.params.windowDays} يوم · التواصل يُحسب مرة لكل زائر في اليوم`,
+      title: 'من أين يأتي العملاء',
+      sub: `${modelName(ctx, r.params)} · نافذة إسناد ${r.params.windowDays} يوم · يُحسب التواصل مرة واحدة لكل زائر يومياً`,
       actions: exportButton(tbl),
     }, tbl),
     r.totals.claim_gap > 0 ? h('div', { class: 'note warn' },
       h('strong', {}, `المنصات مجتمعة تدّعي ${fmt.money(r.totals.platform_revenue)}`),
-      ` بينما المتجر باع ${fmt.money(r.totals.revenue)} فقط. الفرق ${fmt.money(r.totals.claim_gap)} مبيعات محسوبة أكثر من مرة أو بالمشاهدة بدون نقر.`) : null);
+      ` بينما بلغت مبيعات المتجر الفعلية ${fmt.money(r.totals.revenue)} فقط. الفرق (${fmt.money(r.totals.claim_gap)}) مبيعات احتسبتها أكثر من منصة، أو نسبتها المنصات إلى مشاهدة إعلان دون نقر.`) : null);
 }

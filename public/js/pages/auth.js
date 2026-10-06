@@ -9,8 +9,8 @@ export function authView({ needsSetup, config, onDone }) {
       h('div', { class: 'geo' }, h('span', { class: 'geo-s1' }), h('span', { class: 'geo-s2' }), h('span', { class: 'geo-s3' }), h('span', { class: 'geo-sq' })),
       h('div', { class: 'auth-art-copy' },
         h('img', { src: '/img/logo-dark.svg', alt: '', class: 'auth-art-logo' }),
-        h('p', { class: 'auth-art-title' }, 'كل بيعة تنحسب ', h('em', {}, 'مرة وحدة'), '.'),
-        h('p', { class: 'auth-art-sub' }, 'مبيعات متجرك الحقيقية، منسوبة لمصدرها، جنب ما تدّعيه كل منصة.'))),
+        h('p', { class: 'auth-art-title' }, 'كل بيعة تُحتسب ', h('em', {}, 'مرة واحدة'), '.'),
+        h('p', { class: 'auth-art-sub' }, 'مبيعات متجرك الحقيقية، منسوبة إلى مصدرها، بجوار ما تدّعيه كل منصة.'))),
     pane);
   function draw() {
     const hash = location.hash.replace(/^#\/?/, '');
@@ -31,22 +31,22 @@ export function authView({ needsSetup, config, onDone }) {
         field('كلمة المرور', { name: 'password', type: 'password', required: true, autocomplete: 'current-password' }),
       ],
       signup: [
-        field('اسمك', { name: 'name', required: true, autocomplete: 'name' }),
+        field('الاسم', { name: 'name', required: true, autocomplete: 'name' }),
         field('اسم الشركة / الوكالة', { name: 'company', required: true, autocomplete: 'organization' }),
         field('البريد الإلكتروني', { name: 'email', type: 'email', required: true, autocomplete: 'email', dir: 'ltr' }),
         field('كلمة المرور (8 أحرف على الأقل)', { name: 'password', type: 'password', required: true, minlength: 8, autocomplete: 'new-password' }),
-        field('اسم أول متجر (اختياري)', { name: 'store', placeholder: 'مثال: متجر وريف' }),
+        field('اسم متجرك الأول (اختياري)', { name: 'store', placeholder: 'مثال: متجر وريف' }),
       ],
       forgot: [field('البريد الإلكتروني', { name: 'email', type: 'email', required: true, autocomplete: 'email', dir: 'ltr' })],
       reset: [field('كلمة المرور الجديدة', { name: 'password', type: 'password', required: true, minlength: 8, autocomplete: 'new-password' })],
     };
     const TITLES = {
-      login: ['تسجيل الدخول', 'كل منصة تقول إنها جابت البيعة. هنا تعرف الحقيقة.'],
-      signup: needsSetup ? ['إعداد المنصة', 'أول حساب يصير مالك المنصة ومديرها.'] : ['أنشئ حسابك', `${config.trialDays} يوم تجربة مجانية بكل المميزات، بدون بطاقة.`],
-      forgot: ['نسيت كلمة المرور', 'أرسل لك رابط لتعيين كلمة مرور جديدة.'],
-      reset: ['كلمة مرور جديدة', 'اختر كلمة مرور جديدة لحسابك.'],
+      login: ['مرحباً بعودتك', 'كل منصة تدّعي البيعة لنفسها. هنا تجد الحقيقة.'],
+      signup: needsSetup ? ['إعداد المنصة', 'الحساب الأول يصبح مالك المنصة ومديرها.'] : ['أنشئ حسابك', `${config.trialDays} يوماً من التجربة المجانية بكامل المزايا، دون بطاقة ائتمانية.`],
+      forgot: ['استعادة كلمة المرور', 'أدخل بريدك وسنرسل لك رابطاً لتعيين كلمة مرور جديدة.'],
+      reset: ['كلمة مرور جديدة', 'اختر كلمة مرور قوية لا تستخدمها في أي موقع آخر.'],
     };
-    const BUTTONS = { login: 'دخول', signup: needsSetup ? 'إنشاء الحساب' : 'ابدأ التجربة المجانية', forgot: 'أرسل الرابط', reset: 'حفظ ودخول' };
+    const BUTTONS = { login: 'تسجيل الدخول', signup: needsSetup ? 'إنشاء الحساب' : 'ابدأ التجربة المجانية', forgot: 'أرسل الرابط', reset: 'حفظ ودخول' };
     const btn = h('button', { class: 'btn primary', type: 'submit' }, BUTTONS[mode]);
     const el = h('form', {
       class: 'auth-card',
@@ -58,7 +58,7 @@ export function authView({ needsSetup, config, onDone }) {
           const data = Object.fromEntries(new FormData(el));
           if (mode === 'forgot') {
             await api.post('/api/auth/forgot', data);
-            ok.textContent = 'إذا البريد مسجل عندنا، بيوصلك رابط خلال دقائق. شيك على البريد غير المرغوب أيضاً.';
+            ok.textContent = 'إن كان البريد مسجّلاً لدينا، فسيصلك الرابط خلال دقائق. تحقّق من مجلد الرسائل غير المرغوب فيها أيضاً.';
             btn.disabled = false;
             return;
           }
@@ -77,10 +77,10 @@ export function authView({ needsSetup, config, onDone }) {
     h('h1', {}, TITLES[mode][0]),
     h('p', {}, TITLES[mode][1]),
     FIELDS[mode], err, ok, btn,
-    mode === 'signup' && !needsSetup ? h('p', { class: 'fine' }, 'بالتسجيل توافق على ', h('a', { href: '/terms', target: '_blank' }, 'الشروط'), ' و', h('a', { href: '/privacy', target: '_blank' }, 'سياسة الخصوصية'), '.') : null,
+    mode === 'signup' && !needsSetup ? h('p', { class: 'fine' }, 'بإنشاء الحساب، فإنك توافق على ', h('a', { href: '/terms', target: '_blank' }, 'الشروط والأحكام'), ' و', h('a', { href: '/privacy', target: '_blank' }, 'سياسة الخصوصية'), '.') : null,
     needsSetup ? null : h('div', { class: 'auth-links' },
-      mode !== 'login' ? h('a', { href: '#/login' }, 'عندي حساب، دخول') : null,
-      mode === 'login' && config.signupEnabled ? h('a', { href: '#/signup' }, 'ما عندك حساب؟ سجّل مجاناً') : null,
+      mode !== 'login' ? h('a', { href: '#/login' }, 'لديك حساب؟ سجّل الدخول') : null,
+      mode === 'login' && config.signupEnabled ? h('a', { href: '#/signup' }, 'ليس لديك حساب؟ أنشئ حساباً مجاناً') : null,
       mode === 'login' ? h('a', { href: '#/forgot' }, 'نسيت كلمة المرور؟') : null));
     return el;
   }

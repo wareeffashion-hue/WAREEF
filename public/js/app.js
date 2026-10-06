@@ -53,7 +53,7 @@ const icon = (name) => {
 
 const NAV = [
   { group: null, items: [['agency', 'لوحة الوكالة', true], ['overview', 'نظرة عامة']] },
-  { group: 'التحليل', items: [['analytics', 'التحليلات'], ['channels', 'القنوات'], ['campaigns', 'الحملات'], ['creatives', 'الإبداعات'], ['customers', 'العملاء'], ['funnel', 'القُمع']] },
+  { group: 'التحليل', items: [['analytics', 'التحليلات'], ['channels', 'القنوات'], ['campaigns', 'الحملات'], ['creatives', 'الإبداعات'], ['customers', 'العملاء'], ['funnel', 'قمع التحويل']] },
   { group: 'القياس', items: [['measurement', 'القياس الموحّد'], ['journeys', 'الإسناد والرحلات'], ['mmm', 'المزيج التسويقي']] },
   { group: 'الإدارة', items: [['settings', 'الإعدادات والربط'], ['team', 'الفريق', true, 'admin'], ['billing', 'الاشتراك', true, 'customer'], ['platform', 'لوحة المنصة', true, 'super']] },
 ];
@@ -123,7 +123,7 @@ async function render() {
   container.replaceChildren(h('div', { class: 'skeleton' }), h('div', { class: 'skeleton' }));
   try {
     if (page === 'empty') {
-      container.replaceChildren(h('div', { class: 'empty' }, 'ما عندك عملاء مرتبطين بحسابك. تواصل مع مدير الوكالة.'));
+      container.replaceChildren(h('div', { class: 'empty' }, 'لا يوجد عملاء مرتبطون بحسابك بعد. تواصل مع مدير الوكالة لمنحك صلاحية الوصول.'));
       return;
     }
     const mod = await PAGES[page]();
@@ -137,7 +137,7 @@ async function render() {
         h('a', { class: 'btn primary', href: '#/billing' }, 'اختر باقتك'))));
       return;
     }
-    container.replaceChildren(h('div', { class: 'card' }, h('div', { class: 'empty' }, `خطأ: ${err.message}`)));
+    container.replaceChildren(h('div', { class: 'card' }, h('div', { class: 'empty' }, `حدث خطأ: ${err.message}`)));
     console.error(err);
   }
 }
@@ -148,10 +148,10 @@ function banner(page) {
   if (!org || page === 'billing') return null;
   const daysLeft = org.access_ends_at ? Math.ceil((org.access_ends_at - Date.now()) / 86400000) : null;
   const cta = h('a', { class: 'btn sm primary', href: '#/billing' }, 'اختر باقتك');
-  if (org.state === 'grace' || org.state === 'locked') return h('div', { class: 'banner bad' }, 'انتهى اشتراكك. بياناتك محفوظة؛ جدّد عشان ترجع التقارير.', cta);
-  if (org.status === 'trialing' && daysLeft != null) return h('div', { class: `banner ${daysLeft <= 3 ? 'warn' : ''}` }, `باقي ${daysLeft} يوم من تجربتك المجانية.`, cta);
-  if (org.usage.events > org.limits.events) return h('div', { class: 'banner warn' }, 'تجاوزت حد الأحداث الشهري لباقتك. الطلبات والتواصل مستمرة، والزيارات بتتوقف قريباً.', h('a', { class: 'btn sm primary', href: '#/billing' }, 'رقِّ الباقة'));
-  if (daysLeft != null && daysLeft <= 5) return h('div', { class: 'banner warn' }, `اشتراكك ينتهي خلال ${daysLeft} يوم.`, h('a', { class: 'btn sm primary', href: '#/billing' }, 'جدّد'));
+  if (org.state === 'grace' || org.state === 'locked') return h('div', { class: 'banner bad' }, 'انتهى اشتراكك، وبياناتك محفوظة بأمان. جدّد اشتراكك لاستعادة الوصول إلى التقارير.', cta);
+  if (org.status === 'trialing' && daysLeft != null) return h('div', { class: `banner ${daysLeft <= 3 ? 'warn' : ''}` }, `يتبقّى ${daysLeft} يوم من فترتك التجريبية.`, cta);
+  if (org.usage.events > org.limits.events) return h('div', { class: 'banner warn' }, 'تجاوزت الحد الشهري للأحداث في باقتك. يستمر تسجيل الطلبات والتواصل، لكن تسجيل الزيارات سيتوقف قريباً.', h('a', { class: 'btn sm primary', href: '#/billing' }, 'رقِّ باقتك'));
+  if (daysLeft != null && daysLeft <= 5) return h('div', { class: 'banner warn' }, `ينتهي اشتراكك خلال ${daysLeft} يوم.`, h('a', { class: 'btn sm primary', href: '#/billing' }, 'جدّد'));
   return null;
 }
 
@@ -227,7 +227,7 @@ function buildShell(root) {
           h('label', { class: 'control', id: 'model-wrap' }, h('span', { class: 'k' }, 'الإسناد'), modelSelect, h('span', { class: 'k' }, '·'), windowSelect)),
         h('div', { class: 'spacer' }),
         h('button', {
-          class: 'icon-btn', title: 'الوضع الداكن', 'aria-label': 'تبديل الوضع',
+          class: 'icon-btn', title: 'الوضع الداكن', 'aria-label': 'تبديل المظهر',
           onclick: () => {
             const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches;
             document.documentElement.dataset.theme = dark ? 'light' : 'dark';
@@ -253,10 +253,10 @@ async function boot() {
   state.org = auth.org;
   [state.meta, state.workspaces] = await Promise.all([api.get('/api/meta'), api.get('/api/workspaces')]);
   window.addEventListener('hashchange', render);
-  window.addEventListener('auth:expired', () => { toast('انتهت الجلسة، سجّل دخولك من جديد', 'bad'); setTimeout(() => location.reload(), 1200); });
+  window.addEventListener('auth:expired', () => { toast('انتهت جلستك. سجّل الدخول مجدداً.', 'bad'); setTimeout(() => location.reload(), 1200); });
   render();
 }
 
 boot().catch((err) => {
-  document.getElementById('root').replaceChildren(h('div', { class: 'empty' }, `تعذر التحميل: ${err.message}`));
+  document.getElementById('root').replaceChildren(h('div', { class: 'empty' }, `تعذّر تحميل اللوحة: ${err.message}`));
 });

@@ -22,15 +22,15 @@ export function verifyPassword(password, stored) {
 const tokenHash = (token) => createHash('sha256').update(token).digest('hex');
 
 export function validatePassword(password) {
-  if (typeof password !== 'string' || password.length < 8) throw new HttpError(400, 'كلمة المرور لازم تكون 8 أحرف على الأقل');
+  if (typeof password !== 'string' || password.length < 8) throw new HttpError(400, 'يجب أن تتكوّن كلمة المرور من 8 أحرف على الأقل');
 }
 
 export function createUser(db, { email, name, password, role = 'member', orgId, superadmin = false }) {
   email = String(email || '').trim().toLowerCase();
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new HttpError(400, 'البريد غير صحيح');
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new HttpError(400, 'صيغة البريد الإلكتروني غير صحيحة');
   validatePassword(password);
   if (!['admin', 'member'].includes(role)) throw new HttpError(400, 'invalid role');
-  if (db.prepare('SELECT 1 FROM users WHERE email = ?').get(email)) throw new HttpError(409, 'البريد مستخدم من قبل');
+  if (db.prepare('SELECT 1 FROM users WHERE email = ?').get(email)) throw new HttpError(409, 'هذا البريد مسجّل مسبقاً. جرّب تسجيل الدخول');
   if (!orgId) throw new Error('orgId is required');
   const res = db.prepare('INSERT INTO users (email, name, password_hash, role, org_id, is_superadmin, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
     .run(email, String(name || email).trim().slice(0, 100), hashPassword(password), role, orgId, superadmin ? 1 : 0, Date.now());
@@ -83,11 +83,11 @@ export function canAccessWorkspace(db, user, workspaceId) {
 }
 
 export function requireAdmin(user) {
-  if (user.role !== 'admin') throw new HttpError(403, 'هذي العملية للمدير فقط');
+  if (user.role !== 'admin') throw new HttpError(403, 'هذه العملية متاحة للمدير فقط');
 }
 
 export function requireSuperadmin(user) {
-  if (!user.is_superadmin) throw new HttpError(403, 'هذي الصفحة لمالك المنصة فقط');
+  if (!user.is_superadmin) throw new HttpError(403, 'هذه الصفحة متاحة لمالك المنصة فقط');
 }
 
 // --------------------------------------------------------- password reset
@@ -106,7 +106,7 @@ export function createPasswordReset(db, email) {
 export function resetPassword(db, token, password) {
   validatePassword(password);
   const row = db.prepare('SELECT user_id FROM password_resets WHERE token_hash = ? AND expires_at > ?').get(tokenHash(String(token || '')), Date.now());
-  if (!row) throw new HttpError(400, 'الرابط منتهي أو غير صحيح. اطلب رابط جديد.');
+  if (!row) throw new HttpError(400, 'انتهت صلاحية الرابط أو أنه غير صحيح. اطلب رابطاً جديداً.');
   db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(hashPassword(password), row.user_id);
   db.prepare('DELETE FROM password_resets WHERE user_id = ?').run(row.user_id);
   db.prepare('DELETE FROM sessions WHERE user_id = ?').run(row.user_id);
