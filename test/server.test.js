@@ -156,6 +156,7 @@ test('tenant isolation: members only see their assigned workspaces', async () =>
   assert.equal(own.api_key, undefined, 'members do not see secrets');
   assert.equal((await member.post('/api/workspaces', { name: 'x' })).status, 403);
   assert.equal((await member.get('/api/users')).status, 403);
+  assert.equal((await member.post(`/api/w/${other.id}/spend`, 'date,channel,spend\n2026-10-01,meta,1')).status, 403);
   assert.deepEqual((await member.get(`/api/agency?${q}`)).body.map((w) => w.id), [other.id]);
 });
 

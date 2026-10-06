@@ -207,7 +207,7 @@ export function analyticsReport(db, ws, params) {
   return {
     params,
     series: timeseries(db, ws, params),
-    previous: timeseries(db, ws, prev),
+    previous_series: timeseries(db, ws, prev),
     byChannel,
     ...withPrevious(db, ws, params),
   };

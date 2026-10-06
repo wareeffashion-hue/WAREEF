@@ -4,111 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tracking · الإسناد الموحّد</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='6' fill='%234f46e5'/%3E%3Cpath d='M5 16l4.5-4.5 3 3L19 8' fill='none' stroke='white' stroke-width='2.4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="/css/app.css">
 </head>
 <body>
-  <header class="topbar">
-    <div class="brand">
-      <span class="logo" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 17l6-6 4 4 8-8M15 7h6v6" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-      <div><strong>TRACKING</strong><small>الإسناد الموحّد</small></div>
-    </div>
-    <nav class="tabs" role="tablist">
-      <button class="tab active" data-view="overview">نظرة عامة</button>
-      <button class="tab" data-view="models">مقارنة النماذج</button>
-      <button class="tab" data-view="journeys">رحلات العملاء</button>
-      <button class="tab" data-view="setup">الربط والإعداد</button>
-    </nav>
-    <div class="filters">
-      <div class="presets">
-        <button data-days="7" class="active">7 أيام</button>
-        <button data-days="30">30 يوم</button>
-        <button data-days="90">90 يوم</button>
-      </div>
-      <label class="field"><span>من</span><input type="date" id="from"></label>
-      <label class="field"><span>إلى</span><input type="date" id="to"></label>
-      <label class="field"><span>الإسناد</span><select id="model"></select></label>
-      <label class="field"><span>نافذة الإسناد</span>
-        <select id="window"><option value="7">7 أيام</option><option value="14">14 يوم</option><option value="30" selected>30 يوم</option><option value="60">60 يوم</option><option value="90">90 يوم</option></select>
-      </label>
-    </div>
-  </header>
-
-  <main>
-    <section class="view" id="view-overview">
-      <div class="kpis" id="kpis"></div>
-
-      <div class="card">
-        <div class="card-head">
-          <h2>الحقيقة مقابل ادعاءات المنصات</h2>
-          <p>كل منصة تحسب البيعة لنفسها. هنا كل بيعة محسوبة مرة وحدة فقط، ومنسوبة لمصدرها حسب نموذج الإسناد اللي اخترته.</p>
-        </div>
-        <div class="claims" id="claims"></div>
-        <div class="legend"><span><i class="sw truth"></i>منسوب فعلياً (من المتجر)</span><span><i class="sw claim"></i>تدّعيه المنصة</span></div>
-      </div>
-
-      <div class="card">
-        <div class="card-head">
-          <h2>من أين جاء العميل</h2>
-          <p id="table-sub"></p>
-        </div>
-        <div class="table-wrap"><table id="sources"></table></div>
-      </div>
-    </section>
-
-    <section class="view" id="view-models" hidden>
-      <div class="card">
-        <div class="card-head">
-          <h2>نفس المبيعات… بستة نماذج إسناد</h2>
-          <p>المبيعات الفعلية ثابتة، اللي يتغير هو طريقة توزيعها على المنصات. لو قناة قوية في "أول نقرة" وضعيفة في "آخر نقرة"، معناها تجيب عملاء جدد وغيرها يقفل البيعة.</p>
-        </div>
-        <div class="table-wrap"><table id="compare"></table></div>
-      </div>
-    </section>
-
-    <section class="view" id="view-journeys" hidden>
-      <div class="card">
-        <div class="card-head">
-          <h2>آخر التحويلات ورحلتها</h2>
-          <p>المسار الكامل لكل عميل داخل نافذة الإسناد، والنسبة اللي أخذتها كل منصة.</p>
-        </div>
-        <ol class="journeys" id="journeys"></ol>
-      </div>
-    </section>
-
-    <section class="view" id="view-setup" hidden>
-      <div class="setup-grid">
-        <div class="card">
-          <div class="card-head"><h2>١. كود التتبّع</h2><p>حطّه في كل صفحات المتجر (في سلة: الإعدادات ← الأكواد المخصصة / Head). يلتقط مصدر الزيارة ونقرات واتساب والاتصال والنماذج تلقائياً.</p></div>
-          <pre class="code" id="snippet"></pre>
-          <button class="btn" data-copy="snippet">نسخ الكود</button>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>٢. تسجيل الطلب في صفحة الشكر</h2><p>يربط الطلب بالزائر. القيمة النهائية والحالة تجي من ربط المتجر (الخطوة ٣).</p></div>
-          <pre class="code" id="purchase"></pre>
-          <button class="btn" data-copy="purchase">نسخ الكود</button>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>٣. ربط طلبات سلة (المصدر الحقيقي)</h2><p>أضف هذا الرابط كـ Webhook في لوحة شركاء سلة لأحداث <code>order.created</code> و <code>order.updated</code>. الطلبات الملغاة والمستردة تنحذف من الحساب تلقائياً.</p></div>
-          <pre class="code" id="webhook"></pre>
-          <button class="btn" data-copy="webhook">نسخ الرابط</button>
-        </div>
-        <div class="card">
-          <div class="card-head"><h2>٤. رفع الصرف وما تدّعيه المنصات</h2><p>صدّر تقرير يومي من كل منصة إعلانية وارفعه بصيغة CSV. نفس اليوم والقناة والحملة يُستبدل عند إعادة الرفع.</p></div>
-          <pre class="code">date,channel,campaign,spend,platform_conversions,platform_revenue
-2026-10-01,snapchat,رمضان,1200,14,9800
-2026-10-01,tiktok,رمضان,900,9,6100</pre>
-          <div class="upload">
-            <input type="file" id="csv" accept=".csv,text/csv">
-            <button class="btn primary" id="upload">رفع الملف</button>
-          </div>
-          <p class="hint" id="upload-result"></p>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <script src="app.js" type="module"></script>
+  <div id="root"><div class="loading">جاري التحميل…</div></div>
+  <script type="module" src="/js/app.js"></script>
 </body>
 </html>

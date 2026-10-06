@@ -29,11 +29,11 @@ const CITIES = ['الرياض', 'جدة', 'الدمام', 'مكة', 'المدي�
 const NAMES = ['نورة', 'سارة', 'ريم', 'هند', 'لمى', 'العنود', 'منيرة', 'جود', 'أمل', 'شهد', 'فهد', 'عبدالله', 'خالد', 'ريان'];
 
 const CLIENTS = [
-  { name: 'متجر وريف للأزياء', visitors: 70000, aov: [180, 900], spend: { snapchat: 4800, tiktok: 3500, google: 3000, meta: 2500 },
+  { name: 'متجر وريف للأزياء', visitors: 93000, aov: [180, 900], spend: { snapchat: 4800, tiktok: 3500, google: 3000, meta: 2500 },
     first: { snapchat: 30, tiktok: 26, google: 14, meta: 16, organic_search: 6, organic_social: 5, direct: 3 } },
-  { name: 'عطور الشرق', visitors: 14000, aov: [250, 1400], spend: { snapchat: 1300, tiktok: 600, google: 1500, meta: 900 },
+  { name: 'عطور الشرق', visitors: 18600, aov: [250, 1400], spend: { snapchat: 1300, tiktok: 600, google: 1500, meta: 900 },
     first: { snapchat: 24, tiktok: 12, google: 26, meta: 18, organic_search: 10, organic_social: 6, direct: 4 } },
-  { name: 'عيادات لمسة', visitors: 10000, aov: [400, 2500], spend: { snapchat: 900, tiktok: 300, google: 1600, meta: 1100 },
+  { name: 'عيادات لمسة', visitors: 13300, aov: [400, 2500], spend: { snapchat: 900, tiktok: 300, google: 1600, meta: 1100 },
     first: { snapchat: 22, tiktok: 6, google: 34, meta: 22, organic_search: 10, organic_social: 4, direct: 2 }, leadHeavy: true },
 ];
 const LATER = { google: 30, direct: 22, snapchat: 12, tiktok: 8, meta: 12, organic_search: 12, email: 4 };
@@ -42,7 +42,7 @@ const BUY = { google: 0.13, meta: 0.09, snapchat: 0.07, tiktok: 0.05, organic_se
 if (config.dbPath !== ':memory:') rmSync(config.dbPath, { force: true });
 const db = openDb(config.dbPath);
 const now = Date.now();
-const DAYS = 90;
+const DAYS = 120;
 
 createUser(db, { email: 'admin@example.com', name: 'مدير الوكالة', password: 'admin12345', role: 'admin' });
 

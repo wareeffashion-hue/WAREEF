@@ -6,7 +6,9 @@ import { addDays, dayStart } from '../src/config.js';
 import { createWorkspace } from '../src/workspaces.js';
 
 test('adstock carries spend forward', () => {
-  assert.deepEqual(adstock([100, 0, 0], 0.5), [100, 50, 25]);
+  assert.deepEqual(adstock([100, 0, 0], 0.5, { warmStart: false }), [100, 50, 25]);
+  // Warm start: a flat series is flat from day one.
+  assert.deepEqual(adstock([100, 100, 100], 0.5), [200, 200, 200]);
 });
 
 test('ridge recovers a known linear model', () => {
@@ -31,7 +33,7 @@ test('MMM recovers which channel drives revenue and moves budget toward it', () 
   const days = 120;
   const ins = db.prepare(`INSERT INTO spend (workspace_id, date, channel, spend) VALUES (?, ?, ?, ?)`);
   const order = db.prepare(`INSERT INTO conversions (workspace_id, ts, type, value, confirmed, dedupe_key) VALUES (?, ?, 'purchase', ?, 1, ?)`);
-  let carry = 0;
+  let carry = 1000 / (1 - 0.5); // ads were already running before the window
   for (let i = days - 1; i >= 0; i--) {
     const date = addDays(to, -i);
     const strong = 500 + rand() * 1000;   // drives revenue

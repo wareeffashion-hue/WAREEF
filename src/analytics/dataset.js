@@ -30,9 +30,17 @@ export function loadDataset(db, ws, { from, to, windowDays }) {
   const conversions = db.prepare(`SELECT id, visitor_id, customer_id, ts, type, value, order_id FROM conversions
       WHERE workspace_id = ? AND ts >= ? AND ts < ? AND ${ACTIVE_ORDER} ORDER BY ts`).all(ws.id, start, end);
 
+  // Only touchpoints of browsers that converted in the range, plus the other
+  // browsers of the same customers (cross-device paths).
   const byVisitor = new Map();
-  for (const tp of db.prepare(`SELECT visitor_id, ts, channel, campaign, content, device FROM touchpoints
-      WHERE workspace_id = ? AND ts >= ? AND ts < ? ORDER BY ts`).iterate(ws.id, start - windowDays * DAY, end)) {
+  for (const tp of db.prepare(`WITH v AS (
+        SELECT visitor_id FROM conversions WHERE workspace_id = ? AND ts >= ? AND ts < ? AND visitor_id IS NOT NULL
+        UNION
+        SELECT vc.visitor_id FROM conversions c JOIN visitor_customers vc ON vc.customer_id = c.customer_id
+        WHERE c.workspace_id = ? AND c.ts >= ? AND c.ts < ?)
+      SELECT tp.visitor_id, tp.ts, tp.channel, tp.campaign, tp.content, tp.device
+      FROM v CROSS JOIN touchpoints tp INDEXED BY touchpoints_ws_visitor ON tp.workspace_id = ? AND tp.visitor_id = v.visitor_id AND tp.ts >= ? AND tp.ts < ?
+      ORDER BY tp.ts`).iterate(ws.id, start, end, ws.id, start, end, ws.id, start - windowDays * DAY, end)) {
     let list = byVisitor.get(tp.visitor_id);
     if (!list) byVisitor.set(tp.visitor_id, (list = []));
     list.push(tp);

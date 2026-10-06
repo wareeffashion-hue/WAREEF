@@ -13,9 +13,15 @@ import { ACTIVE_ORDER } from './dataset.js';
 const DECAYS = [0, 0.3, 0.5, 0.7];
 const MIN_DAYS = 28;
 
-export function adstock(xs, decay) {
+/**
+ * Geometric adstock. The carry starts at the steady state of the first week's
+ * average spend, so the series doesn't "warm up" from zero (which the model
+ * would otherwise mistake for a sales effect).
+ */
+export function adstock(xs, decay, { warmStart = true } = {}) {
   const out = new Array(xs.length);
-  let carry = 0;
+  const head = xs.slice(0, 7);
+  let carry = warmStart && head.length && decay ? (head.reduce((a, b) => a + b, 0) / head.length) / (1 - decay) : 0;
   for (let i = 0; i < xs.length; i++) {
     carry = xs[i] + decay * carry;
     out[i] = carry;
@@ -190,7 +196,7 @@ export function mmmReport(db, ws, { to, days: lookback = 90 }) {
     ...base,
     ready: true,
     // Below this the model explains too little of daily revenue to act on.
-    reliable: best.r2 >= 0.5 && movable.length > 0,
+    reliable: best.r2 >= 0.5 && movable.length > 0 && baselineDaily.reduce((a, b) => a + b, 0) >= 0,
     r2: best.r2,
     mape: y.reduce((a, v, i) => a + (v ? Math.abs(v - best.yhat[i]) / v : 0), 0) / Math.max(daysWithData, 1),
     baseline: baselineDaily.reduce((a, b) => a + b, 0),

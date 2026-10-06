@@ -240,7 +240,10 @@ export function createApp(db) {
     return fn(w, parseParams(url.searchParams, w));
   }, { auth: true });
   // ----------------------------------------------------- data + platforms
-  r.post('/api/w/:id/spend', async ({ req, user, params }) => importSpendCsv(db, ws(user, params.id), (await readBody(req)).toString('utf8')), { auth: true });
+  r.post('/api/w/:id/spend', async ({ req, user, params }) => {
+    requireAdmin(user);
+    return importSpendCsv(db, ws(user, params.id), (await readBody(req)).toString('utf8'));
+  }, { auth: true });
 
   r.get('/api/w/:id/connections', ({ user, params }) => listConnections(db, ws(user, params.id).id), { auth: true });
   r.post('/api/w/:id/connections', async ({ req, user, params }) => {
