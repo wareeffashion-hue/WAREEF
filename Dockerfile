@@ -5,9 +5,10 @@ COPY package.json ./
 COPY src ./src
 COPY public ./public
 COPY scripts ./scripts
+# /data is a mounted volume (Railway volume or the compose volume); Railway
+# rejects the VOLUME instruction, so none is declared here.
 RUN mkdir -p /data && chown node:node /data
 USER node
-VOLUME ["/data"]
 EXPOSE 3000
 HEALTHCHECK --interval=30s --timeout=3s CMD wget -qO- http://localhost:3000/health || exit 1
 CMD ["node", "--no-warnings=ExperimentalWarning", "src/server.js"]
