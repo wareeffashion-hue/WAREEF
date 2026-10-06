@@ -187,6 +187,24 @@ const MIGRATIONS = [
   UPDATE workspaces SET org_id = 1 WHERE org_id IS NULL AND EXISTS (SELECT 1 FROM organizations WHERE id = 1);
   UPDATE users SET is_superadmin = 1 WHERE id = (SELECT MIN(id) FROM users WHERE role = 'admin');
   `,
+  // v3: the AZWO app in the Salla App Store. One app webhook serves every
+  // installed store; the merchant links their store to a workspace by entering
+  // the workspace's secret link code in the app settings on Salla.
+  `
+  ALTER TABLE workspaces ADD COLUMN salla_link_code TEXT;
+  UPDATE workspaces SET salla_link_code = 'azwo-' || lower(hex(randomblob(12))) WHERE salla_link_code IS NULL;
+  CREATE UNIQUE INDEX workspaces_salla_link ON workspaces(salla_link_code);
+
+  CREATE TABLE salla_merchants (
+    merchant_id TEXT PRIMARY KEY,
+    workspace_id INTEGER REFERENCES workspaces(id) ON DELETE SET NULL,
+    tokens TEXT,               -- encrypted {access_token, refresh_token, expires, scope}
+    status TEXT NOT NULL DEFAULT 'installed',
+    installed_at INTEGER NOT NULL,
+    updated_at INTEGER NOT NULL
+  );
+  CREATE UNIQUE INDEX salla_merchants_ws ON salla_merchants(workspace_id) WHERE workspace_id IS NOT NULL;
+  `,
 ];
 
 export function openDb(path) {

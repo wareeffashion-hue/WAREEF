@@ -95,7 +95,7 @@ export function admitEvent(db, orgId, type) {
   if (state === 'locked' || state === 'suspended') return { ok: false, reason: 'subscription' };
   const month = monthKey();
   const used = usage(db, orgId, month);
-  const isConversion = ['purchase', 'form', 'whatsapp', 'call'].includes(type);
+  const isConversion = ['purchase', 'form', 'whatsapp', 'call', 'identify'].includes(type);
   if (!isConversion && used >= planOf(org).events * (1 + OVERAGE)) return { ok: false, reason: 'quota' };
   const key = `${orgId}|${month}`;
   pending.set(key, (pending.get(key) || 0) + 1);

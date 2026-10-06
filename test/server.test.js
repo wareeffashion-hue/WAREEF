@@ -5,7 +5,7 @@ import { createHmac } from 'node:crypto';
 
 const { openDb } = await import('../src/db.js');
 const { createApp } = await import('../src/server.js');
-const { dayOf } = await import('../src/config.js');
+const { dayOf, config } = await import('../src/config.js');
 
 const db = openDb(':memory:');
 const server = createServer(createApp(db)).listen(0);
@@ -139,6 +139,56 @@ test('end to end: cross-device journey, leads, order merge, funnel, spend, repor
   }
   const ag = (await admin.get(`/api/agency?${q}`)).body;
   assert.equal(ag.find((w) => w.id === shop.id).current.revenue, 1300);
+});
+
+
+test('logged-in Salla shopper: webhook-only order finds its ad journey via identify', async () => {
+  const ws = (await admin.post('/api/workspaces', { name: 'متجر سلة' })).body;
+  const v = 'visitor_snap_00001';
+  await collect(ws.site_key, { v, e: 'pageview', s: 1, url: 'https://shop.sa/?ScCid=abc&utm_campaign=Promo' });
+  assert.equal((await collect(ws.site_key, { v, e: 'identify', customer_id: '501' })).stored, 'identify');
+  assert.match((await collect(ws.site_key, { v, e: 'identify' })).error || '', /customer_id/);
+  // No pixel purchase event: the order only arrives from Salla, carrying the customer id.
+  await salla(ws, { event: 'order.created', data: { id: 'B1', amounts: { total: { amount: 250 } }, status: { slug: 'completed' }, customer: { id: 501 } } });
+  const ch = (await admin.get(`/api/w/${ws.id}/report/channels?${q}&model=last_non_direct`)).body;
+  assert.equal(ch.totals.orders, 1);
+  assert.equal(ch.rows.find((r) => r.channel === 'snapchat')?.revenue, 250, JSON.stringify(ch.rows));
+  const js = await fetch(`${base}/t.js?k=${ws.site_key}`).then((r) => r.text());
+  assert.match(js, /salla\.config\.get\('user\.id'\)/);
+});
+test('Salla app: one webhook for all stores, linked by code from the app settings', async () => {
+  config.salla.webhookSecret = 'app-secret';
+  const id = (await admin.get('/api/workspaces')).body.find((w) => w.name === 'متجر سلة').id;
+  const ws = (await admin.get(`/api/workspaces/${id}`)).body;
+  assert.match(ws.salla_link_code, /^azwo-[0-9a-f]{24}$/);
+  assert.equal(ws.salla.linked, false);
+  const app = (payload, headers) => {
+    const body = JSON.stringify(payload);
+    const sig = createHmac('sha256', 'app-secret').update(body).digest('hex');
+    return fetch(`${base}/webhooks/salla/app`, { method: 'POST', body, headers: headers || { 'X-Salla-Signature': sig } })
+      .then(async (r) => ({ status: r.status, body: await r.json() }));
+  };
+  const order = (oid, amount) => ({ event: 'order.created', merchant: 9001, data: { id: oid, amounts: { total: { amount } }, status: { slug: 'completed' }, customer: { id: 501 } } });
+  assert.equal((await app({ event: 'app.installed', merchant: 9001 }, { 'X-Salla-Signature': 'bad' })).status, 401);
+  assert.equal((await app({ event: 'app.store.authorize', merchant: 9001, data: { access_token: 'tok-123', refresh_token: 'ref-456', expires: 1 } })).status, 200);
+  assert.doesNotMatch(db.prepare('SELECT tokens FROM salla_merchants WHERE merchant_id = ?').get('9001').tokens, /tok-123/);
+  assert.equal((await app(order('C1', 100))).body.reason, 'store not linked');
+  assert.match(await fetch(`${base}/t.js?salla=9001`).then((r) => r.text()), /not linked/);
+  // The merchant pastes the link code into the app settings on Salla.
+  assert.equal((await app({ event: 'app.settings.updated', merchant: 9001, data: { settings: { link_code: ` ${ws.salla_link_code} ` } } })).body.linked, true);
+  assert.deepEqual((await admin.get(`/api/workspaces/${id}`)).body.salla.merchant_id, '9001');
+  assert.match(await fetch(`${base}/t.js?salla=9001`).then((r) => r.text()), new RegExp(`collect\\?k=${ws.site_key}`));
+  assert.equal((await app(order('C2', 400))).body.stored, 'purchase');
+  assert.equal((await app({ event: 'order.shipment.created', merchant: 9001, data: { id: 'SHIP1', amounts: { total: { amount: 77 } } } })).body.ignored, true, 'shipment events are not orders');
+  // Token strategy works too.
+  assert.equal((await app(order('C3', 50), { Authorization: 'Bearer app-secret' })).body.stored, 'purchase');
+  const ch = (await admin.get(`/api/w/${id}/report/channels?${q}&model=last_non_direct`)).body;
+  assert.equal(ch.totals.orders, 3);
+  assert.equal(ch.rows.find((r) => r.channel === 'snapchat').revenue, 700, 'identified customer: Salla orders join the Snapchat journey');
+  // Uninstall stops the flow.
+  await app({ event: 'app.uninstalled', merchant: 9001 });
+  assert.equal((await app(order('C4', 999))).body.reason, 'store not linked');
+  assert.match(await fetch(`${base}/t.js?salla=9001`).then((r) => r.text()), /not linked/);
 });
 
 test('server-to-server orders API uses the workspace API key', async () => {

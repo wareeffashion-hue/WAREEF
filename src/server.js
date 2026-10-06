@@ -22,6 +22,7 @@ import { admitEvent, assertCanAdd, assertDashboardAccess, counts, getOrg, invali
 import { publicPlans, TRIAL_DAYS, GRACE_DAYS } from './plans.js';
 import { billingEnabled, createCheckout, handleMoyasarNotification, paymentsOf, verifyRecent } from './billing.js';
 import { platformOverview, updateOrgAdmin } from './platform.js';
+import { handleSallaAppEvent, sallaStatus, sallaWorkspaceFor, verifySallaApp } from './salla.js';
 import { parseParams } from './analytics/dataset.js';
 import {
   agencyReport, analyticsReport, attributionReport, customersReport, funnelReport, journeysReport,
@@ -100,7 +101,13 @@ export function createApp(db) {
   }));
 
   r.get('/t.js', ({ req, url, res }) => {
-    const ws = workspaceBySiteKey(db, url.searchParams.get('k'));
+    // ?salla=<store id> comes from the AZWO app snippet on Salla storefronts.
+    const merchant = url.searchParams.get('salla');
+    const ws = merchant ? sallaWorkspaceFor(db, merchant) : workspaceBySiteKey(db, url.searchParams.get('k'));
+    if (!ws && merchant) {
+      send(res, 200, '/* AZWO: this store is not linked to a workspace yet */', { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'public, max-age=300' });
+      return;
+    }
     if (!ws) throw new HttpError(404, 'unknown site key');
     const js = TRACKER_SOURCE.replace('__ENDPOINT__', publicUrl(req)).replace('__SITE_KEY__', ws.site_key);
     send(res, 200, js, { 'Content-Type': 'text/javascript; charset=utf-8', 'Cache-Control': 'public, max-age=3600' });
@@ -120,6 +127,13 @@ export function createApp(db) {
       result = admit.ok ? recordEvent(db, ws, event, { userAgent: ua }) : { stored: null, reason: admit.reason };
     }
     send(res, 200, result, CORS);
+  });
+
+  // The AZWO app on Salla Partners: one webhook for every installed store.
+  r.post('/webhooks/salla/app', async ({ req }) => {
+    const raw = await readBody(req);
+    if (!verifySallaApp(raw, req.headers)) throw new HttpError(401, 'invalid signature');
+    return handleSallaAppEvent(db, parseJson(raw), { admit: (ws) => admitEvent(db, ws.org_id, 'purchase').ok });
   });
 
   r.post('/webhooks/salla/:siteKey', async ({ req, params }) => {
@@ -258,7 +272,8 @@ export function createApp(db) {
 
   r.get('/api/workspaces/:id', ({ req, user, params }) => {
     const w = workspaceView(ws(user, params.id), req);
-    if (user.role !== 'admin') { delete w.api_key; delete w.webhook_secret; }
+    w.salla = sallaStatus(db, w.id);
+    if (user.role !== 'admin') { delete w.api_key; delete w.webhook_secret; delete w.salla_link_code; }
     return w;
   }, { auth: true });
   r.put('/api/workspaces/:id', async ({ req, user, params }) => {
