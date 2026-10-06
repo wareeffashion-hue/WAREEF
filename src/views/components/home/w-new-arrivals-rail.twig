@@ -1,0 +1,41 @@
+{# Wareef — new arrivals rail: big two-line title, view-all link, round prev/next controls and a products slider. #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set t1 = component.title %}{% set t1 = t1 is iterable ? (t1[lang]|default(t1|first)) : t1 %}
+{% set t2 = component.title_2 %}{% set t2 = t2 is iterable ? (t2[lang]|default(t2|first)) : t2 %}
+{% set va = component.view_all_text %}{% set va = va is iterable ? (va[lang]|default(va|first)) : va %}
+{% set va_url = component.view_all_url %}{% set has_va = va_url and va_url != '#' %}
+{% set source = component.source %}{% set source = source is iterable ? (source[0].value|default(source.value|default('latest'))) : source %}
+{% set ids = '' %}{% for p in component.products %}{% set ids = ids ~ (loop.first ? '' : ',') ~ p.id %}{% endfor %}
+{% if source == 'selected' and not ids %}{% set source = 'latest' %}{% endif %}
+<section component-id="{{ componentId }}" class="w-block w-new-arrivals-rail" data-testid="w-new-arrivals-rail" data-w="w-new-arrivals-rail">
+  <div class="container">
+    <div class="w-new-arrivals-rail__head">
+      <div class="w-new-arrivals-rail__titles">
+        {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+        <h2 class="w-new-arrivals-rail__title" data-w-split>
+          {% if t1 %}<span class="w-new-arrivals-rail__l1">{{ t1 }}</span>{% endif %}
+          {% if t2 %}<span class="w-new-arrivals-rail__l2">{{ t2 }}</span>{% endif %}
+        </h2>
+      </div>
+      <div class="w-new-arrivals-rail__tools" data-w-reveal="fade">
+        {% if has_va %}<a class="w-link" href="{{ va_url }}">{{ va|default(trans('blocks.wareef.view_all')) }}</a>{% endif %}
+        <div class="w-new-arrivals-rail__nav">
+          <button type="button" class="w-new-arrivals-rail__btn" data-rail="prev" aria-label="{{ trans('blocks.wareef.previous') }}">
+            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true"><path d="M1 5h16m0 0-4-4m4 4-4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+          </button>
+          <button type="button" class="w-new-arrivals-rail__btn" data-rail="next" aria-label="{{ trans('blocks.wareef.next') }}">
+            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true"><path d="M17 5H1m0 0 4-4M1 5l4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="w-new-arrivals-rail__rail" data-w-reveal>
+      <salla-products-slider
+        source="{{ source }}"
+        {% if source == 'selected' %}source-value="[{{ ids }}]"{% endif %}
+        slider-id="w-new-arrivals-rail-{{ position }}"
+        block-title=" "></salla-products-slider>
+    </div>
+  </div>
+</section>

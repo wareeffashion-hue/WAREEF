@@ -1,0 +1,20 @@
+{# Wareef: delivery promise + trust badges under the add-to-cart button. #}
+{% set w_note = theme.settings.get('w_delivery_note') %}
+{% set w_note = w_note is iterable ? (w_note[language.code]|default(w_note|first)) : w_note %}
+{% set w_badges = theme.settings.get('w_trust_badges') %}
+{% set w_badges = w_badges is iterable ? (w_badges[language.code]|default(w_badges|first)) : w_badges %}
+{% if w_note or w_badges %}
+  <div class="w-pd-extras">
+    {% if w_note %}
+      <p class="w-pd-delivery">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17.5" r="1.6"/><circle cx="17" cy="17.5" r="1.6"/></svg>
+        <span>{{ w_note }}</span>
+      </p>
+    {% endif %}
+    {% if w_badges %}
+      <ul class="w-pd-badges">
+        {% for b in w_badges|split('|') %}{% if b|trim %}<li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>{{ b|trim }}</li>{% endif %}{% endfor %}
+      </ul>
+    {% endif %}
+  </div>
+{% endif %}

@@ -1,0 +1,148 @@
+{
+  "key": "9a758d20-2ce4-4782-91fe-c04466464588",
+  "title": {
+    "en": "Animated products with a background",
+    "ar": "منتجات متحركة مع خلفية"
+  },
+  "icon": "sicon-list-play",
+  "path": "home.slider-products-with-header",
+  "image": "https://cdn.salla.network/images/themes/raed/preview-images/slider-products-with-bg.png?v=1.1",
+  "fields": [
+    {
+      "type": "static",
+      "format": "description",
+      "id": "with-bg",
+      "value": "<div ><img class='w-full' src='https://cdn.salla.network/images/themes/raed/preview-images/slider-products-with-bg.png?v=1.1'></div>"
+    },
+    {
+      "type": "string",
+      "icon": "sicon-image",
+      "value": "https://cdn.salla.sa/form-builder/D7bG3pgSit43TheOejBOZV7LIfG1y1Cj0hWLmgIh.jpg",
+      "label": "صورة الخلفية",
+      "id": "background",
+      "format": "image",
+      "required": true,
+      "placeholder": null,
+      "description": "* المقاس المناسب للصورة هو 1233×500 بكسل",
+      "settings": {
+        "height": 580,
+        "width": 1400
+      }
+    },
+    {
+      "type": "string",
+      "icon": "sicon-format-text-alt",
+      "label": "عنوان رئيسي",
+      "multilanguage": true,
+      "id": "title",
+      "value": null,
+      "required": false,
+      "format": "text",
+      "description": null,
+      "placeholder": "يمكنك إضافة العنوان الرئيسي هنا...",
+      "hide": false,
+      "minLength": 0,
+      "maxLength": "80"
+    },
+    {
+      "type": "string",
+      "icon": "sicon-typography",
+      "label": "نص توضيحي",
+      "multilanguage": true,
+      "id": "description",
+      "value": null,
+      "description": null,
+      "format": "textarea",
+      "required": false,
+      "placeholder": "يمكنك إضافة وصف لهذا القسم هنا...",
+      "minLength": 0,
+      "maxLength": "256"
+    },
+    {
+      "type": "items",
+      "icon": "sicon-keyboard_arrow_down",
+      "label": "منتجات",
+      "id": "products",
+      "format": "dropdown-list",
+      "description": null,
+      "selected": [],
+      "options": [],
+      "required": true,
+      "multichoice": true,
+      "source": "products",
+      "searchable": true,
+      "maxLength": 8,
+      "minLength": 1,
+      "value": []
+    },
+    {
+      "type": "items",
+      "icon": "sicon-link",
+      "label": "رابط عرض الكل",
+      "id": "display_all_url",
+      "value": [],
+      "description": "عند إختيار رابط فارغ سيتم إخفاء زر 'عرض الكل'",
+      "required": false,
+      "format": "variable-list",
+      "searchable": true,
+      "source": "custom",
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "منتجات مع وسم",
+          "key": "products_tags",
+          "value": "products_tags"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "مقالة",
+          "key": "blog_articles",
+          "value": "blog_articles"
+        },
+        {
+          "label": "تصنيف ضمن المدونة",
+          "key": "blog_categories",
+          "value": "blog_categories"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "الماركات التجارية",
+          "key": "brands_link",
+          "value": "brands_link"
+        },
+        {
+          "label": "المدونة",
+          "key": "blog_link",
+          "value": "blog_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    }
+  ]
+}

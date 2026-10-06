@@ -1,0 +1,32 @@
+{
+  "name": {
+    "ar": "وريف",
+    "en": "Wareef"
+  },
+  "repository": "https://github.com/wareeffashion-hue/wareef-theme",
+  "author_email": "wareeffashion@gmail.com",
+  "features": [
+    "mega-menu",
+    "fonts",
+    "color",
+    "breadcrumb",
+    "unite-cards-height",
+    "component-featured-products",
+    "component-fixed-banner",
+    "component-fixed-products",
+    "component-products-slider",
+    "component-photos-slider",
+    "component-parallax-background",
+    "component-testimonials",
+    "component-square-photos",
+    "component-store-features",
+    "component-youtube",
+    "menu-images",
+    "filters"
+  ],
+  "support_url": "https://github.com/wareeffashion-hue/wareef-theme",
+  "description": {
+    "ar": "ثيم وريف: تجربة أزياء فاخرة بحركة سينمائية، مصمم للعبايات والأزياء العربية.",
+    "en": "Wareef: a cinematic luxury fashion theme crafted for abayas and Arabic fashion."
+  }
+}

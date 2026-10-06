@@ -1,0 +1,38 @@
+{# Wareef Stories: circular story thumbnails; the fullscreen viewer is built by w-stories.js #}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set fallbacks = ['look1', 'look2', 'look3', 'look4', 'square1', 'editorial', 'hero', 'banner'] %}
+<section component-id="{{ componentId }}" class="w-block w-stories" data-testid="w-stories" data-w="w-stories"
+  data-label-close="{{ trans('blocks.wareef.close') }}" data-label-next="{{ trans('blocks.wareef.next') }}"
+  data-label-prev="{{ trans('blocks.wareef.previous') }}" data-label-play="{{ trans('blocks.wareef.play') }}"
+  data-label-pause="{{ trans('blocks.wareef.pause') }}">
+  <div class="container">
+    {% if title %}
+      <h2 class="w-stories__title" data-w-reveal="fade">{{ title }}</h2>
+    {% endif %}
+    <ul class="w-stories__row" data-w-stagger role="list">
+      {% for item in component.items %}
+        {% set t = item.title %}{% set t = t is iterable ? (t[language.code]|default(t|first)) : t %}
+        {% set b = item.button %}{% set b = b is iterable ? (b[language.code]|default(b|first)) : b %}
+        {% set href = item.link is iterable ? '' : item.link %}
+        {% set fb = ('images/wareef/' ~ fallbacks[loop.index0 % 8] ~ '.jpg')|asset %}
+        {% set cover = item.cover ?: (item.image ?: fb) %}
+        {% set video = item.video_url is iterable ? '' : (item.video_url|default('')|trim) %}
+        <li class="w-stories__item" data-w-reveal="scale">
+          <button type="button" class="w-stories__thumb" aria-haspopup="dialog"
+            aria-label="{{ t ?: trans('blocks.wareef.play') }}"
+            data-story="{{ loop.index0 }}"
+            data-src="{{ item.image ?: (item.cover ?: fb) }}"
+            {% if video %}data-video="{{ video }}"{% endif %}
+            data-title="{{ t }}" data-thumb="{{ cover }}"
+            {% if href and href != '#' %}data-href="{{ href }}" data-cta="{{ b ?: trans('blocks.wareef.shop_now') }}"{% endif %}>
+            <span class="w-stories__ring" aria-hidden="true">
+              <span class="w-stories__img"><img src="{{ cover }}" alt="" width="120" height="120" loading="lazy"></span>
+              {% if video %}<span class="w-stories__badge"><svg viewBox="0 0 24 24" width="10" height="10"><path d="M8 5v14l11-7z" fill="currentColor"/></svg></span>{% endif %}
+            </span>
+            {% if t %}<span class="w-stories__label">{{ t }}</span>{% endif %}
+          </button>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

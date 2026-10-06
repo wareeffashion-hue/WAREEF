@@ -1,0 +1,43 @@
+{# Wareef FAQ: <details> accordion (smooth height via w-faq.js) + optional side intro + FAQPage JSON-LD #}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[language.code]|default(text|first)) : text %}
+{% set ct = component.contact_text %}{% set ct = ct is iterable ? (ct[language.code]|default(ct|first)) : ct %}
+{% set cl = component.contact_link is iterable ? '' : component.contact_link %}
+{% set hasSide = title or text %}
+<section component-id="{{ componentId }}" class="w-block w-faq{{ hasSide ? ' w-faq--side' : '' }}" data-testid="w-faq" data-w="w-faq">
+  <div class="container">
+    <div class="w-faq__layout">
+      {% if hasSide %}
+        <div class="w-faq__intro">
+          {% if kicker %}<span class="w-kicker" data-w-reveal="fade">{{ kicker }}</span>{% endif %}
+          {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+          {% if text %}<p class="w-lead" data-w-reveal>{{ text }}</p>{% endif %}
+          {% if cl and cl != '#' %}
+            <a class="w-link w-faq__contact" href="{{ cl }}" data-w-reveal>{{ ct ?: trans('blocks.wareef.view_all') }}
+              <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+          {% endif %}
+        </div>
+      {% endif %}
+      <div class="w-faq__list" data-w-stagger>
+        {% for item in component.items %}
+          {% set q = item.question is iterable ? (item.question[language.code]|default(item.question|first)) : item.question %}
+          {% set a = item.answer is iterable ? (item.answer[language.code]|default(item.answer|first)) : item.answer %}
+          {% if q %}
+            <details class="w-faq__item" data-w-reveal>
+              <summary class="w-faq__q">
+                <span class="w-faq__num" aria-hidden="true">{{ loop.index < 10 ? '0' : '' }}{{ loop.index }}</span>
+                <span class="w-faq__qt">{{ q }}</span>
+                <span class="w-faq__plus" aria-hidden="true"></span>
+              </summary>
+              <div class="w-faq__a"><div class="w-faq__ai">{{ a }}</div></div>
+            </details>
+          {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  {% if component.schema and component.items|length %}
+    <script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{% set first = true %}{% for item in component.items %}{% set q = item.question is iterable ? (item.question[language.code]|default(item.question|first)) : item.question %}{% set a = item.answer is iterable ? (item.answer[language.code]|default(item.answer|first)) : item.answer %}{% if q and a %}{{ first ? '' : ',' }}{"@type":"Question","name":{{ q|json_encode|raw }},"acceptedAnswer":{"@type":"Answer","text":{{ a|json_encode|raw }}}}{% set first = false %}{% endif %}{% endfor %}]}</script>
+  {% endif %}
+</section>

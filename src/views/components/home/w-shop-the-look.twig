@@ -1,0 +1,55 @@
+{# Wareef — shop the look: sticky editorial image + rich list of the look's products. #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[lang]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[lang]|default(text|first)) : text %}
+{% set cta = component.cta_text %}{% set cta = cta is iterable ? (cta[lang]|default(cta|first)) : cta %}
+{% set cta_url = component.cta_url %}
+{% set layout = component.layout %}{% set layout = layout is iterable ? (layout[0].value|default(layout.value|default('start'))) : layout %}
+<section component-id="{{ componentId }}" class="w-block w-shop-the-look{{ layout == 'end' ? ' w-shop-the-look--end' : '' }}" data-testid="w-shop-the-look">
+  <div class="container">
+    <div class="w-shop-the-look__grid">
+      <div class="w-shop-the-look__visual">
+        <div class="w-media w-shop-the-look__media" data-w-reveal="fade">
+          <img src="{{ component.image ?: ('images/wareef/look2.jpg'|asset) }}" alt="{{ title|default(store.name) }}" width="1200" height="1600" loading="lazy">
+          <span class="w-shop-the-look__tag">{{ trans('blocks.wareef.shop_the_look') }}</span>
+        </div>
+      </div>
+      <div class="w-shop-the-look__content">
+        {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+        {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+        {% if text %}<p class="w-lead w-shop-the-look__lead" data-w-reveal>{{ text }}</p>{% endif %}
+        {% if component.products|length %}
+          <ol class="w-shop-the-look__list" data-w-stagger>
+            {% for p in component.products %}
+              <li data-w-reveal>
+                <a class="w-shop-the-look__row" href="{{ p.url }}">
+                  <span class="w-shop-the-look__thumb w-media">
+                    <img src="{{ p.image.url|default('images/wareef/look1.jpg'|asset) }}" alt="{{ p.name }}" width="96" height="128" loading="lazy">
+                  </span>
+                  <span class="w-shop-the-look__meta">
+                    <span class="w-shop-the-look__num">{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</span>
+                    <span class="w-shop-the-look__name">{{ p.name }}</span>
+                    <span class="w-shop-the-look__price">
+                      {% if p.is_on_sale %}
+                        <ins>{{ p.sale_price|money }}</ins> <del>{{ p.regular_price|money }}</del>
+                      {% else %}
+                        <ins>{{ p.price|money }}</ins>
+                      {% endif %}
+                    </span>
+                  </span>
+                  <span class="w-shop-the-look__go" aria-hidden="true">
+                    <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M17 5H1m0 0 4-4M1 5l4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+                  </span>
+                </a>
+              </li>
+            {% endfor %}
+          </ol>
+        {% endif %}
+        {% if cta and cta_url and cta_url != '#' %}
+          <a href="{{ cta_url }}" class="w-btn w-shop-the-look__cta" data-w-magnetic>{{ cta }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

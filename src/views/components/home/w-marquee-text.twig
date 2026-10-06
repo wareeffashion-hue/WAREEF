@@ -1,0 +1,17 @@
+{#
+  Wareef — Huge scrolling words, alternating solid / outline, ✦ separators.
+#}
+{% set words = component.words|default([]) %}
+{% set dir = component.direction %}{% set dir = dir is iterable ? ((dir|first).value|default(dir.value|default('normal'))) : dir %}
+{% if words|length %}
+<section component-id="{{ componentId }}" class="w-block w-marquee-text{{ component.inverted ? ' w-marquee-text--inverted' : '' }}{{ dir == 'reverse' ? ' w-marquee-text--reverse' : '' }}" data-testid="w-marquee-text">
+  <div data-w-marquee="{{ component.speed|default(40) }}">
+    <div class="w-marquee__track">
+      {% for item in words %}
+        {% set w = item.word %}{% set w = w is iterable ? (w[language.code]|default(w|first)) : w %}
+        {% if w %}<span class="w-marquee-text__word">{{ w }}</span><i class="w-marquee-text__sep" aria-hidden="true">✦</i>{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}

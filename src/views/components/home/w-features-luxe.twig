@@ -1,0 +1,42 @@
+{# Wareef service promises: thin-divided row, line icons draw themselves in on reveal #}
+{% set known = ['sicon-shipping', 'sicon-shipping-fast', 'sicon-refresh', 'sicon-rotate', 'sicon-shield-check', 'sicon-shield', 'sicon-gift', 'sicon-credit-card', 'sicon-chat-bubbles', 'sicon-star', 'sicon-store'] %}
+<section component-id="{{ componentId }}" class="w-block w-features-luxe{{ component.tinted ? ' w-block--tinted' : '' }}" data-testid="w-features-luxe">
+  <div class="container">
+    <ul class="w-features-luxe__row" role="list" data-w-stagger style="--n: {{ component.items|length ?: 1 }}">
+      {% for item in component.items %}
+        {% set t = item.title is iterable ? (item.title[language.code]|default(item.title|first)) : item.title %}
+        {% set x = item.text is iterable ? (item.text[language.code]|default(item.text|first)) : item.text %}
+        {% set ic = (item.icon is iterable ? '' : item.icon)|default('sicon-star')|trim %}
+        <li class="w-features-luxe__item" data-w-reveal>
+          <span class="w-features-luxe__icon" aria-hidden="true">
+            {% if ic in known %}
+              <svg viewBox="0 0 48 48" width="44" height="44" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+                {% if ic in ['sicon-shipping', 'sicon-shipping-fast'] %}
+                  <path pathLength="1" d="M4 13h24v20H4z"/><path pathLength="1" d="M28 19h8l7 7v7h-15"/><circle pathLength="1" cx="12" cy="35" r="4"/><circle pathLength="1" cx="36" cy="35" r="4"/><path pathLength="1" d="M9 20h10M9 25h6"/>
+                {% elseif ic in ['sicon-refresh', 'sicon-rotate'] %}
+                  <path pathLength="1" d="M39 20A16 16 0 0 0 10 15l-3 4"/><path pathLength="1" d="M7 10v9h9"/><path pathLength="1" d="M9 28a16 16 0 0 0 29 5l3-4"/><path pathLength="1" d="M41 38v-9h-9"/>
+                {% elseif ic in ['sicon-shield-check', 'sicon-shield'] %}
+                  <path pathLength="1" d="M24 4l16 6v12c0 10-7 18-16 22C15 40 8 32 8 22V10z"/><path pathLength="1" d="M17 24l5 5 9-10"/>
+                {% elseif ic == 'sicon-gift' %}
+                  <path pathLength="1" d="M7 18h34v8H7z"/><path pathLength="1" d="M10 26v16h28V26"/><path pathLength="1" d="M24 18v24"/><path pathLength="1" d="M24 18c-3-7-12-9-12-3 0 3 5 3 12 3zM24 18c3-7 12-9 12-3 0 3-5 3-12 3z"/>
+                {% elseif ic == 'sicon-credit-card' %}
+                  <path pathLength="1" d="M5 11h38v26H5z"/><path pathLength="1" d="M5 18h38"/><path pathLength="1" d="M11 30h8M23 30h4"/>
+                {% elseif ic == 'sicon-chat-bubbles' %}
+                  <path pathLength="1" d="M6 8h26v18H16l-7 6v-6H6z"/><path pathLength="1" d="M32 16h10v16h-3v6l-7-6H20v-6"/>
+                {% elseif ic == 'sicon-star' %}
+                  <path pathLength="1" d="M24 5l5.6 12 13 1.5-9.6 8.8 2.6 12.9L24 33.8l-11.6 6.4L15 27.3l-9.6-8.8 13-1.5z"/>
+                {% else %}
+                  <path pathLength="1" d="M6 18l4-10h28l4 10"/><path pathLength="1" d="M6 18c0 4 3 6 6 6s6-2 6-6c0 4 3 6 6 6s6-2 6-6c0 4 3 6 6 6s6-2 6-6"/><path pathLength="1" d="M9 24v18h30V24"/><path pathLength="1" d="M20 42V31h8v11"/>
+                {% endif %}
+              </svg>
+            {% else %}
+              <i class="{{ ic }}"></i>
+            {% endif %}
+          </span>
+          {% if t %}<h3 class="w-features-luxe__title">{{ t }}</h3>{% endif %}
+          {% if x %}<p class="w-features-luxe__text">{{ x }}</p>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

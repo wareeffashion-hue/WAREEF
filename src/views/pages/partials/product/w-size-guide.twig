@@ -1,0 +1,17 @@
+{# Wareef: size guide trigger + native dialog (image set in theme settings). #}
+{% set w_guide = theme.settings.get('w_size_guide') %}
+{% if w_guide %}
+  <div class="w-pd-guide">
+    <button type="button" class="w-link" onclick="document.getElementById('w-size-guide').showModal()">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 8h18v8H3z"/><path d="M7 8v3M11 8v4M15 8v3M19 8v4"/></svg>
+      {{ trans('blocks.wareef.size_guide') }}
+    </button>
+  </div>
+  <dialog id="w-size-guide" class="w-dialog" onclick="if(event.target===this)this.close()">
+    <div class="w-dialog__inner">
+      <button type="button" class="w-dialog__close" onclick="this.closest('dialog').close()" aria-label="{{ trans('blocks.wareef.close') }}">✕</button>
+      <h3 class="w-dialog__title">{{ trans('blocks.wareef.size_guide') }}</h3>
+      <img src="{{ w_guide }}" alt="{{ trans('blocks.wareef.size_guide') }}" loading="lazy">
+    </div>
+  </dialog>
+{% endif %}

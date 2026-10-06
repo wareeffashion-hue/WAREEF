@@ -1,0 +1,70 @@
+{# Wareef occasion banner: seasonal campaign (Ramadan / Eid / Founding Day / National Day) with arabesque overlay + countdown #}
+{% set occ = component.occasion %}{% set occ = occ is iterable ? ((occ|first).value|default(occ.value|default('ramadan'))) : (occ|default('ramadan')) %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[language.code]|default(text|first)) : text %}
+{% set btn = component.button %}{% set btn = btn is iterable ? (btn[language.code]|default(btn|first)) : btn %}
+{% set cdl = component.countdown_label %}{% set cdl = cdl is iterable ? (cdl[language.code]|default(cdl|first)) : cdl %}
+{% set href = component.link is iterable ? '' : component.link %}
+{% set end = component.end is iterable ? '' : (component.end|default('')|trim) %}
+{% set pid = 'w-ob-pat-' ~ (position|default(0)) %}
+<section component-id="{{ componentId }}" class="w-block w-occasion-banner w-occasion-banner--{{ occ }}" data-testid="w-occasion-banner">
+  <div class="container">
+    <div class="w-occasion-banner__frame" data-w-reveal="fade">
+      <div class="w-occasion-banner__bg" aria-hidden="true">
+        <div class="w-occasion-banner__media" data-w-parallax="0.1">
+          <img src="{{ component.image ?: ('images/wareef/banner.jpg'|asset) }}" alt="" width="1920" height="1000" loading="lazy">
+        </div>
+      </div>
+      {% if component.pattern %}
+        <svg class="w-occasion-banner__pattern" aria-hidden="true" focusable="false">
+          <defs>
+            <pattern id="{{ pid }}" width="84" height="84" patternUnits="userSpaceOnUse">
+              <g fill="none" stroke="currentColor" stroke-width=".7">
+                <path d="M42 12L72 42 42 72 12 42z"/><path d="M21 21h42v42H21z"/><circle cx="42" cy="42" r="9"/>
+                <path d="M0 0l21 21M84 0L63 21M0 84l21-21M84 84L63 63M42 0v12M42 72v12M0 42h12M72 42h12"/>
+              </g>
+            </pattern>
+          </defs>
+          <rect width="100%" height="100%" fill="url(#{{ pid }})"/>
+        </svg>
+      {% endif %}
+      <span class="w-occasion-banner__border" aria-hidden="true"></span>
+      <div class="w-occasion-banner__content">
+        <span class="w-occasion-banner__ornament" data-w-reveal="scale" aria-hidden="true">
+          {% if occ in ['ramadan', 'eid'] %}
+            <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round">
+              <path d="M38 8a24 24 0 1 0 18 34A20 20 0 1 1 38 8z"/>
+              <path d="M46 18l1.6 3.8 4 .4-3 2.7.9 4-3.5-2.1-3.5 2.1.9-4-3-2.7 4-.4z" fill="currentColor" stroke="none"/>
+              {% if occ == 'ramadan' %}<path d="M14 2v8M14 10l-4 4v8l4 3 4-3v-8zM10 14h8M10 22h8" stroke-width=".9"/>{% endif %}
+            </svg>
+          {% else %}
+            <svg viewBox="0 0 64 64" width="56" height="56" fill="none" stroke="currentColor" stroke-width="1.1" stroke-linejoin="round">
+              <path d="M32 6l7.8 18.2L58 32l-18.2 7.8L32 58l-7.8-18.2L6 32l18.2-7.8z"/>
+              <path d="M13.6 13.6h36.8v36.8H13.6z" transform="rotate(45 32 32)" opacity=".7"/>
+              <circle cx="32" cy="32" r="6"/>
+            </svg>
+          {% endif %}
+        </span>
+        {% if kicker %}<span class="w-occasion-banner__kicker" data-w-reveal="fade">{{ kicker }}</span>{% endif %}
+        {% if title %}<h2 class="w-display w-occasion-banner__title" data-w-split>{{ title }}</h2>{% endif %}
+        {% if text %}<p class="w-occasion-banner__text" data-w-reveal>{{ text }}</p>{% endif %}
+        {% if component.show_countdown and end %}
+          <div class="w-occasion-banner__cd" data-w-countdown="{{ end }}" data-w-reveal>
+            {% if cdl %}<span class="w-occasion-banner__cdl">{{ cdl }}</span>{% endif %}
+            <div class="w-occasion-banner__units">
+              {% for u in [['d', 'days'], ['h', 'hours'], ['m', 'minutes'], ['s', 'seconds']] %}
+                <span class="w-occasion-banner__unit"><b data-w-unit="{{ u[0] }}">00</b><small>{{ trans('blocks.wareef.' ~ u[1]) }}</small></span>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+        {% if href and href != '#' %}
+          <div class="w-occasion-banner__actions" data-w-reveal>
+            <a class="w-btn w-btn--light" href="{{ href }}" data-w-magnetic>{{ btn ?: trans('blocks.wareef.shop_now') }}</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

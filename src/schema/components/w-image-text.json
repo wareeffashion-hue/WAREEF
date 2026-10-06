@@ -1,0 +1,148 @@
+{
+  "order": 31,
+  "title": {
+    "ar": "قصص بالصور",
+    "en": "Image & Text Stories"
+  },
+  "icon": "sicon-image",
+  "path": "home.w-image-text",
+  "fields": [
+    {
+      "id": "rows",
+      "type": "collection",
+      "format": "collection",
+      "label": "الصفوف",
+      "item_label": "صف",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 8,
+      "fields": [
+        {
+          "id": "rows.image",
+          "type": "string",
+          "format": "image",
+          "label": "الصورة",
+          "description": "المقاس المناسب 1200×1500",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "rows.kicker",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان الصغير",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "العنوان الصغير"
+        },
+        {
+          "id": "rows.title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "العنوان"
+        },
+        {
+          "id": "rows.text",
+          "type": "string",
+          "format": "textarea",
+          "label": "النص",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "النص"
+        },
+        {
+          "id": "rows.button",
+          "type": "string",
+          "format": "text",
+          "label": "نص الرابط",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "نص الرابط"
+        },
+        {
+          "id": "rows.url",
+          "type": "items",
+          "format": "variable-list",
+          "label": "الرابط",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "rows.image": null,
+          "rows.kicker": "الخامة",
+          "rows.title": "أقمشة تختارها الأنامل قبل العيون",
+          "rows.text": "نبحث عن الكريب والحرير والشيفون الأنعم ملمساً والأطول عمراً، لتبقى عباءتكِ كما أحببتِها أول مرة.",
+          "rows.button": "تعرّفي على خاماتنا",
+          "rows.url": ""
+        },
+        {
+          "rows.image": null,
+          "rows.kicker": "الحِرفة",
+          "rows.title": "غرزة بعد غرزة",
+          "rows.text": "تطريز يدوي بإيقاع هادئ، يحمل دفء اليد وصبر الحِرفيات، فلا تتشابه قطعتان.",
+          "rows.button": "شاهدي التفاصيل",
+          "rows.url": ""
+        },
+        {
+          "rows.image": null,
+          "rows.kicker": "القَصّة",
+          "rows.title": "انسيابية تحترم الحركة",
+          "rows.text": "قصّات مدروسة تمنحكِ راحة يومية وحضوراً أنيقاً في كل مناسبة.",
+          "rows.button": "تسوّقي القصّات",
+          "rows.url": ""
+        }
+      ]
+    }
+  ]
+}

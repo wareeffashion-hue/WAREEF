@@ -1,0 +1,77 @@
+{
+  "order": 32,
+  "title": {
+    "ar": "فيديو سينمائي",
+    "en": "Video Feature"
+  },
+  "icon": "sicon-play",
+  "path": "home.w-video-feature",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "خلف الكواليس",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "حكاية كل قطعة",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "النص",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "من اختيار القماش حتى آخر غرزة، رحلة نصنعها بشغف لتصل إليكِ.",
+      "placeholder": "النص"
+    },
+    {
+      "id": "poster",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الغلاف",
+      "description": "المقاس المناسب 1920×1080",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "video_url",
+      "type": "string",
+      "format": "text",
+      "label": "رابط الفيديو",
+      "icon": "sicon-play",
+      "multilanguage": false,
+      "required": false,
+      "value": "",
+      "placeholder": "https://",
+      "description": "ضعي رابط ملف ‎.mp4 مباشر، أو رابط فيديو يوتيوب"
+    },
+    {
+      "id": "autoplay",
+      "type": "boolean",
+      "format": "switch",
+      "label": "تشغيل تلقائي صامت (لفيديو MP4 فقط)",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": false,
+      "selected": false
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{# Wareef — products grouped in category tabs with an animated underline indicator. #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[lang]|default(title|first)) : title %}
+{% set limit = component.limit|default(8) %}
+{% set show_all = component.show_all is same as(false) ? false : true %}
+{% set cats = component.categories is iterable ? component.categories : [] %}
+<section component-id="{{ componentId }}" class="w-block w-products-tabs" data-testid="w-products-tabs" data-w="w-products-tabs">
+  <div class="container">
+    <div class="w-head w-head--center">
+      {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+      {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+    </div>
+    {% if cats|length %}
+      <div data-w-tabs>
+        <div class="w-products-tabs__bar" data-w-reveal="fade">
+          <div class="w-products-tabs__list" role="tablist" aria-label="{{ title }}">
+            {% for cat in cats %}
+              <button type="button" role="tab" class="w-products-tabs__tab{{ loop.first ? ' is-active' : '' }}" id="w-pt-{{ position }}-t{{ loop.index0 }}"
+                      data-w-tab="c{{ loop.index0 }}" aria-controls="w-pt-{{ position }}-p{{ loop.index0 }}" aria-selected="{{ loop.first ? 'true' : 'false' }}" tabindex="{{ loop.first ? '0' : '-1' }}">{{ cat.name }}</button>
+            {% endfor %}
+            <span class="w-products-tabs__ink" aria-hidden="true"></span>
+          </div>
+        </div>
+        {% for cat in cats %}
+          <div class="w-products-tabs__panel" role="tabpanel" id="w-pt-{{ position }}-p{{ loop.index0 }}" aria-labelledby="w-pt-{{ position }}-t{{ loop.index0 }}" data-w-panel="c{{ loop.index0 }}"{{ loop.first ? '' : ' hidden' }}>
+            <salla-products-list source="categories" source-value="{{ cat.id }}" limit="{{ limit }}"></salla-products-list>
+            {% if show_all and cat.url %}
+              <div class="w-products-tabs__more"><a class="w-btn w-btn--ghost" href="{{ cat.url }}">{{ trans('blocks.wareef.view_all') }} — {{ cat.name }}</a></div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <salla-products-list source="latest" limit="{{ limit }}"></salla-products-list>
+    {% endif %}
+  </div>
+</section>

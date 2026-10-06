@@ -1,0 +1,46 @@
+/* Wareef — shop the look */
+.w-shop-the-look {
+  &__grid { display: grid; gap: clamp(28px, 5vw, 96px); align-items: start; }
+  @media (min-width: 1024px) {
+    &__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    &__visual { position: sticky; top: 110px; }
+    &--end &__visual { order: 2; }
+    &__content { padding-block: clamp(10px, 3vw, 48px); }
+  }
+  &__media { aspect-ratio: 3 / 4; }
+  &__tag {
+    position: absolute; top: 18px; right: 18px; z-index: 2; padding: 8px 14px;
+    background: rgba(255, 255, 255, .92); color: #111; font-size: 11px; font-weight: 600; letter-spacing: .2em;
+    border-radius: var(--w-radius-sm);
+    [dir='ltr'] & { right: auto; left: 18px; }
+  }
+  &__lead { margin-top: 16px; }
+  &__list { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; border-top: 1px solid var(--w-line); }
+  &__row {
+    display: grid; grid-template-columns: 84px minmax(0, 1fr) auto; gap: clamp(14px, 2vw, 24px); align-items: center;
+    padding: 18px 0; border-bottom: 1px solid var(--w-line); color: var(--w-text);
+    @media (min-width: 768px) { grid-template-columns: 104px minmax(0, 1fr) auto; }
+    &:hover .w-shop-the-look__thumb img { transform: scale(1.07); }
+    &:hover .w-shop-the-look__go { background: var(--w-text); color: var(--w-bg); border-color: var(--w-text); }
+    &:hover .w-shop-the-look__go svg { transform: translateX(-3px); }
+    &:focus-visible { outline: 2px solid var(--w-text); outline-offset: 4px; }
+  }
+  &__thumb { aspect-ratio: 3 / 4; display: block; border-radius: var(--w-radius-sm); }
+  &__meta { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  &__num { font-size: 11px; letter-spacing: .2em; color: var(--w-gold); font-variant-numeric: tabular-nums; }
+  &__name { font-size: clamp(15px, 1.2vw, 17px); font-weight: 500; line-height: 1.5; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+  &__price {
+    font-size: 14px; display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px;
+    ins { text-decoration: none; font-weight: 700; }
+    del { color: var(--w-muted); font-size: 13px; }
+  }
+  &__go {
+    width: 46px; height: 46px; border-radius: 50%; border: 1px solid var(--w-line); display: grid; place-items: center;
+    transition: background-color .4s var(--w-ease), color .4s, border-color .4s;
+    svg { transition: transform .4s var(--w-ease); }
+    [dir='ltr'] & svg { transform: scaleX(-1); }
+  }
+  &__cta { margin-top: clamp(24px, 3vw, 40px); }
+}
+.w-shop-the-look__media[data-w-reveal] img { transform: scale(1.08); transition: transform 2s var(--w-ease-out); }
+.w-shop-the-look__media[data-w-reveal].is-in img { transform: none; }

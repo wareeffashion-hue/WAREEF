@@ -1,0 +1,189 @@
+{
+  "order": 46,
+  "title": {
+    "ar": "بانر المناسبة",
+    "en": "Occasion Banner"
+  },
+  "icon": "sicon-calendar",
+  "path": "home.w-occasion-banner",
+  "fields": [
+    {
+      "id": "occasion",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "المناسبة",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "رمضان",
+          "value": "ramadan"
+        },
+        {
+          "label": "العيد",
+          "value": "eid"
+        },
+        {
+          "label": "يوم التأسيس",
+          "value": "founding"
+        },
+        {
+          "label": "اليوم الوطني",
+          "value": "national"
+        },
+        {
+          "label": "مناسبة أخرى",
+          "value": "other"
+        }
+      ],
+      "selected": [
+        {
+          "label": "رمضان",
+          "value": "ramadan"
+        }
+      ]
+    },
+    {
+      "id": "image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الخلفية",
+      "description": "المقاس المناسب 1920×1000",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "pattern",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار الزخرفة الهندسية",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مجموعة رمضان",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "ليالٍ تليق بكِ",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "الوصف",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "عبايات وجلابيات بخامات حريرية وتطريز ذهبي هادئ، صُمّمت لسهرات الشهر الكريم ولقاءات العائلة.",
+      "placeholder": "الوصف"
+    },
+    {
+      "id": "button",
+      "type": "string",
+      "format": "text",
+      "label": "نص الزر",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "اكتشفي المجموعة",
+      "placeholder": "نص الزر"
+    },
+    {
+      "id": "link",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط الزر",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "show_countdown",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار العدّاد التنازلي",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "countdown_label",
+      "type": "string",
+      "format": "text",
+      "label": "عنوان العدّاد",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تبدأ المجموعة خلال",
+      "placeholder": "عنوان العدّاد"
+    },
+    {
+      "id": "end",
+      "type": "string",
+      "format": "text",
+      "label": "تاريخ ووقت الانتهاء",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": false,
+      "required": false,
+      "value": "2027-02-07T20:00:00+03:00",
+      "placeholder": "2027-02-07T20:00:00+03:00",
+      "description": "بصيغة: سنة-شهر-يوم ثم T ثم الساعة، مثال 2027-02-07T20:00:00+03:00"
+    }
+  ]
+}

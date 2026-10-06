@@ -1,0 +1,37 @@
+{#
+  Wareef — Cinematic video block: poster, magnetic play button; MP4 inline (muted loop) or YouTube lightbox (w-video-feature.js).
+#}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[language.code]|default(text|first)) : text %}
+{% set src = component.video_url|default('')|trim %}
+<section component-id="{{ componentId }}" class="w-block w-video-feature" data-testid="w-video-feature" data-w="w-video-feature"
+  data-src="{{ src|e }}" data-autoplay="{{ component.autoplay ? '1' : '0' }}">
+  <div class="container">
+    {% if kicker or title or text %}
+      <div class="w-head w-video-feature__head">
+        <div>
+          {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+          {% if title %}<h2 class="w-title w-video-feature__title" data-w-split>{{ title }}</h2>{% endif %}
+        </div>
+        {% if text %}<p class="w-lead w-video-feature__text" data-w-reveal>{{ text }}</p>{% endif %}
+      </div>
+    {% endif %}
+    <div class="w-media w-video-feature__stage" data-w-reveal="scale">
+      <div class="w-video-feature__poster">
+        <img src="{{ component.poster ?: ('images/wareef/banner.jpg'|asset) }}" alt="{{ title|default(store.name)|e }}" width="1920" height="1080" loading="lazy" decoding="async">
+      </div>
+      <button type="button" class="w-video-feature__play" data-w-magnetic aria-label="{{ trans('blocks.wareef.play') }}"
+        data-label-play="{{ trans('blocks.wareef.play') }}" data-label-pause="{{ trans('blocks.wareef.pause') }}" data-label-close="{{ trans('blocks.wareef.close') }}">
+        <svg class="w-video-feature__ring" viewBox="0 0 200 200" aria-hidden="true">
+          <defs><path id="w-vf-ring-{{ position }}" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0"/></defs>
+          <text><textPath href="#w-vf-ring-{{ position }}" startOffset="{{ theme.is_rtl ? '100%' : '0%' }}">{{ trans('blocks.wareef.play') }} ✦ {{ title|default(store.name) }} ✦ {{ trans('blocks.wareef.play') }} ✦ {{ title|default(store.name) }} ✦ {{ trans('blocks.wareef.play') }} ✦ {{ title|default(store.name) }} ✦</textPath></text>
+        </svg>
+        <span class="w-video-feature__btn" aria-hidden="true">
+          <svg class="w-video-feature__i-play" viewBox="0 0 24 24" width="26" height="26"><path d="M8 5.5v13l11-6.5z" fill="currentColor"/></svg>
+          <svg class="w-video-feature__i-pause" viewBox="0 0 24 24" width="24" height="24"><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z" fill="currentColor"/></svg>
+        </span>
+      </button>
+    </div>
+  </div>
+</section>

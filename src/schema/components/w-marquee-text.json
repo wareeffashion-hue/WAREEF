@@ -1,0 +1,98 @@
+{
+  "order": 20,
+  "title": {
+    "ar": "شريط كلمات متحرك",
+    "en": "Text Marquee"
+  },
+  "icon": "sicon-format-text-alt",
+  "path": "home.w-marquee-text",
+  "fields": [
+    {
+      "id": "words",
+      "type": "collection",
+      "format": "collection",
+      "label": "الكلمات",
+      "item_label": "كلمة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 12,
+      "fields": [
+        {
+          "id": "words.word",
+          "type": "string",
+          "format": "text",
+          "label": "الكلمة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "الكلمة"
+        }
+      ],
+      "value": [
+        {
+          "words.word": "أناقة"
+        },
+        {
+          "words.word": "حِرفة"
+        },
+        {
+          "words.word": "وقار"
+        },
+        {
+          "words.word": "تفاصيل"
+        },
+        {
+          "words.word": "خامات فاخرة"
+        }
+      ]
+    },
+    {
+      "id": "speed",
+      "type": "number",
+      "format": "integer",
+      "label": "مدة الدورة (ثوانٍ) — رقم أكبر يعني حركة أبطأ",
+      "icon": "sicon-pencil-ruler",
+      "required": false,
+      "value": 40,
+      "minimum": 10,
+      "maximum": 120
+    },
+    {
+      "id": "direction",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "اتجاه الحركة",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "افتراضي",
+          "value": "normal"
+        },
+        {
+          "label": "معاكس",
+          "value": "reverse"
+        }
+      ],
+      "selected": [
+        {
+          "label": "افتراضي",
+          "value": "normal"
+        }
+      ]
+    },
+    {
+      "id": "inverted",
+      "type": "boolean",
+      "format": "switch",
+      "label": "شريط داكن (ألوان معكوسة)",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": false,
+      "selected": false
+    }
+  ]
+}

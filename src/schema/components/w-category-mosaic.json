@@ -1,0 +1,202 @@
+{
+  "order": 16,
+  "title": {
+    "ar": "فسيفساء المجموعات",
+    "en": "Collections mosaic"
+  },
+  "icon": "sicon-layout-grid",
+  "path": "home.w-category-mosaic",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "المجموعات",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "عالم وريف",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "view_all_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص رابط عرض الكل",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "كل المجموعات",
+      "placeholder": "نص رابط عرض الكل"
+    },
+    {
+      "id": "view_all_url",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط عرض الكل",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "المجموعات",
+      "item_label": "مجموعة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 8,
+      "fields": [
+        {
+          "id": "items.image",
+          "type": "string",
+          "format": "image",
+          "label": "الصورة",
+          "description": "المقاس المناسب 1000×1200",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "items.title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "العنوان"
+        },
+        {
+          "id": "items.subtitle",
+          "type": "string",
+          "format": "text",
+          "label": "الوصف المختصر",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "الوصف المختصر"
+        },
+        {
+          "id": "items.url",
+          "type": "items",
+          "format": "variable-list",
+          "label": "الرابط",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "items.image": null,
+          "items.title": "العبايات",
+          "items.subtitle": "قصّات مُحكمة وخامات فاخرة",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "الجلابيات",
+          "items.subtitle": "تطريز يدوي بروح عصرية",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "الشيلات",
+          "items.subtitle": "كريب وحرير بألوان هادئة",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "أطقم الكتان",
+          "items.subtitle": "خفة الصيف وأناقته",
+          "items.url": []
+        }
+      ]
+    }
+  ]
+}

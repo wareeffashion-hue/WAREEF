@@ -1,0 +1,62 @@
+{# Wareef reviews wall: masonry of customer words with an average-rating header computed from the items #}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set items = component.items|default([]) %}
+{% set sum = 0 %}{% set count = 0 %}
+{% for item in items %}
+  {# Only rated items count toward the average. #}
+  {% if item.stars %}
+    {% set s = item.stars + 0 %}{% set s = s > 5 ? 5 : (s < 1 ? 1 : s) %}
+    {% set sum = sum + s %}{% set count = count + 1 %}
+  {% endif %}
+{% endfor %}
+{% set avg10 = count ? ((sum * 10 / count)|round) : 0 %}
+{% set avgText = avg10 % 10 == 0 ? (avg10 // 10) : (avg10 / 10) %}
+{% set star %}<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.8l2.75 5.9 6.45.75-4.78 4.4 1.27 6.38L12 17.06 6.31 20.23l1.27-6.38L2.8 9.45l6.45-.75z"/></svg>{% endset %}
+<section component-id="{{ componentId }}" class="w-block w-reviews-wall" data-testid="w-reviews-wall">
+  <div class="container">
+    <header class="w-reviews-wall__head">
+      <div>
+        {% if kicker %}<span class="w-kicker" data-w-reveal="fade">{{ kicker }}</span>{% endif %}
+        {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+      </div>
+      {% if component.show_average and count %}
+        <div class="w-reviews-wall__avg" data-w-reveal>
+          <span class="w-reviews-wall__score" dir="ltr">{{ avgText }}<small>/5</small></span>
+          <span class="w-reviews-wall__meta">
+            <span class="w-reviews-wall__stars" role="img" aria-label="{{ avgText }} / 5">
+              {% for i in 1..5 %}{% set r = avg10 - (i - 1) * 10 %}<span class="{{ r >= 8 ? 'is-on' : (r >= 3 ? 'is-half' : '') }}">{{ star }}</span>{% endfor %}
+            </span>
+            <span class="w-reviews-wall__count">{{ language.code == 'ar' ? ('بناءً على ' ~ count ~ ' من آراء عميلاتنا') : ('Based on ' ~ count ~ ' customer reviews') }}</span>
+          </span>
+        </div>
+      {% endif %}
+    </header>
+    <div class="w-reviews-wall__wall">
+      {% for item in items %}
+        {% set s = (item.stars|default(5)) + 0 %}{% set s = s > 5 ? 5 : (s < 1 ? 1 : s) %}
+        {% set t = item.text is iterable ? (item.text[language.code]|default(item.text|first)) : item.text %}
+        {% set name = item.name is iterable ? (item.name[language.code]|default(item.name|first)) : item.name %}
+        {% set city = item.city is iterable ? (item.city[language.code]|default(item.city|first)) : item.city %}
+        <figure class="w-reviews-wall__card{{ item.image ? ' has-image' : '' }}{{ loop.index0 % 5 == 1 ? ' is-feature' : '' }}" data-w-reveal style="--i: {{ loop.index0 % 3 }}">
+          {% if item.image %}
+            <div class="w-media w-reviews-wall__img"><img src="{{ item.image }}" alt="{{ name }}" width="600" height="750" loading="lazy"></div>
+          {% endif %}
+          <div class="w-reviews-wall__body">
+            <div class="w-reviews-wall__top">
+              <span class="w-reviews-wall__stars" role="img" aria-label="{{ s }} / 5">
+                {% for i in 1..5 %}<span class="{{ i <= s ? 'is-on' : '' }}">{{ star }}</span>{% endfor %}
+              </span>
+              <span class="w-reviews-wall__quote" aria-hidden="true">{{ language.code == 'ar' ? '”' : '“' }}</span>
+            </div>
+            <blockquote class="w-reviews-wall__text">{{ t }}</blockquote>
+            <figcaption class="w-reviews-wall__who">
+              <span class="w-reviews-wall__avatar" aria-hidden="true">{{ name|slice(0, 1) }}</span>
+              <span><b>{{ name }}</b>{% if city %}<small>{{ city }}</small>{% endif %}</span>
+            </figcaption>
+          </div>
+        </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>

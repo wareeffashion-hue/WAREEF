@@ -1,0 +1,58 @@
+{#
+  Wareef — Editorial hero slider: crossfade + scale, progress bars, counter, swipe & keyboard (w-hero-slider.js).
+#}
+{% set slides = component.slides|default([]) %}
+{% set total = slides|length %}
+{% if total %}
+<section component-id="{{ componentId }}" class="w-block w-block--flush w-hero-slider" data-testid="w-hero-slider" data-w="w-hero-slider"
+  data-interval="{{ component.interval|default(6) }}" data-autoplay="{{ component.autoplay is same as(false) ? '0' : '1' }}"
+  role="region" aria-roledescription="carousel" aria-label="{{ store.name|default('slider')|e }}" tabindex="0" style="--w-hs-dur: {{ component.interval|default(6) }}s">
+  <div class="w-hero-slider__slides">
+    {% for slide in slides %}
+      {% set k = slide.kicker %}{% set k = k is iterable ? (k[language.code]|default(k|first)) : k %}
+      {% set t = slide.title %}{% set t = t is iterable ? (t[language.code]|default(t|first)) : t %}
+      {% set x = slide.text %}{% set x = x is iterable ? (x[language.code]|default(x|first)) : x %}
+      {% set b = slide.button %}{% set b = b is iterable ? (b[language.code]|default(b|first)) : b %}
+      {% set u = slide.url %}{% set u = u is iterable ? (u.url|default('')) : u %}
+      {% set ph = ['hero', 'editorial', 'banner', 'look2'] %}
+      {% set img = slide.image ?: (('images/wareef/' ~ ph[loop.index0 % 4] ~ '.jpg')|asset) %}
+      {% set img_m = slide.mobile_image ?: img %}
+      <div class="w-hero-slider__slide{{ loop.first ? ' is-active' : '' }}" role="group" aria-roledescription="slide" aria-label="{{ loop.index }} / {{ total }}"{{ loop.first ? '' : ' aria-hidden="true"' }}>
+        <div class="w-hero-slider__media">
+          <picture>
+            <source media="(max-width: 767px)" srcset="{{ img_m }}">
+            <img src="{{ img }}" alt="{{ t|default(store.name)|e }}" width="2400" height="1400" {{ loop.first ? 'fetchpriority="high"' : 'loading="lazy"' }} decoding="async">
+          </picture>
+        </div>
+        <div class="container w-hero-slider__content w-on-media">
+          <div class="w-hero-slider__copy">
+            {% if k %}<span class="w-kicker w-hero-slider__kicker">{{ k }}</span>{% endif %}
+            {% if t %}{% if loop.first %}<h1 class="w-hero-slider__title">{{ t }}</h1>{% else %}<h2 class="w-hero-slider__title">{{ t }}</h2>{% endif %}{% endif %}
+            {% if x %}<p class="w-hero-slider__text">{{ x }}</p>{% endif %}
+            {% if b %}
+              <div class="w-hero-slider__cta">
+                {% if u and u != '#' %}<a href="{{ u }}" class="w-btn w-btn--light" data-w-magnetic tabindex="{{ loop.first ? '0' : '-1' }}">{{ b }}</a>
+                {% else %}<span class="w-btn w-btn--light">{{ b }}</span>{% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  {% if total > 1 %}
+    <div class="container w-hero-slider__ui w-on-media">
+      <div class="w-hero-slider__bars">
+        {% for slide in slides %}
+          <button type="button" class="w-hero-slider__bar{{ loop.first ? ' is-active' : '' }}" data-go="{{ loop.index0 }}" aria-label="{{ loop.index }} / {{ total }}"{{ loop.first ? ' aria-current="true"' : '' }}><span></span></button>
+        {% endfor %}
+      </div>
+      <div class="w-hero-slider__nav">
+        <span class="w-hero-slider__count" aria-live="polite"><b data-current>01</b> / {{ total < 10 ? '0' : '' }}{{ total }}</span>
+        <button type="button" class="w-hero-slider__arrow" data-prev aria-label="{{ trans('blocks.wareef.previous') }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M9 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+        <button type="button" class="w-hero-slider__arrow" data-next aria-label="{{ trans('blocks.wareef.next') }}"><svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></button>
+      </div>
+    </div>
+  {% endif %}
+</section>
+{% endif %}

@@ -1,0 +1,155 @@
+{
+  "order": 41,
+  "title": {
+    "ar": "جدار آراء العميلات",
+    "en": "Reviews Wall"
+  },
+  "icon": "sicon-star",
+  "path": "home.w-reviews-wall",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "بكلماتهن",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "آراء عميلاتنا",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "show_average",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار متوسط التقييم",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "الآراء",
+      "item_label": "رأي",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 18,
+      "fields": [
+        {
+          "id": "items.name",
+          "type": "string",
+          "format": "text",
+          "label": "الاسم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "value": "",
+          "placeholder": "الاسم"
+        },
+        {
+          "id": "items.city",
+          "type": "string",
+          "format": "text",
+          "label": "المدينة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "value": "",
+          "placeholder": "المدينة"
+        },
+        {
+          "id": "items.stars",
+          "type": "number",
+          "format": "integer",
+          "label": "عدد النجوم",
+          "icon": "sicon-pencil-ruler",
+          "required": false,
+          "value": 5,
+          "minimum": 1,
+          "maximum": 5
+        },
+        {
+          "id": "items.text",
+          "type": "string",
+          "format": "textarea",
+          "label": "نص الرأي",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "نص الرأي"
+        },
+        {
+          "id": "items.image",
+          "type": "string",
+          "format": "image",
+          "label": "صورة المنتج (اختياري)",
+          "description": "المقاس المناسب 800×1000",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        }
+      ],
+      "value": [
+        {
+          "items.name": "نورة",
+          "items.city": "الرياض",
+          "items.stars": 5,
+          "items.text": "الخامة أجمل من الصور بكثير، والقصّة منسابة وتجلس على الجسم بشكل راقٍ. وصلتني مغلّفة بعناية كأنها هدية.",
+          "items.image": null
+        },
+        {
+          "items.name": "ريم",
+          "items.city": "جدة",
+          "items.stars": 5,
+          "items.text": "طلبت عباية المناسبات ولبستها في زواج أختي، الكل سألني من وين! التطريز ناعم ومتقن.",
+          "items.image": null
+        },
+        {
+          "items.name": "سارة",
+          "items.city": "الدمام",
+          "items.stars": 4,
+          "items.text": "المقاس مضبوط حسب الجدول والقماش خفيف ومريح. التوصيل أخذ يومين فقط.",
+          "items.image": null
+        },
+        {
+          "items.name": "العنود",
+          "items.city": "الخبر",
+          "items.stars": 5,
+          "items.text": "ثالث طلب لي من وريف ولن يكون الأخير. تفاصيل الأكمام والأزرار تعكس جودة حقيقية.",
+          "items.image": null
+        },
+        {
+          "items.name": "لمى",
+          "items.city": "مكة المكرمة",
+          "items.stars": 5,
+          "items.text": "خدمة العملاء تعاملهم راقٍ، ساعدوني في اختيار المقاس واستبدلوا لي بدون أي تعقيد.",
+          "items.image": null
+        },
+        {
+          "items.name": "هيفاء",
+          "items.city": "أبها",
+          "items.stars": 5,
+          "items.text": "لون العباية ثابت بعد الغسيل وما تغيّر أبدًا. أناقة هادئة تناسب الدوام والمشاوير.",
+          "items.image": null
+        }
+      ]
+    }
+  ]
+}

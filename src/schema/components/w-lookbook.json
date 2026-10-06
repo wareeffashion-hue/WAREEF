@@ -1,0 +1,241 @@
+{
+  "order": 10,
+  "title": {
+    "ar": "لوك بوك تفاعلي (تسوّق من الصورة)",
+    "en": "Shoppable lookbook"
+  },
+  "icon": "sicon-image",
+  "path": "home.w-lookbook",
+  "fields": [
+    {
+      "id": "note",
+      "type": "static",
+      "format": "description",
+      "value": "<div>صورة كبيرة بنقاط تفاعلية؛ لكل نقطة موضع أفقي ورأسي بالنسبة المئوية من الصورة (٠ = البداية من اليسار/الأعلى، ١٠٠ = النهاية).</div>"
+    },
+    {
+      "id": "image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة اللوك بوك",
+      "description": "المقاس المناسب 1200×1500 (عمودية)",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "لوك بوك الموسم",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تسوّقي القطع من الصورة",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "النص",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "اضغطي على النقاط لتكتشفي كل قطعة في الإطلالة؛ خامات منتقاة وتفاصيل تُحاك بعناية لتبقى معكِ مواسم طويلة.",
+      "placeholder": "النص"
+    },
+    {
+      "id": "layout",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "موضع الصورة",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "الصورة في البداية",
+          "value": "start"
+        },
+        {
+          "label": "الصورة في النهاية",
+          "value": "end"
+        }
+      ],
+      "selected": [
+        {
+          "label": "الصورة في البداية",
+          "value": "start"
+        }
+      ]
+    },
+    {
+      "id": "show_index",
+      "type": "boolean",
+      "format": "switch",
+      "label": "عرض قائمة القطع بجانب الصورة",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "spots",
+      "type": "collection",
+      "format": "collection",
+      "label": "النقاط التفاعلية",
+      "item_label": "نقطة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 10,
+      "fields": [
+        {
+          "id": "spots.x",
+          "type": "number",
+          "format": "integer",
+          "label": "الموضع الأفقي %",
+          "icon": "sicon-pencil-ruler",
+          "required": false,
+          "value": 50,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "spots.y",
+          "type": "number",
+          "format": "integer",
+          "label": "الموضع الرأسي %",
+          "icon": "sicon-pencil-ruler",
+          "required": false,
+          "value": 50,
+          "minimum": 0,
+          "maximum": 100
+        },
+        {
+          "id": "spots.name",
+          "type": "string",
+          "format": "text",
+          "label": "اسم القطعة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "اسم القطعة"
+        },
+        {
+          "id": "spots.price",
+          "type": "string",
+          "format": "text",
+          "label": "السعر (نص)",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "مثال: ٧٥٠ ر.س"
+        },
+        {
+          "id": "spots.image",
+          "type": "string",
+          "format": "image",
+          "label": "صورة مصغّرة (اختياري)",
+          "description": "المقاس المناسب 300×400",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "spots.url",
+          "type": "items",
+          "format": "variable-list",
+          "label": "رابط القطعة",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "spots.x": 46,
+          "spots.y": 22,
+          "spots.name": "شيلة كريب ناعمة",
+          "spots.price": "١٨٠ ر.س",
+          "spots.image": null,
+          "spots.url": []
+        },
+        {
+          "spots.x": 58,
+          "spots.y": 48,
+          "spots.name": "عباية كتان بأكمام واسعة",
+          "spots.price": "٧٥٠ ر.س",
+          "spots.image": null,
+          "spots.url": []
+        },
+        {
+          "spots.x": 38,
+          "spots.y": 70,
+          "spots.name": "فستان داخلي من الحرير",
+          "spots.price": "٥٢٠ ر.س",
+          "spots.image": null,
+          "spots.url": []
+        },
+        {
+          "spots.x": 62,
+          "spots.y": 88,
+          "spots.name": "حذاء جلدي بكعب منخفض",
+          "spots.price": "٣٩٠ ر.س",
+          "spots.image": null,
+          "spots.url": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,149 @@
+{
+  "order": 42,
+  "title": {
+    "ar": "شركاؤنا / كما ظهرنا في",
+    "en": "Partners & Press"
+  },
+  "icon": "sicon-award-ribbon",
+  "path": "home.w-press-marquee",
+  "fields": [
+    {
+      "id": "note",
+      "type": "static",
+      "format": "description",
+      "value": "<div>أضيفي شعارات الجهات التي تعاونتِ معها أو ظهرتِ فيها فعلًا. الأسماء الافتراضية أماكن مؤقتة يجب استبدالها أو حذفها قبل النشر.</div>"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "شركاؤنا",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "speed",
+      "type": "number",
+      "format": "integer",
+      "label": "سرعة الحركة (ثوانٍ لكل دورة)",
+      "icon": "sicon-pencil-ruler",
+      "required": false,
+      "value": 32,
+      "minimum": 10,
+      "maximum": 90
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "الجهات",
+      "item_label": "جهة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 16,
+      "fields": [
+        {
+          "id": "items.logo",
+          "type": "string",
+          "format": "image",
+          "label": "الشعار",
+          "description": "يفضّل PNG بخلفية شفافة، ارتفاع 120 بكسل",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "items.title",
+          "type": "string",
+          "format": "text",
+          "label": "اسم الجهة (يظهر عند عدم وجود شعار)",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "value": "",
+          "placeholder": "اسم الجهة (يظهر عند عدم وجود شعار)"
+        },
+        {
+          "id": "items.link",
+          "type": "items",
+          "format": "variable-list",
+          "label": "الرابط",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "items.logo": null,
+          "items.title": "اسم الشريك",
+          "items.link": []
+        },
+        {
+          "items.logo": null,
+          "items.title": "Partner Name",
+          "items.link": []
+        },
+        {
+          "items.logo": null,
+          "items.title": "شعار الجهة",
+          "items.link": []
+        },
+        {
+          "items.logo": null,
+          "items.title": "Your Logo",
+          "items.link": []
+        },
+        {
+          "items.logo": null,
+          "items.title": "اسم الجهة",
+          "items.link": []
+        },
+        {
+          "items.logo": null,
+          "items.title": "Brand Mark",
+          "items.link": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{#
+  Wareef — Animated counters. Items whose number is 0 are hidden; the block is hidden when none has a number.
+#}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set shown = [] %}
+{% for item in component.items|default([]) %}
+  {% if (item.number|default(0)) + 0 > 0 %}{% set shown = shown|merge([item]) %}{% endif %}
+{% endfor %}
+{% if shown|length %}
+<section component-id="{{ componentId }}" class="w-block w-stats" data-testid="w-stats" style="--w-st-n: {{ shown|length }}">
+  <div class="container">
+    {% if kicker or title %}
+      <div class="w-head w-head--center w-stats__head">
+        {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+        {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+      </div>
+    {% endif %}
+    <ul class="w-stats__list" data-w-stagger>
+      {% for item in shown %}
+        {% set l = item.label %}{% set l = l is iterable ? (l[language.code]|default(l|first)) : l %}
+        {% set s = item.suffix %}{% set s = s is iterable ? (s[language.code]|default(s|first)) : s %}
+        <li class="w-stats__item" data-w-reveal>
+          <span class="w-stats__num"><span data-w-count="{{ item.number }}">0</span>{% if s %}<sup class="w-stats__suffix">{{ s }}</sup>{% endif %}</span>
+          {% if l %}<span class="w-stats__label">{{ l }}</span>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}

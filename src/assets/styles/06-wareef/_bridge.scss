@@ -1,0 +1,25 @@
+/* Bring the inherited Raed blocks and Salla components into the Wareef identity. */
+body.theme-wareef .s-block { margin-block: calc(var(--w-section) / 2); }
+body.theme-wareef .s-slider-block__title h2, body.theme-wareef .s-block h2, body.theme-wareef .s-reviews-header {
+  font-size: var(--w-h2); font-weight: 700; letter-spacing: var(--w-track); color: var(--w-text);
+}
+body.theme-wareef .s-slider-block__title-nav button, body.theme-wareef .s-slider-nav-arrow {
+  border-radius: 999px; border: 1px solid var(--w-line); background: var(--w-surface); color: var(--w-text);
+  transition: background .3s var(--w-ease), color .3s var(--w-ease);
+}
+body.theme-wareef .s-slider-block__title-nav button:hover { background: var(--w-text); color: var(--w-bg); }
+body.theme-wareef .s-slider-block__display-all { color: var(--w-text); font-weight: 600; text-decoration: underline; text-underline-offset: 6px; }
+body.theme-wareef .banner-entry, body.theme-wareef .s-block--banners a, body.theme-wareef .s-block--fixed-banner a { border-radius: var(--w-radius); overflow: hidden; }
+body.theme-wareef .s-block--features .feature-item, body.theme-wareef .s-block--features > div > div { background: var(--w-surface); border: 1px solid var(--w-line); border-radius: var(--w-radius); box-shadow: none; }
+body.theme-wareef .s-block--testimonials .s-reviews-testimonial { background: var(--w-surface); border: 1px solid var(--w-line); border-radius: var(--w-radius); box-shadow: none; }
+body.theme-wareef .btn--primary, body.theme-wareef .s-button-primary, body.theme-wareef .s-button-solid.s-button-primary {
+  border-radius: var(--w-radius-sm) !important; letter-spacing: .04em;
+}
+body.theme-wareef .breadcrumbs, body.theme-wareef salla-breadcrumb { color: var(--w-muted); font-size: 13px; }
+body.theme-wareef .s-product-card-sale-price h4, body.theme-wareef .s-product-card-sale-price span { color: var(--w-text); }
+body.theme-wareef .s-product-card-promotion-title { background: var(--w-text); color: var(--w-bg); border-radius: var(--w-radius-sm); letter-spacing: .06em; font-weight: 600; }
+/* Category listing */
+body.theme-wareef .s-products-list-wrapper { gap: clamp(14px, 2vw, 28px); }
+body.theme-wareef salla-filters, body.theme-wareef .filters-wrapper { border-radius: var(--w-radius); }
+/* Cart */
+body.theme-wareef .cart-item, body.theme-wareef .cart-summary { background: var(--w-surface); border: 1px solid var(--w-line); border-radius: var(--w-radius); box-shadow: none; }

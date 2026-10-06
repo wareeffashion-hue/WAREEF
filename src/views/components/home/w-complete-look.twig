@@ -1,0 +1,57 @@
+{# Wareef — "complete the look" bundle: 2–4 products joined by "+" with a combined total. #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[lang]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[lang]|default(text|first)) : text %}
+{% set total_label = component.total_label %}{% set total_label = total_label is iterable ? (total_label[lang]|default(total_label|first)) : total_label %}
+{% set cta = component.cta_text %}{% set cta = cta is iterable ? (cta[lang]|default(cta|first)) : cta %}
+{% set cta_url = component.cta_url %}{% set has_cta = cta and cta_url and cta_url != '#' %}
+{% set total = 0 %}{% set regular = 0 %}{% set count = 0 %}
+{% for p in component.products %}{% if loop.index <= 4 %}
+  {% set now = p.is_on_sale ? p.sale_price : p.price %}
+  {% set total = total + (now|default(0)) %}
+  {% set regular = regular + (p.is_on_sale ? p.regular_price|default(now) : now|default(0)) %}
+  {% set count = count + 1 %}
+{% endif %}{% endfor %}
+<section component-id="{{ componentId }}" class="w-block w-block--tinted w-complete-look" data-testid="w-complete-look">
+  <div class="container">
+    <div class="w-head w-head--center">
+      {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+      {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+      {% if text %}<p class="w-lead" data-w-reveal>{{ text }}</p>{% endif %}
+    </div>
+    {% if count %}
+      <div class="w-complete-look__bundle w-complete-look__bundle--{{ count }}">
+        <ul class="w-complete-look__items" data-w-stagger>
+          {% for p in component.products %}{% if loop.index <= 4 %}
+            <li class="w-complete-look__item">
+              <a href="{{ p.url }}" class="w-complete-look__card w-zoom" data-w-reveal>
+                <span class="w-media w-complete-look__media">
+                  <img src="{{ p.image.url|default('images/wareef/look1.jpg'|asset) }}" alt="{{ p.name }}" width="600" height="800" loading="lazy">
+                </span>
+                <span class="w-complete-look__meta">
+                  <span class="w-complete-look__name">{{ p.name }}</span>
+                  <span class="w-complete-look__price">
+                    {% if p.is_on_sale %}<ins>{{ p.sale_price|money }}</ins> <del>{{ p.regular_price|money }}</del>{% else %}<ins>{{ p.price|money }}</ins>{% endif %}
+                  </span>
+                </span>
+              </a>
+              {% if loop.index < count %}<span class="w-complete-look__plus" aria-hidden="true">+</span>{% endif %}
+            </li>
+          {% endif %}{% endfor %}
+        </ul>
+        <div class="w-complete-look__summary-wrap">
+          <span class="w-complete-look__eq" aria-hidden="true">=</span>
+          <div class="w-complete-look__summary" data-w-reveal="fade">
+          <p class="w-complete-look__label">{{ total_label }}</p>
+          <p class="w-complete-look__total">
+            <strong>{{ total|money }}</strong>
+            {% if regular > total %}<del>{{ regular|money }}</del>{% endif %}
+          </p>
+          {% if has_cta %}<a href="{{ cta_url }}" class="w-btn w-complete-look__cta" data-w-magnetic>{{ cta }}</a>{% endif %}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+</section>

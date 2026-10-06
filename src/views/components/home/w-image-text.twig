@@ -1,0 +1,35 @@
+{#
+  Wareef — Alternating image & text story rows with mask reveal.
+#}
+{% set rows = component.rows|default([]) %}
+{% if rows|length %}
+<section component-id="{{ componentId }}" class="w-block w-image-text" data-testid="w-image-text">
+  <div class="container">
+    {% for row in rows %}
+      {% set k = row.kicker %}{% set k = k is iterable ? (k[language.code]|default(k|first)) : k %}
+      {% set t = row.title %}{% set t = t is iterable ? (t[language.code]|default(t|first)) : t %}
+      {% set x = row.text %}{% set x = x is iterable ? (x[language.code]|default(x|first)) : x %}
+      {% set b = row.button %}{% set b = b is iterable ? (b[language.code]|default(b|first)) : b %}
+      {% set u = row.url %}{% set u = u is iterable ? (u.url|default('')) : u %}
+      {% set ph = ['look2', 'editorial', 'look4', 'square1'] %}
+      <article class="w-image-text__row{{ loop.index is even ? ' is-flip' : '' }}">
+        <div class="w-media w-image-text__media" data-w-reveal="mask">
+          <img src="{{ row.image ?: (('images/wareef/' ~ ph[loop.index0 % 4] ~ '.jpg')|asset) }}" alt="{{ t|default(store.name)|e }}" width="1200" height="1500" loading="lazy" decoding="async">
+        </div>
+        <div class="w-image-text__copy" data-w-stagger>
+          <span class="w-image-text__num" aria-hidden="true" data-w-reveal="fade">{{ loop.index < 10 ? '0' : '' }}{{ loop.index }}</span>
+          {% if k %}<span class="w-kicker" data-w-reveal>{{ k }}</span>{% endif %}
+          {% if t %}<h2 class="w-title w-image-text__title" data-w-reveal>{{ t }}</h2>{% endif %}
+          {% if x %}<p class="w-lead w-image-text__text" data-w-reveal>{{ x }}</p>{% endif %}
+          {% if b %}
+            <div data-w-reveal>
+              {% if u and u != '#' %}<a href="{{ u }}" class="w-link">{{ b }}<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="w-image-text__arrow"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></a>
+              {% else %}<span class="w-link">{{ b }}<svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" class="w-image-text__arrow"><path d="M15 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="1.4"/></svg></span>{% endif %}
+            </div>
+          {% endif %}
+        </div>
+      </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}

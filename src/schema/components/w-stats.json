@@ -1,0 +1,108 @@
+{
+  "order": 34,
+  "title": {
+    "ar": "أرقام الدار",
+    "en": "Animated Stats"
+  },
+  "icon": "sicon-star",
+  "path": "home.w-stats",
+  "fields": [
+    {
+      "id": "n",
+      "type": "static",
+      "format": "description",
+      "value": "<div>أدخلي أرقاماً حقيقية لمتجرك فقط. أي رقم قيمته 0 لا يظهر في المتجر، ولن يظهر العنصر كاملاً حتى تُدخلي رقماً واحداً على الأقل.</div>"
+    },
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "بالأرقام",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "حِرفة تُقاس بالتفاصيل",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "الأرقام",
+      "item_label": "رقم",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 4,
+      "fields": [
+        {
+          "id": "items.number",
+          "type": "number",
+          "format": "integer",
+          "label": "الرقم",
+          "icon": "sicon-pencil-ruler",
+          "required": false,
+          "value": 0,
+          "minimum": 0,
+          "maximum": 100000000,
+          "description": "اكتبي رقماً حقيقياً؛ القيمة 0 تُخفي هذا البند"
+        },
+        {
+          "id": "items.suffix",
+          "type": "string",
+          "format": "text",
+          "label": "لاحقة (مثل + أو %)",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "value": "",
+          "placeholder": "لاحقة (مثل + أو %)"
+        },
+        {
+          "id": "items.label",
+          "type": "string",
+          "format": "text",
+          "label": "الوصف",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "الوصف"
+        }
+      ],
+      "value": [
+        {
+          "items.number": 0,
+          "items.suffix": "+",
+          "items.label": "سنوات من الحِرفة"
+        },
+        {
+          "items.number": 0,
+          "items.suffix": "+",
+          "items.label": "قطعة مصممة يدوياً"
+        },
+        {
+          "items.number": 0,
+          "items.suffix": "+",
+          "items.label": "عميلة تثق بنا"
+        },
+        {
+          "items.number": 0,
+          "items.suffix": "%",
+          "items.label": "خامات مختارة بعناية"
+        }
+      ]
+    }
+  ]
+}

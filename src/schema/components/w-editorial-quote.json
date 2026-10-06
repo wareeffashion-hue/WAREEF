@@ -1,0 +1,65 @@
+{
+  "order": 30,
+  "title": {
+    "ar": "اقتباس تحريري",
+    "en": "Editorial Quote"
+  },
+  "icon": "sicon-chat-bubbles",
+  "path": "home.w-editorial-quote",
+  "fields": [
+    {
+      "id": "quote",
+      "type": "string",
+      "format": "textarea",
+      "label": "الاقتباس",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "لا نصنع عبايات فحسب، بل نصوغ لحظات من الثقة تُرتدى كل يوم.",
+      "placeholder": "الاقتباس"
+    },
+    {
+      "id": "author",
+      "type": "string",
+      "format": "text",
+      "label": "القائل",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مؤسِّسة الدار",
+      "placeholder": "القائل"
+    },
+    {
+      "id": "signature",
+      "type": "string",
+      "format": "text",
+      "label": "توقيع صغير (اختياري)",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "وريف — منذ البداية",
+      "placeholder": "توقيع صغير (اختياري)"
+    },
+    {
+      "id": "show_image",
+      "type": "boolean",
+      "format": "switch",
+      "label": "صورة خلفية مع تعتيم",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الخلفية",
+      "description": "المقاس المناسب 2400×1200",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    }
+  ]
+}

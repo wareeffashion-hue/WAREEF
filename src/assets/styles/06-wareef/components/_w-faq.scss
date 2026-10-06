@@ -1,0 +1,44 @@
+/* Wareef FAQ accordion. */
+.w-faq {
+  &__layout { display: grid; gap: clamp(28px, 4vw, 48px); }
+  &--side &__layout { @media (min-width: 1024px) { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(48px, 7vw, 120px); } }
+  &:not(&--side) &__list { max-width: 880px; margin-inline: auto; width: 100%; }
+  &__intro {
+    .w-lead { margin: 16px 0 0; }
+    @media (min-width: 1024px) { position: sticky; top: 120px; align-self: start; }
+  }
+  &__contact { margin-top: 26px; svg { transition: transform .4s var(--w-ease-out); } &:hover svg { transform: translateX(-4px); } }
+  [dir='ltr'] &__contact svg { transform: scaleX(-1); }
+  [dir='ltr'] &__contact:hover svg { transform: scaleX(-1) translateX(-4px); }
+
+  &__list { border-top: 1px solid var(--w-line); }
+  &__item { border-bottom: 1px solid var(--w-line); }
+  &__q {
+    display: flex; align-items: center; gap: clamp(14px, 2vw, 26px); padding: clamp(18px, 2.2vw, 28px) 0; cursor: pointer; list-style: none;
+    color: var(--w-text); -webkit-tap-highlight-color: transparent;
+    &::-webkit-details-marker { display: none; }
+    &::marker { content: ''; }
+    &:focus-visible { outline: 2px solid var(--w-text); outline-offset: 4px; }
+  }
+  &__num { font-size: 12px; letter-spacing: .12em; color: var(--w-gold); font-variant-numeric: tabular-nums; flex: none; width: 22px; }
+  &__qt { flex: 1; font-size: clamp(15.5px, 1.35vw, 19px); font-weight: 600; line-height: 1.6; transition: color .3s; }
+  &__q:hover &__qt { color: var(--w-text-2); }
+  &__plus {
+    position: relative; flex: none; width: 34px; height: 34px; border: 1px solid var(--w-line); border-radius: 50%; transition: background .4s var(--w-ease), border-color .4s, transform .5s var(--w-ease-out);
+    &::before, &::after { content: ''; position: absolute; top: 50%; left: 50%; width: 12px; height: 1px; margin: -.5px 0 0 -6px; background: var(--w-text); transition: transform .5s var(--w-ease-out), background .3s; }
+    &::after { transform: rotate(90deg); }
+  }
+  &__item[open]:not(.is-closing) &__plus { background: var(--w-text); border-color: var(--w-text); transform: rotate(180deg);
+    &::before, &::after { background: var(--w-bg); }
+    &::after { transform: rotate(0deg); }
+  }
+  &__a { overflow: hidden; }
+  &__ai {
+    padding: 0 calc(22px + clamp(14px, 2vw, 26px)) clamp(20px, 2.4vw, 30px);
+    color: var(--w-text-2); font-size: 15px; line-height: 2; white-space: pre-line;
+    opacity: 0; transform: translateY(-6px); transition: opacity .45s var(--w-ease), transform .5s var(--w-ease-out);
+  }
+  &__item[open]:not(.is-closing) &__ai { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .w-faq__ai { opacity: 1; transform: none; transition: none; } }
+body.w-anim-none .w-faq__ai { opacity: 1; transform: none; transition: none; }

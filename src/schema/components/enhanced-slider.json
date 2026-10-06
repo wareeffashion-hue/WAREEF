@@ -1,0 +1,102 @@
+{
+  "key": "186b3f4f-25cf-4d3c-abca-cef7eed6f0ab",
+  "title": {
+    "en": "Enhances Animated Images",
+    "ar": " صور متحركة (محسنة)"
+  },
+  "icon": "sicon-image-carousel",
+  "path": "home.enhanced-slider",
+  "image": "https://cdn.salla.network/images/themes/raed/preview-images/images-slider-enhancement.png?v=1.1",
+  "is_default": true,
+  "fields": [
+    {
+      "type": "static",
+      "format": "description",
+      "id": "static-desc",
+      "value": "<div ><img class='w-full' src='https://cdn.salla.network/images/themes/raed/preview-images/images-slider-enhancement.png?v=1.1'></div>"
+    },
+    {
+      "type": "static",
+      "format": "description",
+      "id": "enhance-slider-note",
+      "value": "<div >هذا العنصر غير مناسب لعرض البنرات، يمكنك استخدام عنصر <strong>صور متحركة</strong> بدلاً منه لتظهر صورة البنر بشكل كامل</div>"
+    },
+    {
+      "id": "slides",
+      "type": "collection",
+      "format": "collection",
+      "required": true,
+      "minLength": 1,
+      "maxLength": 10,
+      "label": null,
+      "item_label": "صورة",
+      "value": [
+        {
+          "slides.image": "https://cdn.salla.sa/ZrBEO/MopzhoqpTkDObcKc8Q8n77AuydanfsGXdZO7iinH.jpg",
+          "slides.title": "روِّج لمنتجاتك كصور متحركة",
+          "slides.description": "اعرض المنتجات التي تود إبرازها لزوّار متجرك في هذه المساحة",
+          "slides.without_overlay": false
+        },
+        {
+          "slides.image": "https://cdn.salla.sa/ZrBEO/3gOhYSaIhaHxhH2IHWxJYDl9JHwxP6dGKiZFSq4K.jpg",
+          "slides.title": "شجّع زوار متجرك على الشراء عبر عروض خاصة",
+          "slides.description": "اعرض المنتجات التي تود إبرازها لزوّار متجرك في هذه المساحة",
+          "slides.without_overlay": false
+        }
+      ],
+      "fields": [
+        {
+          "type": "string",
+          "icon": "sicon-image",
+          "value": null,
+          "id": "slides.image",
+          "label": "صورة البنر",
+          "format": "image",
+          "required": true,
+          "placeholder": null,
+          "description": "* المقاس المناسب للصورة هو 900×600 بكسل"
+        },
+        {
+          "type": "string",
+          "icon": "sicon-format-text-alt",
+          "label": "عنوان رئيسي",
+          "multilanguage": true,
+          "id": "slides.title",
+          "value": null,
+          "required": false,
+          "format": "text",
+          "description": "يتم عرضه على الصورة بحجم بارز جداً، مع إضافة تأثير دخول للنص يضيف لمسة جمالية على معرض الصور.",
+          "placeholder": "يمكنك إضافة عنوان بارز هنا...",
+          "hide": false,
+          "minLength": 0,
+          "maxLength": 100
+        },
+        {
+          "type": "string",
+          "icon": "sicon-typography",
+          "label": "نص إضافي",
+          "multilanguage": true,
+          "id": "slides.description",
+          "value": null,
+          "description": "يتم عرضه على الصورة بحجم أصغر من العنوان الرئيسي، مع إضافة تأثير دخول للنص يضيف لمسة جمالية على معرض الصور.",
+          "format": "textarea",
+          "required": false,
+          "placeholder": "يمكنك إضافة تفاصيل إضافية هنا",
+          "minLength": 0,
+          "maxLength": 255
+        },
+        {
+          "type": "boolean",
+          "icon": "sicon-toggle-off",
+          "label": "إزالة طبقة التعتم",
+          "description": null,
+          "id": "slides.without_overlay",
+          "format": "switch",
+          "required": false,
+          "value": false,
+          "selected": false
+        }
+      ]
+    }
+  ]
+}

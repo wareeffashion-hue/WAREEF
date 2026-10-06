@@ -1,0 +1,50 @@
+{
+    "blocks": {
+        "header": {
+            "cart": "السلة"
+        },
+        "appBanner": {
+            "download_now": "حمله الان"
+        },
+        "wareef": {
+            "announcements": "إعلانات المتجر",
+            "back_to_top": "العودة للأعلى",
+            "dark_mode": "تبديل الوضع الداكن",
+            "shop_now": "تسوّقي الآن",
+            "view_all": "عرض الكل",
+            "size_guide": "دليل المقاسات",
+            "days": "يوم",
+            "hours": "ساعة",
+            "minutes": "دقيقة",
+            "seconds": "ثانية",
+            "close": "إغلاق",
+            "next": "التالي",
+            "previous": "السابق",
+            "shop_the_look": "تسوّقي الإطلالة",
+            "play": "تشغيل",
+            "pause": "إيقاف",
+            "delivery": "التوصيل",
+            "offer_ends": "ينتهي العرض خلال"
+        }
+    },
+    "pages": {
+        "cart": {
+            "cart_options": "خيارات السلة"
+        },
+        "products": {
+            "barcode": "الباركود"
+        },
+        "order": {
+            "can_edit_or_delete_your_review_within": "يمكنك تعديل أو حذف تقييمك خلال",
+            "edit_period_ended": "تم انتهاء المدة المحددة لتعديل التقييم",
+            "delete_period_ended": "تم انتهاء المدة المحددة لحذف التقييم",
+            "days_since_added": "أيام من إضافته",
+            "option_name": "الخيار",
+            "option_content": "المحتوى"
+        }
+    },
+    "common": {
+        "bank_offer_sub_title_multiple": "ادفع قيمة مشترياتك عبر أحد البطاقات البنكة التالية واحصل على الخصم المحدد",
+        "bank_offer_sub_title_single": "ادفع قيمة مشترياتك عبر أحد بطاقات بنك :bank_name واحصل على خصم بنسبة "
+    }
+}

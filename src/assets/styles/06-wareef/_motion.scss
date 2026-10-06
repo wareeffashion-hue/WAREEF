@@ -1,0 +1,28 @@
+/* Motion system. JS adds .is-in when an element enters the viewport.
+   body.w-anim-none / prefers-reduced-motion disable everything. */
+[data-w-reveal] { opacity: 0; transform: translate3d(0, 34px, 0); transition: opacity var(--w-dur) var(--w-ease-out), transform var(--w-dur) var(--w-ease-out); transition-delay: calc(var(--i, 0) * 90ms); }
+[data-w-reveal='fade'] { transform: none; }
+[data-w-reveal='scale'] { transform: scale(.94); }
+/* The wrapper stays observable; its children carry the clip (a fully clipped element never reports as visible). */
+[data-w-reveal='mask'] { opacity: 1; transform: none; }
+[data-w-reveal='mask'] > * { clip-path: inset(0 0 100% 0); transition: clip-path 1.2s var(--w-ease-out); transition-delay: calc(var(--i, 0) * 90ms); }
+[data-w-reveal='mask'].is-in > * { clip-path: inset(0 0 0 0); }
+[data-w-reveal='left'] { transform: translate3d(-40px, 0, 0); } [data-w-reveal='right'] { transform: translate3d(40px, 0, 0); }
+[data-w-reveal].is-in { opacity: 1; transform: none; }
+[data-w-split] .w-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding-bottom: .08em; }
+[data-w-split] .w-word > span { display: inline-block; transform: translateY(110%); transition: transform 1s var(--w-ease-out); transition-delay: calc(var(--wi, 0) * 60ms); }
+[data-w-split].is-in .w-word > span { transform: none; }
+body.w-anim-subtle { --w-dur: .6s; }
+body.w-anim-subtle [data-w-reveal] { transform: translate3d(0, 14px, 0); }
+body.w-anim-none [data-w-reveal], body.w-anim-none [data-w-reveal] > *, body.w-anim-none [data-w-split] .w-word > span { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  [data-w-reveal], [data-w-reveal] > *, [data-w-split] .w-word > span { opacity: 1 !important; transform: none !important; clip-path: none !important; transition: none !important; }
+  .w-marquee__track { animation: none !important; }
+}
+.w-marquee { overflow: hidden; display: flex; user-select: none; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.w-marquee__track { display: flex; flex-shrink: 0; gap: var(--w-marquee-gap, 48px); padding-inline-end: var(--w-marquee-gap, 48px); animation: w-marquee var(--w-marquee-speed, 30s) linear infinite; }
+.w-marquee:hover .w-marquee__track { animation-play-state: paused; }
+[dir='rtl'] .w-marquee__track { animation-name: w-marquee-rtl; }
+@keyframes w-marquee { to { transform: translateX(-100%); } }
+@keyframes w-marquee-rtl { to { transform: translateX(100%); } }
+body.w-anim-none .w-marquee__track { animation: none; }

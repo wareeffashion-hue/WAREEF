@@ -1,0 +1,35 @@
+/* Base layer: page, type, section scaffolding, buttons. */
+body.theme-wareef { background: var(--w-bg); color: var(--w-text); }
+body.theme-wareef .container { max-width: 1360px; }
+.w-block { padding-block: calc(var(--w-section) / 2); position: relative; }
+.w-block.w-block--flush { padding-block: 0; }
+.w-block.w-block--tinted { background: var(--w-surface-2); padding-block: var(--w-section); }
+.w-kicker { display: inline-flex; align-items: center; gap: 10px; font-size: 12px; letter-spacing: .28em; text-transform: uppercase; color: var(--w-muted); font-weight: 500; }
+.w-kicker::before { content: ''; width: 28px; height: 1px; background: currentColor; }
+.w-title { font-size: var(--w-h2); line-height: 1.2; font-weight: 700; letter-spacing: var(--w-track); margin: 10px 0 0; color: var(--w-text); }
+.w-display { font-size: var(--w-h1); line-height: 1.08; font-weight: 700; letter-spacing: -.01em; }
+.w-lead { color: var(--w-text-2); font-size: clamp(15px, 1.2vw, 18px); line-height: 1.9; max-width: 640px; }
+.w-head { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; margin-bottom: clamp(20px, 3vw, 40px); flex-wrap: wrap; }
+.w-head--center { flex-direction: column; align-items: center; text-align: center; }
+.w-link { position: relative; font-weight: 600; font-size: 14px; color: var(--w-text); display: inline-flex; gap: 8px; align-items: center; }
+.w-link::after { content: ''; position: absolute; inset-inline: 0; bottom: -4px; height: 1px; background: currentColor; transform: scaleX(.35); transform-origin: var(--w-start, right); transition: transform .5s var(--w-ease); }
+.w-link:hover::after { transform: scaleX(1); }
+[dir='ltr'] .w-link { --w-start: left; }
+.w-btn { --b: var(--w-text); --i: var(--w-bg); position: relative; overflow: hidden; isolation: isolate; display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 52px; padding: 0 30px; border: 1px solid var(--b); background: var(--b); color: var(--i); font-weight: 600; font-size: 14px; letter-spacing: .06em; border-radius: var(--w-radius-sm); transition: color .45s var(--w-ease); }
+.w-btn::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--i); transform: translateY(101%); transition: transform .55s var(--w-ease-out); }
+.w-btn:hover { color: var(--b); }
+.w-btn:hover::before { transform: translateY(0); }
+.w-btn--ghost { --b: currentColor; background: transparent; color: inherit; border-color: currentColor; }
+.w-btn--ghost::before { background: currentColor; }
+.w-btn--ghost:hover { color: var(--w-bg); }
+.w-btn--light { --b: #fff; --i: #111; }
+.w-media { position: relative; overflow: hidden; border-radius: var(--w-radius); background: var(--w-surface-2); }
+.w-media img, .w-media video { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s var(--w-ease-out); }
+.w-zoom:hover .w-media img { transform: scale(1.06); }
+.w-overlay::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,.55)); pointer-events: none; }
+.w-on-media { color: #fff; }
+.w-ratio-portrait { aspect-ratio: 3 / 4; } .w-ratio-tall { aspect-ratio: 2 / 3; } .w-ratio-square { aspect-ratio: 1; } .w-ratio-wide { aspect-ratio: 16 / 9; } .w-ratio-banner { aspect-ratio: 21 / 9; }
+.w-grain::before { content: ''; position: absolute; inset: 0; pointer-events: none; z-index: 2; opacity: .06; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); mix-blend-mode: overlay; }
+.w-scroll-x { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(var(--w-col, 260px), 1fr); gap: var(--w-gap); overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 4px; }
+.w-scroll-x::-webkit-scrollbar { display: none; }
+.w-scroll-x > * { scroll-snap-align: start; }

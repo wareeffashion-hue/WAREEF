@@ -1,0 +1,199 @@
+{
+  "order": 45,
+  "title": {
+    "ar": "انضمّي لمجتمعنا",
+    "en": "Community CTA"
+  },
+  "icon": "sicon-whatsapp",
+  "path": "home.w-community-cta",
+  "fields": [
+    {
+      "id": "theme",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "نمط الشريط",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "داكن",
+          "value": "dark"
+        },
+        {
+          "label": "فاتح",
+          "value": "light"
+        }
+      ],
+      "selected": [
+        {
+          "label": "داكن",
+          "value": "dark"
+        }
+      ]
+    },
+    {
+      "id": "channel",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "أيقونة القناة",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "واتساب",
+          "value": "whatsapp"
+        },
+        {
+          "label": "سناب شات",
+          "value": "snapchat"
+        },
+        {
+          "label": "إنستغرام",
+          "value": "instagram"
+        },
+        {
+          "label": "تنبيهات الإصدارات",
+          "value": "bell"
+        }
+      ],
+      "selected": [
+        {
+          "label": "واتساب",
+          "value": "whatsapp"
+        }
+      ]
+    },
+    {
+      "id": "image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الخلفية",
+      "description": "المقاس المناسب 1920×900",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مجتمع وريف",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "كوني أول من يعرف",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "الوصف",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "انضمّي لقناتنا لتصلك الإصدارات الجديدة قبل الجميع، مع دعوات خاصة لمجموعاتنا المحدودة.",
+      "placeholder": "الوصف"
+    },
+    {
+      "id": "button",
+      "type": "string",
+      "format": "text",
+      "label": "نص الزر",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "انضمّي الآن",
+      "placeholder": "نص الزر"
+    },
+    {
+      "id": "link",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط الزر",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "note_text",
+      "type": "string",
+      "format": "text",
+      "label": "ملاحظة صغيرة تحت الزر",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": false,
+      "required": false,
+      "value": "بدون إزعاج — رسائل قليلة ومختارة فقط",
+      "placeholder": "ملاحظة صغيرة تحت الزر"
+    },
+    {
+      "id": "show_marquee",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار النص المتحرك الزخرفي",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "marquee",
+      "type": "string",
+      "format": "text",
+      "label": "النص المتحرك",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "WAREEF · وريف · NEW DROPS ·",
+      "placeholder": "النص المتحرك"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+    "blocks": {
+        "header": {
+            "cart": "Cart"
+        },
+        "appBanner": {
+            "download_now": "download now"
+        },
+        "wareef": {
+            "announcements": "Store announcements",
+            "back_to_top": "Back to top",
+            "dark_mode": "Toggle dark mode",
+            "shop_now": "Shop now",
+            "view_all": "View all",
+            "size_guide": "Size guide",
+            "days": "Days",
+            "hours": "Hours",
+            "minutes": "Minutes",
+            "seconds": "Seconds",
+            "close": "Close",
+            "next": "Next",
+            "previous": "Previous",
+            "shop_the_look": "Shop the look",
+            "play": "Play",
+            "pause": "Pause",
+            "delivery": "Delivery",
+            "offer_ends": "Offer ends in"
+        }
+    },
+    "pages": {
+        "cart": {
+            "cart_options": "Cart Options"
+        },
+        "products": {
+            "barcode": "Barcode"
+        },
+        "order": {
+            "can_edit_or_delete_your_review_within": "You can edit or delete your review within",
+            "edit_period_ended": "The period to edit the review has ended",
+            "delete_period_ended": "The period to delete the review has ended",
+            "days_since_added": "days since it was added",
+            "option_name": "Option name",
+            "option_content": "Content"
+        }
+    },
+    "common": {
+        "bank_offer_sub_title_multiple": "Pay for your purchases via one of the following bank cards and get the specified discount",
+        "bank_offer_sub_title_single": "Pay for your purchases via :bank_name bank card and get discount"
+    }
+}

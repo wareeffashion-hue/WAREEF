@@ -1,0 +1,28 @@
+/* Wareef press / partners marquee. */
+.w-press-marquee {
+  padding-block: clamp(28px, 4vw, 56px);
+  &__title {
+    margin: 0 0 clamp(18px, 2.4vw, 28px); display: flex; align-items: center; gap: 18px;
+    font-size: 12px; letter-spacing: .32em; text-transform: uppercase; font-weight: 500; color: var(--w-muted);
+    &::before, &::after { content: ''; flex: 1; height: 1px; background: var(--w-line); }
+  }
+  &__band { border-block: 1px solid var(--w-line); padding-block: clamp(18px, 2.6vw, 30px); }
+  .w-marquee { --w-marquee-gap: clamp(28px, 4vw, 56px); }
+  .w-marquee__track { list-style: none; margin: 0; align-items: center; }
+  &__item, &__sep { flex: none; display: flex; align-items: center; }
+  &__sep { color: var(--w-gold); opacity: .7; }
+  &__mark {
+    display: flex; align-items: center; height: 48px; color: var(--w-text); opacity: .55; transition: opacity .5s var(--w-ease), filter .5s var(--w-ease), transform .5s var(--w-ease-out);
+    img { height: clamp(28px, 3vw, 42px); width: auto; max-width: 170px; object-fit: contain; filter: grayscale(1) contrast(1.1); transition: filter .5s var(--w-ease); }
+    &:hover, &:focus-visible { opacity: 1; img { filter: none; } }
+    &:focus-visible { outline: 1px solid currentColor; outline-offset: 6px; }
+  }
+  html.dark & &__mark img { filter: grayscale(1) brightness(1.8); }
+  html.dark & &__mark:hover img { filter: none; }
+  &__word { white-space: nowrap; line-height: 1; transition: color .5s var(--w-ease); }
+  &__mark:hover &__word { color: var(--w-gold); }
+  &__word--0 { font-family: 'Didot', 'Bodoni 72', Georgia, serif; font-size: clamp(22px, 2.2vw, 30px); font-style: italic; font-weight: 400; letter-spacing: .01em; }
+  &__word--1 { font-size: clamp(14px, 1.3vw, 17px); font-weight: 600; letter-spacing: .38em; text-transform: uppercase; }
+  &__word--2 { font-family: Georgia, 'Times New Roman', serif; font-size: clamp(20px, 2vw, 27px); font-weight: 700; letter-spacing: -.01em; }
+  &__word--3 { font-size: clamp(17px, 1.6vw, 22px); font-weight: 300; letter-spacing: .14em; text-transform: uppercase; }
+}

@@ -1,0 +1,26 @@
+/* Wareef — products tabs */
+.w-products-tabs {
+  &__bar { display: flex; margin-bottom: clamp(24px, 3vw, 44px); }
+  &__list {
+    position: relative; display: flex; gap: clamp(20px, 3vw, 48px); margin-inline: auto; max-width: 100%;
+    overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--w-line);
+    &::-webkit-scrollbar { display: none; }
+  }
+  &__tab {
+    position: relative; padding: 12px 2px 14px; white-space: nowrap; font-size: 15px; color: var(--w-muted);
+    letter-spacing: var(--w-track); transition: color .35s var(--w-ease);
+    &:hover { color: var(--w-text); }
+    &.is-active { color: var(--w-text); font-weight: 600; }
+    &:focus-visible { outline: 2px solid var(--w-text); outline-offset: -2px; }
+  }
+  &__ink {
+    position: absolute; bottom: 0; left: 0; height: 2px; width: var(--w, 0); background: var(--w-text);
+    transform: translateX(var(--l, 0)); transition: transform .55s var(--w-ease-out), width .55s var(--w-ease-out);
+    pointer-events: none;
+  }
+  &__panel:not([hidden]) { animation: w-products-tabs-in .7s var(--w-ease-out) both; }
+  &__more { margin-top: clamp(28px, 3vw, 44px); text-align: center; }
+}
+@keyframes w-products-tabs-in { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+body.w-anim-none .w-products-tabs__panel { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .w-products-tabs__panel { animation: none !important; } .w-products-tabs__ink { transition: none; } }

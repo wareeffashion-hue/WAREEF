@@ -1,0 +1,30 @@
+{#
+  Wareef — Editorial statement: display-type quote with word reveal, author line, optional parallax background.
+#}
+{% set quote = component.quote %}{% set quote = quote is iterable ? (quote[language.code]|default(quote|first)) : quote %}
+{% set author = component.author %}{% set author = author is iterable ? (author[language.code]|default(author|first)) : author %}
+{% set sig = component.signature %}{% set sig = sig is iterable ? (sig[language.code]|default(sig|first)) : sig %}
+{% set has_img = component.show_image is not same as(false) %}
+{% if quote %}
+<section component-id="{{ componentId }}" class="w-block w-editorial-quote{{ has_img ? ' w-editorial-quote--image w-grain' : ' w-block--tinted' }}" data-testid="w-editorial-quote">
+  {% if has_img %}
+    <div class="w-editorial-quote__bg" aria-hidden="true">
+      <div class="w-editorial-quote__par" data-w-parallax="0.18">
+        <img src="{{ component.image ?: ('images/wareef/editorial.jpg'|asset) }}" alt="" width="2400" height="1200" loading="lazy" decoding="async">
+      </div>
+    </div>
+  {% endif %}
+  <div class="container w-editorial-quote__inner{{ has_img ? ' w-on-media' : '' }}">
+    <figure class="w-editorial-quote__fig">
+      <span class="w-editorial-quote__mark" aria-hidden="true" data-w-reveal="fade">”</span>
+      <blockquote class="w-editorial-quote__quote"><p data-w-split>{{ quote }}</p></blockquote>
+      {% if author or sig %}
+        <figcaption class="w-editorial-quote__cap" data-w-reveal style="--i: 4">
+          {% if author %}<span class="w-editorial-quote__author">{{ author }}</span>{% endif %}
+          {% if sig %}<span class="w-editorial-quote__sig">{{ sig }}</span>{% endif %}
+        </figcaption>
+      {% endif %}
+    </figure>
+  </div>
+</section>
+{% endif %}

@@ -1,0 +1,43 @@
+{# Wareef — asymmetric editorial grid: one large feature tile beside a grid of selected products. #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[lang]|default(title|first)) : title %}
+{% set fk = component.feature_kicker %}{% set fk = fk is iterable ? (fk[lang]|default(fk|first)) : fk %}
+{% set ft = component.feature_title %}{% set ft = ft is iterable ? (ft[lang]|default(ft|first)) : ft %}
+{% set fl = component.feature_link_text %}{% set fl = fl is iterable ? (fl[lang]|default(fl|first)) : fl %}
+{% set furl = component.feature_url %}{% set has_url = furl and furl != '#' %}
+{% set layout = component.layout %}{% set layout = layout is iterable ? (layout[0].value|default(layout.value|default('start'))) : layout %}
+{% set ids = '' %}{% for p in component.products %}{% set ids = ids ~ (loop.first ? '' : ',') ~ p.id %}{% endfor %}
+{% set count = component.products|length > 4 ? 6 : 4 %}
+<section component-id="{{ componentId }}" class="w-block w-products-editorial{{ layout == 'end' ? ' w-products-editorial--end' : '' }}" data-testid="w-products-editorial">
+  <div class="container">
+    {% if kicker or title %}
+      <div class="w-head">
+        <div>
+          {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+          {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+        </div>
+      </div>
+    {% endif %}
+    <div class="w-products-editorial__grid w-products-editorial__grid--{{ count }}">
+      {% if has_url %}<a href="{{ furl }}" class="w-products-editorial__feature w-zoom" data-w-reveal="fade">{% else %}<div class="w-products-editorial__feature w-zoom" data-w-reveal="fade">{% endif %}
+        <div class="w-media w-overlay w-products-editorial__media">
+          <img src="{{ component.image ?: ('images/wareef/look3.jpg'|asset) }}" alt="{{ ft|default(title) }}" width="1000" height="1400" loading="lazy">
+        </div>
+        <div class="w-products-editorial__caption w-on-media">
+          {% if fk %}<span class="w-products-editorial__fk">{{ fk }}</span>{% endif %}
+          {% if ft %}<h3 class="w-products-editorial__ft">{{ ft }}</h3>{% endif %}
+          {% if fl and has_url %}<span class="w-link w-products-editorial__fl">{{ fl }}
+            <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true"><path d="M17 5H1m0 0 4-4M1 5l4 4" stroke="currentColor" stroke-width="1.2"/></svg></span>{% endif %}
+        </div>
+      {% if has_url %}</a>{% else %}</div>{% endif %}
+      <div class="w-products-editorial__products" data-w-reveal>
+        {% if ids %}
+          <salla-products-list source="selected" source-value="[{{ ids }}]" limit="{{ count }}"></salla-products-list>
+        {% else %}
+          <salla-products-list source="latest" limit="{{ count }}"></salla-products-list>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>

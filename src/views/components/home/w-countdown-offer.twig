@@ -1,0 +1,59 @@
+{# Wareef — limited-time offer band with flip countdown, CTA and an offers slider. #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[lang]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[lang]|default(text|first)) : text %}
+{% set badge = component.badge %}{% set badge = badge is iterable ? (badge[lang]|default(badge|first)) : badge %}
+{% set cta = component.cta_text %}{% set cta = cta is iterable ? (cta[lang]|default(cta|first)) : cta %}
+{% set cta_url = component.cta_url %}{% set has_cta = cta and cta_url and cta_url != '#' %}
+{% set style = component.style %}{% set style = style is iterable ? (style[0].value|default(style.value|default('dark'))) : style %}
+{% set source = component.source %}{% set source = source is iterable ? (source[0].value|default(source.value|default('offers'))) : source %}
+{% set show_products = component.show_products is same as(false) ? false : true %}
+{% set ids = '' %}{% for p in component.products %}{% set ids = ids ~ (loop.first ? '' : ',') ~ p.id %}{% endfor %}
+{% if source == 'selected' and not ids %}{% set source = 'offers' %}{% endif %}
+{# Normalise the date: accept "2026-12-31 23:59" or "2026-12-31T23:59", default to Saudi time when no offset is given. #}
+{% set end = component.end_date %}{% set end = end is iterable ? (end[lang]|default(end|first)) : end %}
+{% set end = end|default('')|trim|replace({' ': 'T'}) %}
+{% if end|length == 16 %}{% set end = end ~ ':00+03:00' %}{% elseif end|length == 19 %}{% set end = end ~ '+03:00' %}{% elseif end|length == 10 %}{% set end = end ~ 'T23:59:59+03:00' %}{% endif %}
+{% set has_image = component.image ? true : false %}
+<section component-id="{{ componentId }}" class="w-block w-countdown-offer w-countdown-offer--{{ style == 'light' and not has_image ? 'light' : 'dark' }}" data-testid="w-countdown-offer" data-w="w-countdown-offer">
+  <div class="w-countdown-offer__band w-grain">
+    {% if has_image %}
+      <div class="w-countdown-offer__bg" aria-hidden="true"><div data-w-parallax="0.08"><img src="{{ component.image }}" alt="" width="1920" height="800" loading="lazy"></div></div>
+    {% endif %}
+    <div class="container w-countdown-offer__inner">
+      <div class="w-countdown-offer__copy">
+        <div class="w-countdown-offer__top" data-w-reveal>
+          {% if badge %}<span class="w-countdown-offer__badge">{{ badge }}</span>{% endif %}
+          {% if kicker %}<span class="w-kicker">{{ kicker }}</span>{% endif %}
+        </div>
+        {% if title %}<h2 class="w-countdown-offer__title" data-w-split>{{ title }}</h2>{% endif %}
+        {% if text %}<p class="w-countdown-offer__text" data-w-reveal>{{ text }}</p>{% endif %}
+        {% if has_cta %}<a href="{{ cta_url }}" class="w-btn w-countdown-offer__cta" data-w-magnetic data-w-reveal>{{ cta }}</a>{% endif %}
+      </div>
+      {% if end %}
+        <div class="w-countdown-offer__timer" data-w-countdown="{{ end }}" data-w-reveal="fade" role="timer" aria-label="{{ trans('blocks.wareef.offer_ends') }}">
+          <p class="w-countdown-offer__ends">{{ trans('blocks.wareef.offer_ends') }}</p>
+          <div class="w-countdown-offer__units">
+            {% for u in [['d', 'days'], ['h', 'hours'], ['m', 'minutes'], ['s', 'seconds']] %}
+              <div class="w-countdown-offer__unit">
+                <b class="w-countdown-offer__digit" data-w-unit="{{ u[0] }}">00</b>
+                <span class="w-countdown-offer__label">{{ trans('blocks.wareef.' ~ u[1]) }}</span>
+              </div>
+              {% if not loop.last %}<span class="w-countdown-offer__colon" aria-hidden="true">:</span>{% endif %}
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  {% if show_products %}
+    <div class="container w-countdown-offer__products" data-w-reveal>
+      <salla-products-slider
+        source="{{ source }}"
+        {% if source == 'selected' %}source-value="[{{ ids }}]"{% endif %}
+        slider-id="w-countdown-offer-{{ position }}"
+        block-title=" "></salla-products-slider>
+    </div>
+  {% endif %}
+</section>

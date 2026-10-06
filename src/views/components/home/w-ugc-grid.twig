@@ -1,0 +1,41 @@
+{# Wareef UGC grid: "share your look" social wall with Instagram header #}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[language.code]|default(text|first)) : text %}
+{% set btn = component.button %}{% set btn = btn is iterable ? (btn[language.code]|default(btn|first)) : btn %}
+{% set ig = component.link is iterable ? '' : component.link %}
+{% set fallbacks = ['look1', 'square1', 'look2', 'editorial', 'look3', 'hero', 'look4', 'banner'] %}
+{% set igIcon %}<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="4.2" fill="none" stroke="currentColor" stroke-width="1.5"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></svg>{% endset %}
+<section component-id="{{ componentId }}" class="w-block w-ugc-grid" data-testid="w-ugc-grid">
+  <div class="container">
+    <header class="w-ugc-grid__head">
+      <div class="w-ugc-grid__intro">
+        {% if kicker %}<span class="w-kicker" data-w-reveal="fade">{{ kicker }}</span>{% endif %}
+        {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+        {% if text %}<p class="w-lead" data-w-reveal>{{ text }}</p>{% endif %}
+      </div>
+      <div class="w-ugc-grid__aside" data-w-reveal>
+        {% if component.hashtag %}<span class="w-ugc-grid__tag" dir="auto">{{ component.hashtag }}</span>{% endif %}
+        {% if ig and ig != '#' %}
+          <a class="w-btn w-btn--ghost w-ugc-grid__follow" href="{{ ig }}" target="_blank" rel="noopener" data-w-magnetic>{{ igIcon }}<span>{{ btn ?: 'Instagram' }}</span></a>
+        {% endif %}
+      </div>
+    </header>
+    <ul class="w-ugc-grid__grid" role="list" data-w-stagger>
+      {% for item in component.items %}
+        {% set href = item.link is iterable ? '' : item.link %}
+        {% set handle = item.handle is iterable ? (item.handle[language.code]|default(item.handle|first)) : item.handle %}
+        {% set src = item.image ?: (('images/wareef/' ~ fallbacks[loop.index0 % 8] ~ '.jpg')|asset) %}
+        <li class="w-ugc-grid__cell" data-w-reveal="fade">
+          {% if href and href != '#' %}<a class="w-ugc-grid__tile" href="{{ href }}" target="_blank" rel="noopener" aria-label="{{ handle ?: 'Instagram' }}">{% else %}<div class="w-ugc-grid__tile">{% endif %}
+            <span class="w-media"><img src="{{ src }}" alt="{{ handle ? (handle ~ ' — ') : '' }}{{ title }}" width="540" height="675" loading="lazy"></span>
+            <span class="w-ugc-grid__over" aria-hidden="true">
+              <span class="w-ugc-grid__ico">{{ igIcon }}</span>
+              {% if handle %}<span class="w-ugc-grid__handle" dir="ltr">{{ handle }}</span>{% endif %}
+            </span>
+          {% if href and href != '#' %}</a>{% else %}</div>{% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

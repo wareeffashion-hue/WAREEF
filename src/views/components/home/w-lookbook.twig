@@ -1,0 +1,74 @@
+{# Wareef — shoppable lookbook: image with hotspots that open product cards (popover on desktop, bottom sheet on mobile). #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[lang]|default(title|first)) : title %}
+{% set text = component.text %}{% set text = text is iterable ? (text[lang]|default(text|first)) : text %}
+{% set layout = component.layout %}{% set layout = layout is iterable ? (layout[0].value|default(layout.value|default('start'))) : layout %}
+{% set show_index = component.show_index is same as(false) ? false : true %}
+{% set has_side = kicker or title or text or show_index %}
+{% set uid = 'w-lb-' ~ position %}
+<section component-id="{{ componentId }}" class="w-block w-lookbook{{ layout == 'end' ? ' w-lookbook--end' : '' }}{{ has_side ? '' : ' w-lookbook--solo' }}" data-testid="w-lookbook" data-w="w-lookbook">
+  <div class="container">
+    <div class="w-lookbook__grid">
+      <div class="w-lookbook__stage">
+        <div class="w-media w-lookbook__media" data-w-reveal="fade">
+          <img src="{{ component.image ?: ('images/wareef/editorial.jpg'|asset) }}" alt="{{ title|default(store.name) }}" width="1200" height="1500" loading="lazy">
+        </div>
+        {% for spot in component.spots %}
+          {% set name = spot.name %}{% set name = name is iterable ? (name[lang]|default(name|first)) : name %}
+          {% set price = spot.price %}{% set price = price is iterable ? (price[lang]|default(price|first)) : price %}
+          {% set url = spot.url %}{% set has_url = url and url != '#' %}
+          {% set x = spot.x is same as(null) or spot.x is same as('') ? 50 : spot.x %}
+          {% set y = spot.y is same as(null) or spot.y is same as('') ? 50 : spot.y %}
+          <button type="button" class="w-lookbook__dot" style="--x: {{ x }}%; --y: {{ y }}%; --i: {{ loop.index0 }}" data-spot="{{ loop.index0 }}"
+                  aria-expanded="false" aria-controls="{{ uid }}-{{ loop.index0 }}" aria-label="{{ name|default(loop.index) }}">
+            <span class="w-lookbook__pulse" aria-hidden="true"></span>
+            <span class="w-lookbook__num" aria-hidden="true">{{ loop.index }}</span>
+          </button>
+          <div class="w-lookbook__card" id="{{ uid }}-{{ loop.index0 }}" role="dialog" aria-label="{{ name }}" data-card="{{ loop.index0 }}" hidden>
+            {% if spot.image %}
+              <div class="w-lookbook__thumb"><img src="{{ spot.image }}" alt="{{ name }}" width="120" height="160" loading="lazy"></div>
+            {% endif %}
+            <div class="w-lookbook__info">
+              <span class="w-lookbook__idx">{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</span>
+              <p class="w-lookbook__name">{{ name }}</p>
+              {% if price %}<p class="w-lookbook__price">{{ price }}</p>{% endif %}
+              {% if has_url %}
+                <a class="w-lookbook__cta" href="{{ url }}">{{ trans('blocks.wareef.shop_now') }}
+                  <svg width="18" height="10" viewBox="0 0 18 10" fill="none" aria-hidden="true"><path d="M17 5H1m0 0 4-4M1 5l4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+                </a>
+              {% endif %}
+            </div>
+            <button type="button" class="w-lookbook__close" data-close aria-label="{{ trans('blocks.wareef.close') }}">
+              <svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true"><path d="M1 1l10 10M11 1 1 11" stroke="currentColor" stroke-width="1.3"/></svg>
+            </button>
+          </div>
+        {% endfor %}
+      </div>
+
+      {% if has_side %}
+        <div class="w-lookbook__side">
+          {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+          {% if title %}<h2 class="w-title w-lookbook__title" data-w-split>{{ title }}</h2>{% endif %}
+          {% if text %}<p class="w-lead w-lookbook__text" data-w-reveal>{{ text }}</p>{% endif %}
+          {% if show_index and component.spots|length %}
+            <ol class="w-lookbook__index" data-w-stagger>
+              {% for spot in component.spots %}
+                {% set name = spot.name %}{% set name = name is iterable ? (name[lang]|default(name|first)) : name %}
+                {% set price = spot.price %}{% set price = price is iterable ? (price[lang]|default(price|first)) : price %}
+                <li data-w-reveal>
+                  <button type="button" class="w-lookbook__row" data-spot-link="{{ loop.index0 }}" aria-controls="{{ uid }}-{{ loop.index0 }}">
+                    <span class="w-lookbook__row-num">{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</span>
+                    <span class="w-lookbook__row-name">{{ name }}</span>
+                    {% if price %}<span class="w-lookbook__row-price">{{ price }}</span>{% endif %}
+                  </button>
+                </li>
+              {% endfor %}
+            </ol>
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  <div class="w-lookbook__scrim" data-close hidden></div>
+</section>

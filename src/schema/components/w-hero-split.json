@@ -1,0 +1,161 @@
+{
+  "order": 3,
+  "title": {
+    "ar": "واجهة مقسومة",
+    "en": "Split Hero"
+  },
+  "icon": "sicon-layout-grid",
+  "path": "home.w-hero-split",
+  "fields": [
+    {
+      "id": "image",
+      "type": "string",
+      "format": "image",
+      "label": "الصورة الرئيسية",
+      "description": "المقاس المناسب 1200×1500",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "image2",
+      "type": "string",
+      "format": "image",
+      "label": "الصورة العائمة الصغيرة",
+      "description": "المقاس المناسب 800×1000",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "دار وريف",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تفاصيل صغيرة، أثرٌ لا يُنسى",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "النص",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "نختار أقمشتنا بعناية، ونخيط كل قطعة لتمنحكِ إحساساً بالخفة والوقار في آنٍ واحد. تصاميم خالدة تتجاوز المواسم.",
+      "placeholder": "النص"
+    },
+    {
+      "id": "button",
+      "type": "string",
+      "format": "text",
+      "label": "نص الزر",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تسوّقي المجموعة",
+      "placeholder": "نص الزر"
+    },
+    {
+      "id": "url",
+      "type": "items",
+      "format": "variable-list",
+      "label": "الرابط",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "products",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "المنتج المميز",
+      "icon": "sicon-keyboard_arrow_down",
+      "source": "products",
+      "multichoice": true,
+      "searchable": true,
+      "required": false,
+      "minLength": 1,
+      "maxLength": 1,
+      "selected": [],
+      "options": [],
+      "value": []
+    },
+    {
+      "id": "image_side",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "موضع الصورة",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "في البداية",
+          "value": "start"
+        },
+        {
+          "label": "في النهاية",
+          "value": "end"
+        }
+      ],
+      "selected": [
+        {
+          "label": "في البداية",
+          "value": "start"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+/* Wareef — editorial products grid */
+.w-products-editorial {
+  &__grid { display: grid; gap: var(--w-gap); }
+  @media (min-width: 1024px) {
+    &__grid { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); align-items: stretch; }
+    &__grid--6 { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+    &--end &__feature { order: 2; }
+  }
+  &__feature { position: relative; display: block; overflow: hidden; border-radius: var(--w-radius); color: #fff; min-height: 420px; }
+  &__media { aspect-ratio: 4 / 5; }
+  @media (min-width: 1024px) {
+    &__feature { min-height: 560px; }
+    &__media { position: absolute; inset: 0; aspect-ratio: auto; height: 100%; }
+  }
+  &__caption {
+    position: absolute; inset-inline: 0; bottom: 0; z-index: 2; padding: clamp(22px, 3vw, 44px);
+    display: flex; flex-direction: column; align-items: flex-start; gap: 8px; transition: transform .7s var(--w-ease-out);
+  }
+  &__feature:hover &__caption { transform: translateY(-8px); }
+  &__fk { font-size: 12px; letter-spacing: .26em; opacity: .85; }
+  &__ft { font-size: clamp(26px, 2.8vw, 42px); font-weight: 700; line-height: 1.2; margin: 0 0 10px; color: #fff; }
+  &__fl { color: #fff; svg { transition: transform .4s var(--w-ease); } [dir='ltr'] & svg { transform: scaleX(-1); } }
+  &__products {
+    min-width: 0;
+    .s-products-list-wrapper, salla-products-list > div { display: grid !important; grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: clamp(14px, 2vw, 28px) !important; }
+  }
+  @media (min-width: 768px) {
+    &__grid--6 &__products {
+      .s-products-list-wrapper, salla-products-list > div { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; }
+    }
+  }
+}

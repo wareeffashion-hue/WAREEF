@@ -1,0 +1,26 @@
+.w-brand-story {
+  --w-bs-p: 0;
+  &__head .w-lead { margin-inline: auto; }
+  &__list { position: relative; list-style: none; margin: 0; padding: 0; display: grid; gap: 40px; padding-inline-start: 36px; }
+  &__track { position: absolute; top: 6px; bottom: 6px; inset-inline-start: 7px; width: 1px; background: var(--w-line); }
+  &__fill { position: absolute; inset: 0; background: var(--w-gold); transform-origin: top; transform: scaleY(var(--w-bs-p)); }
+  &__item { position: relative; }
+  &__dot {
+    position: absolute; top: 6px; inset-inline-start: -36px; width: 15px; height: 15px; border-radius: 999px;
+    background: var(--w-bg); border: 1px solid var(--w-line); transition: border-color .5s var(--w-ease), background .5s var(--w-ease), box-shadow .6s var(--w-ease);
+  }
+  &__item.is-on &__dot { border-color: var(--w-gold); background: var(--w-gold); box-shadow: 0 0 0 6px color-mix(in srgb, var(--w-gold) 18%, transparent); }
+  &__year { display: block; font-size: clamp(26px, 2.6vw, 40px); line-height: 1.1; font-weight: 700; color: var(--w-gold); letter-spacing: -.01em; }
+  &__img { margin-top: 18px; max-width: 280px; }
+  &__title { font-size: var(--w-h3); font-weight: 700; color: var(--w-text); margin: 14px 0 0; }
+  &__text { color: var(--w-text-2); font-size: 15px; line-height: 1.9; margin-top: 8px; max-width: 360px; }
+  @media (min-width: 768px) {
+    &__list { grid-template-columns: repeat(var(--w-bs-n), minmax(0, 1fr)); gap: clamp(24px, 3vw, 48px); padding-inline-start: 0; padding-top: 56px; }
+    &__track { top: 7px; bottom: auto; inset-inline: 0; width: auto; height: 1px; }
+    &__fill { transform-origin: var(--w-bs-o, right); transform: scaleX(var(--w-bs-p)); }
+    &__dot { top: -56px; inset-inline-start: 0; }
+    &__item::before { content: ''; position: absolute; top: -41px; inset-inline-start: 7px; width: 1px; height: 28px; background: var(--w-line); transition: background .5s; }
+    &__item.is-on::before { background: var(--w-gold); }
+  }
+}
+[dir='ltr'] .w-brand-story { --w-bs-o: left; }

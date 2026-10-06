@@ -1,0 +1,125 @@
+{
+  "order": 18,
+  "title": {
+    "ar": "أكملي إطلالتك",
+    "en": "Complete the look"
+  },
+  "icon": "sicon-layout-grid",
+  "path": "home.w-complete-look",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تنسيق مقترح",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "أكملي إطلالتك",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "النص",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "قطع اختارتها منسّقة الأزياء لتُلبس معاً، بتناغم في اللون والخامة.",
+      "placeholder": "النص"
+    },
+    {
+      "id": "products",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "قطع الإطلالة (من ٢ إلى ٤)",
+      "icon": "sicon-keyboard_arrow_down",
+      "source": "products",
+      "multichoice": true,
+      "searchable": true,
+      "required": false,
+      "minLength": 2,
+      "maxLength": 4,
+      "selected": [],
+      "options": [],
+      "value": []
+    },
+    {
+      "id": "total_label",
+      "type": "string",
+      "format": "text",
+      "label": "نص إجمالي السعر",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "سعر الإطلالة كاملة",
+      "placeholder": "نص إجمالي السعر"
+    },
+    {
+      "id": "cta_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص الزر",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تسوّقي الإطلالة",
+      "placeholder": "نص الزر"
+    },
+    {
+      "id": "cta_url",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط الزر",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    }
+  ]
+}

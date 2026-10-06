@@ -1,0 +1,106 @@
+/* Wareef — shoppable lookbook */
+.w-lookbook {
+  &__grid { display: grid; gap: clamp(28px, 5vw, 88px); align-items: center; }
+  &__stage { position: relative; }
+  &__media { aspect-ratio: 4 / 5; }
+  &--solo &__stage { max-width: 980px; margin-inline: auto; width: 100%; }
+  &--solo &__media { aspect-ratio: 16 / 11; }
+  @media (min-width: 1024px) {
+    &__grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); }
+    &--end &__stage { order: 2; }
+    &--solo &__grid { grid-template-columns: minmax(0, 1fr); }
+  }
+
+  /* Hotspot markers — positioned on the photo itself, so physical left/top (independent of RTL). */
+  &__dot {
+    position: absolute; left: var(--x); top: var(--y); z-index: 3;
+    width: 34px; height: 34px; margin: -17px 0 0 -17px; border-radius: 50%;
+    display: grid; place-items: center; cursor: pointer;
+    background: rgba(255, 255, 255, .94); color: #111; box-shadow: 0 8px 24px -6px rgba(0, 0, 0, .35);
+    transform: scale(0); opacity: 0;
+    transition: transform .7s var(--w-ease-out), opacity .5s, background-color .35s, color .35s;
+    transition-delay: calc(var(--i, 0) * 120ms + .5s), calc(var(--i, 0) * 120ms + .5s), 0s, 0s;
+    &:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+    &:hover, &.is-hint, &[aria-expanded='true'] { background: #111; color: #fff; transform: scale(1.12); transition-delay: 0s; }
+  }
+  &.is-live &__dot { transform: scale(1); opacity: 1; }
+  &.is-live &__dot:hover, &.is-live &__dot.is-hint, &.is-live &__dot[aria-expanded='true'] { transform: scale(1.12); }
+  &__num { font-size: 11px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; position: relative; }
+  &__pulse {
+    position: absolute; inset: 0; border-radius: 50%; border: 1px solid rgba(255, 255, 255, .9); pointer-events: none;
+    animation: w-lookbook-pulse 2.6s var(--w-ease-out) infinite; animation-delay: calc(var(--i, 0) * .45s);
+  }
+  &__dot[aria-expanded='true'] &__pulse { animation: none; opacity: 0; }
+
+  /* Product card popover */
+  &__card {
+    position: absolute; z-index: 6; top: 0; left: 0; width: 272px;
+    display: flex; gap: 14px; align-items: stretch; padding: 14px;
+    background: var(--w-surface); color: var(--w-text); border: 1px solid var(--w-line); border-radius: var(--w-radius);
+    box-shadow: 0 30px 60px -24px rgba(0, 0, 0, .4);
+    opacity: 0; transform: translateY(10px) scale(.98); transition: opacity .35s var(--w-ease), transform .45s var(--w-ease-out);
+    &.is-open { opacity: 1; transform: none; }
+    &[hidden] { display: none; }
+  }
+  &__thumb { flex: 0 0 76px; aspect-ratio: 3 / 4; overflow: hidden; border-radius: var(--w-radius-sm); background: var(--w-surface-2);
+    img { width: 100%; height: 100%; object-fit: cover; display: block; } }
+  &__info { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; padding-left: 22px; [dir='ltr'] & { padding-left: 0; padding-right: 22px; } }
+  &__idx { font-size: 11px; letter-spacing: .2em; color: var(--w-gold); font-variant-numeric: tabular-nums; }
+  &__name { font-size: 15px; font-weight: 600; line-height: 1.5; margin: 0; }
+  &__price { font-size: 14px; color: var(--w-text-2); margin: 0; }
+  &__cta {
+    margin-top: auto; padding-top: 10px; display: inline-flex; align-items: center; gap: 10px; align-self: flex-start;
+    font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--w-text); border-bottom: 1px solid currentColor; padding-bottom: 3px;
+    svg { transition: transform .4s var(--w-ease); }
+    &:hover svg { transform: translateX(-4px); }
+    [dir='ltr'] & svg { transform: scaleX(-1); }
+    [dir='ltr'] &:hover svg { transform: scaleX(-1) translateX(-4px); }
+  }
+  &__close {
+    position: absolute; top: 8px; left: 8px; width: 28px; height: 28px; border-radius: 50%;
+    display: grid; place-items: center; color: var(--w-muted); transition: color .3s, background-color .3s;
+    &:hover { color: var(--w-text); background: var(--w-surface-2); }
+    &:focus-visible { outline: 2px solid var(--w-text); outline-offset: 1px; }
+    [dir='ltr'] & { left: auto; right: 8px; }
+  }
+
+  /* Mobile bottom sheet */
+  &__scrim {
+    position: fixed; inset: 0; z-index: 998; background: rgba(0, 0, 0, .45); opacity: 0; transition: opacity .35s;
+    &.is-open { opacity: 1; }
+    &[hidden] { display: none; }
+  }
+  &__card.is-sheet {
+    position: fixed; inset: auto 0 0 0 !important; width: auto; z-index: 999;
+    padding: 30px 20px calc(22px + env(safe-area-inset-bottom)); gap: 16px;
+    border: 0; border-radius: var(--w-radius) var(--w-radius) 0 0; transform: translateY(100%);
+    box-shadow: 0 -20px 50px -20px rgba(0, 0, 0, .4);
+    &::before { content: ''; position: absolute; top: 10px; left: 50%; width: 40px; height: 4px; margin-left: -20px; border-radius: 4px; background: var(--w-line); }
+    &.is-open { transform: none; }
+    .w-lookbook__thumb { flex-basis: 96px; }
+    .w-lookbook__name { font-size: 17px; }
+    .w-lookbook__close { top: 14px; left: 14px; }
+    [dir='ltr'] & .w-lookbook__close { left: auto; right: 14px; }
+  }
+
+  /* Side copy + numbered index of pieces */
+  &__side { max-width: 520px; }
+  &--end &__side { justify-self: end; }
+  &__text { margin-top: 18px; }
+  &__index { list-style: none; margin: clamp(24px, 3vw, 40px) 0 0; padding: 0; border-top: 1px solid var(--w-line); }
+  &__row {
+    width: 100%; display: flex; align-items: baseline; gap: 16px; padding: 16px 0; text-align: start;
+    border-bottom: 1px solid var(--w-line); color: var(--w-text); transition: padding .5s var(--w-ease), color .3s;
+    &:hover, &.is-active { padding-right: 12px; }
+    [dir='ltr'] &:hover, [dir='ltr'] &.is-active { padding-right: 0; padding-left: 12px; }
+    &:focus-visible { outline: 2px solid var(--w-text); outline-offset: 2px; }
+  }
+  &__row-num { font-size: 12px; letter-spacing: .14em; color: var(--w-gold); font-variant-numeric: tabular-nums; }
+  &__row-name { flex: 1; font-size: 15px; font-weight: 500; }
+  &__row-price { font-size: 14px; color: var(--w-muted); white-space: nowrap; }
+}
+@keyframes w-lookbook-pulse { 0% { transform: scale(1); opacity: .9; } 70%, 100% { transform: scale(2.3); opacity: 0; } }
+body.w-anim-none .w-lookbook__pulse { animation: none; }
+@media (prefers-reduced-motion: reduce) { .w-lookbook__pulse { animation: none; } .w-lookbook__dot { transition: none; } }
+.w-lookbook__media[data-w-reveal] img { transform: scale(1.08); transition: transform 2s var(--w-ease-out); }
+.w-lookbook__media[data-w-reveal].is-in img { transform: none; }

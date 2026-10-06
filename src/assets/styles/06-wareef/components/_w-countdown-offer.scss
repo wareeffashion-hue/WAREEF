@@ -1,0 +1,53 @@
+/* Wareef — countdown offer band */
+.w-countdown-offer {
+  &__band {
+    --cd-ink: #fff; --cd-face: rgba(255, 255, 255, .08); --cd-face-2: rgba(255, 255, 255, .03); --cd-edge: rgba(255, 255, 255, .16); --cd-seam: rgba(0, 0, 0, .45);
+    position: relative; overflow: hidden; isolation: isolate; background: #111; color: var(--cd-ink);
+  }
+  html.dark &--dark &__band { background: var(--w-surface); box-shadow: inset 0 0 0 1px var(--w-line); }
+  &--light &__band {
+    --cd-ink: var(--w-text); --cd-face: var(--w-surface); --cd-face-2: var(--w-bg); --cd-edge: var(--w-line); --cd-seam: var(--w-line);
+    background: var(--w-surface-2);
+  }
+  &__bg {
+    position: absolute; inset: -12% 0; z-index: -1;
+    > div, img { width: 100%; height: 100%; }
+    img { object-fit: cover; display: block; }
+    &::after { content: ''; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .7)); }
+  }
+  [dir='ltr'] &__bg::after { background: linear-gradient(270deg, rgba(0, 0, 0, .35), rgba(0, 0, 0, .7)); }
+  &__inner { position: relative; z-index: 3; display: grid; gap: clamp(32px, 5vw, 72px); align-items: center; padding-block: clamp(56px, 8vw, 116px); }
+  @media (min-width: 1024px) { &__inner { grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); } }
+  &__top { display: flex; align-items: center; flex-wrap: wrap; gap: 12px 18px; .w-kicker { color: inherit; opacity: .75; } }
+  &__badge {
+    display: inline-flex; align-items: center; padding: 8px 16px; background: var(--w-gold); color: #fff;
+    font-size: 13px; font-weight: 700; letter-spacing: .08em; border-radius: var(--w-radius-sm);
+  }
+  &__title { font-size: var(--w-h1); line-height: 1.1; font-weight: 700; margin: 18px 0 0; color: inherit; letter-spacing: -.01em; }
+  &__text { margin: 18px 0 0; max-width: 520px; line-height: 1.9; font-size: clamp(15px, 1.15vw, 18px); opacity: .8; }
+  &__cta { margin-top: 30px; }
+  &--dark &__cta { --b: #fff; --i: #111; }
+  &__timer { justify-self: start; &.is-over { display: none; } }
+  @media (min-width: 1024px) { &__timer { justify-self: end; } }
+  &__ends { margin: 0 0 16px; font-size: 12px; letter-spacing: .26em; opacity: .7; }
+  &__units { display: flex; align-items: flex-start; gap: clamp(6px, 1vw, 14px); }
+  &__unit { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+  &__digit {
+    position: relative; display: block; min-width: clamp(66px, 7.4vw, 112px); padding: clamp(14px, 1.7vw, 24px) 6px;
+    font-size: clamp(30px, 4.2vw, 62px); font-weight: 300; line-height: 1; text-align: center; font-variant-numeric: tabular-nums;
+    background: linear-gradient(180deg, var(--cd-face) 50%, var(--cd-face-2) 50%); border: 1px solid var(--cd-edge); border-radius: var(--w-radius-sm);
+    transform-origin: 50% 50%; backface-visibility: hidden;
+    &::after { content: ''; position: absolute; inset-inline: 0; top: 50%; height: 1px; background: var(--cd-seam); }
+    &.w-tick { animation: w-countdown-flip .6s var(--w-ease-out); }
+  }
+  &__label { font-size: 12px; letter-spacing: .12em; opacity: .7; }
+  &__colon { font-size: clamp(22px, 3vw, 44px); font-weight: 300; opacity: .35; padding-top: clamp(12px, 1.6vw, 22px); line-height: 1; }
+  &__products { margin-top: clamp(32px, 4vw, 56px); .s-slider-block__title { display: none !important; } }
+  @media (max-width: 479px) {
+    &__digit { min-width: 64px; }
+    &__units { gap: 5px; }
+  }
+}
+@keyframes w-countdown-flip { 0% { transform: perspective(300px) rotateX(-80deg); opacity: .2; } 100% { transform: perspective(300px) rotateX(0); opacity: 1; } }
+body.w-anim-none .w-countdown-offer__digit { animation: none !important; }
+@media (prefers-reduced-motion: reduce) { .w-countdown-offer__digit { animation: none !important; } }

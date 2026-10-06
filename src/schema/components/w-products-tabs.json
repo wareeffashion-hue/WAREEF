@@ -1,0 +1,70 @@
+{
+  "order": 12,
+  "title": {
+    "ar": "منتجات بتبويبات التصنيفات",
+    "en": "Products by category tabs"
+  },
+  "icon": "sicon-list",
+  "path": "home.w-products-tabs",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تسوّقي حسب الفئة",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مختارات وريف",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "categories",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "التصنيفات (تبويب لكل تصنيف)",
+      "icon": "sicon-keyboard_arrow_down",
+      "source": "categories",
+      "multichoice": true,
+      "searchable": true,
+      "required": false,
+      "minLength": 1,
+      "maxLength": 8,
+      "selected": [],
+      "options": [],
+      "value": []
+    },
+    {
+      "id": "limit",
+      "type": "number",
+      "format": "integer",
+      "label": "عدد المنتجات في كل تبويب",
+      "icon": "sicon-pencil-ruler",
+      "required": false,
+      "value": 8,
+      "minimum": 4,
+      "maximum": 12
+    },
+    {
+      "id": "show_all",
+      "type": "boolean",
+      "format": "switch",
+      "label": "عرض رابط «عرض الكل» تحت كل تبويب",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    }
+  ]
+}

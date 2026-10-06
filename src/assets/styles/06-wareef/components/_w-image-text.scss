@@ -1,0 +1,24 @@
+.w-image-text {
+  &__row { display: grid; gap: clamp(28px, 5vw, 96px); align-items: center; & + & { margin-top: clamp(64px, 9vw, 140px); } }
+  &__media { aspect-ratio: 4 / 5;
+    img { transform: scale(1.18); transition: transform 1.8s var(--w-ease-out); }
+    &.is-in img { transform: scale(1); } }
+  &__media.is-in:hover img { transform: scale(1.04); }
+  &__copy { position: relative; max-width: 520px; }
+  &__num { display: block; font-size: clamp(56px, 7vw, 110px); line-height: 1; font-weight: 800; color: transparent; -webkit-text-stroke: 1px var(--w-line); margin-bottom: 10px; font-variant-numeric: tabular-nums; }
+  &__title { text-wrap: balance; }
+  &__text { margin-top: 18px; }
+  &__copy .w-link { margin-top: 26px; }
+  @media (min-width: 768px) {
+    &__row { grid-template-columns: 1.1fr 1fr; }
+    &__row.is-flip { grid-template-columns: 1fr 1.1fr; }
+    &__row.is-flip &__media { order: 2; }
+    &__row.is-flip &__copy { justify-self: end; }
+  }
+}
+[dir='ltr'] .w-image-text__arrow { transform: scaleX(-1); }
+html.dark .w-image-text__num { -webkit-text-stroke-color: #3a3631; }
+/* IntersectionObserver never reports a fully clipped target, so the mask clip lives on the image, not the observed wrapper. */
+.w-image-text__media[data-w-reveal='mask'] { clip-path: none; background: transparent;
+  > img { clip-path: inset(0 0 100% 0); transition: clip-path 1.3s var(--w-ease-out), transform 1.8s var(--w-ease-out); }
+  &.is-in > img { clip-path: inset(0 0 0 0); } }

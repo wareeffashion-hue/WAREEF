@@ -1,0 +1,143 @@
+{
+  "order": 14,
+  "title": {
+    "ar": "شريط وصل حديثاً",
+    "en": "New arrivals rail"
+  },
+  "icon": "sicon-star",
+  "path": "home.w-new-arrivals-rail",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "وصل حديثاً",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "السطر الأول من العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "جديد",
+      "placeholder": "السطر الأول من العنوان"
+    },
+    {
+      "id": "title_2",
+      "type": "string",
+      "format": "text",
+      "label": "السطر الثاني من العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "هذا الموسم",
+      "placeholder": "السطر الثاني من العنوان"
+    },
+    {
+      "id": "view_all_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص رابط عرض الكل",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "عرض الكل",
+      "placeholder": "نص رابط عرض الكل"
+    },
+    {
+      "id": "view_all_url",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط عرض الكل",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "source",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "مصدر المنتجات",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "أحدث المنتجات",
+          "value": "latest"
+        },
+        {
+          "label": "منتجات التخفيضات",
+          "value": "offers"
+        },
+        {
+          "label": "منتجات مختارة",
+          "value": "selected"
+        }
+      ],
+      "selected": [
+        {
+          "label": "أحدث المنتجات",
+          "value": "latest"
+        }
+      ]
+    },
+    {
+      "id": "products",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "المنتجات المختارة (عند اختيار «منتجات مختارة»)",
+      "icon": "sicon-keyboard_arrow_down",
+      "source": "products",
+      "multichoice": true,
+      "searchable": true,
+      "required": false,
+      "minLength": 1,
+      "maxLength": 16,
+      "selected": [],
+      "options": [],
+      "value": []
+    }
+  ]
+}

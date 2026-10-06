@@ -1,0 +1,95 @@
+{
+  "order": 43,
+  "title": {
+    "ar": "وعود الخدمة",
+    "en": "Service Promises"
+  },
+  "icon": "sicon-shield-check",
+  "path": "home.w-features-luxe",
+  "fields": [
+    {
+      "id": "note",
+      "type": "static",
+      "format": "description",
+      "value": "<div>الأيقونات المدعومة برسم متحرك: sicon-shipping، sicon-refresh، sicon-shield-check، sicon-gift، sicon-credit-card، sicon-chat-bubbles، sicon-star، sicon-store، sicon-shipping-fast، sicon-rotate، sicon-shield. أي أيقونة أخرى من سلة تظهر كما هي.</div>"
+    },
+    {
+      "id": "tinted",
+      "type": "boolean",
+      "format": "switch",
+      "label": "خلفية ملوّنة",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": false,
+      "selected": false
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "الوعود",
+      "item_label": "وعد",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 2,
+      "maxLength": 6,
+      "fields": [
+        {
+          "id": "items.icon",
+          "type": "string",
+          "format": "text",
+          "label": "الأيقونة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "value": "sicon-star",
+          "placeholder": "sicon-shipping"
+        },
+        {
+          "id": "items.title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "العنوان"
+        },
+        {
+          "id": "items.text",
+          "type": "string",
+          "format": "text",
+          "label": "الوصف",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "الوصف"
+        }
+      ],
+      "value": [
+        {
+          "items.icon": "sicon-shipping",
+          "items.title": "توصيل سريع",
+          "items.text": "إلى جميع مدن المملكة خلال ٢–٥ أيام عمل"
+        },
+        {
+          "items.icon": "sicon-refresh",
+          "items.title": "استبدال سهل",
+          "items.text": "خلال ١٤ يومًا من الاستلام بلا تعقيد"
+        },
+        {
+          "items.icon": "sicon-shield-check",
+          "items.title": "دفع آمن",
+          "items.text": "بوابات دفع موثوقة وتقسيط مرن"
+        },
+        {
+          "items.icon": "sicon-gift",
+          "items.title": "تغليف فاخر",
+          "items.text": "كل قطعة تصلك في صندوق هدية أنيق"
+        }
+      ]
+    }
+  ]
+}

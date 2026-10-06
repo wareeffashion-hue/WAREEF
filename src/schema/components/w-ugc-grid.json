@@ -1,0 +1,229 @@
+{
+  "order": 40,
+  "title": {
+    "ar": "شاركينا إطلالتك",
+    "en": "Shop Our Instagram"
+  },
+  "icon": "sicon-layout-grid",
+  "path": "home.w-ugc-grid",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مجتمع وريف",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "شاركينا إطلالتك",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "الوصف",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "التقطي صورتك بقطعتك المفضلة من وريف وشاركيها معنا، فقد تظهر إطلالتك هنا.",
+      "placeholder": "الوصف"
+    },
+    {
+      "id": "hashtag",
+      "type": "string",
+      "format": "text",
+      "label": "الوسم (الهاشتاق)",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": false,
+      "required": false,
+      "value": "#إطلالة_وريف",
+      "placeholder": "الوسم (الهاشتاق)"
+    },
+    {
+      "id": "button",
+      "type": "string",
+      "format": "text",
+      "label": "نص زر إنستغرام",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تابعينا على إنستغرام",
+      "placeholder": "نص زر إنستغرام"
+    },
+    {
+      "id": "link",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط حساب إنستغرام",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "الصور",
+      "item_label": "صورة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 3,
+      "maxLength": 12,
+      "fields": [
+        {
+          "id": "items.image",
+          "type": "string",
+          "format": "image",
+          "label": "الصورة",
+          "description": "المقاس المناسب 1080×1350",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "items.handle",
+          "type": "string",
+          "format": "text",
+          "label": "اسم الحساب",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "value": "@wareef",
+          "placeholder": "اسم الحساب"
+        },
+        {
+          "id": "items.link",
+          "type": "items",
+          "format": "variable-list",
+          "label": "رابط المنشور",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        },
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        },
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        },
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        },
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        },
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        },
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        },
+        {
+          "items.image": null,
+          "items.handle": "@wareef",
+          "items.link": []
+        }
+      ]
+    }
+  ]
+}

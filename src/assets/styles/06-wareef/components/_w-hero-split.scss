@@ -1,0 +1,47 @@
+.w-hero-split {
+  overflow: hidden;
+  &__grid { display: grid; gap: clamp(48px, 6vw, 96px); align-items: center; }
+  &__visual { position: relative; padding-bottom: 14%; padding-inline-end: 16%; }
+  &__main { aspect-ratio: 4 / 5; }
+  &__par { position: absolute; inset: -5% 0; img { width: 100%; height: 100%; object-fit: cover; } }
+  &__float {
+    position: absolute; bottom: 0; inset-inline-end: 0; width: 42%; aspect-ratio: 3 / 4;
+    outline: clamp(6px, .9vw, 12px) solid var(--w-bg); box-shadow: 0 30px 60px -30px rgba(0,0,0,.35);
+  }
+  &__tag {
+    position: absolute; top: 8%; left: 4%; writing-mode: vertical-rl;
+    font-size: 11px; letter-spacing: .4em; text-transform: uppercase; color: var(--w-muted);
+    display: flex; align-items: center; gap: 14px;
+    &::after { content: ''; width: 1px; height: 64px; background: var(--w-line); }
+  }
+  &__copy { max-width: 560px; }
+  &__title { margin: 18px 0 0; color: var(--w-text); text-wrap: balance; font-size: clamp(36px, 4.8vw, 72px); }
+  &__text { margin-top: 22px; }
+  &__cta { margin-top: 34px; }
+  &__product {
+    margin-top: clamp(36px, 5vw, 56px); display: flex; align-items: center; gap: 16px; padding: 12px;
+    padding-inline-end: 20px; max-width: 420px; background: var(--w-surface); border: 1px solid var(--w-line);
+    border-radius: var(--w-radius); color: var(--w-text); transition: border-color .4s var(--w-ease), transform .5s var(--w-ease-out);
+    &:hover { border-color: var(--w-text); transform: translateY(-2px); }
+    &:hover .w-hero-split__parrow { background: var(--w-text); color: var(--w-bg); }
+    &:focus-visible { outline: 1px solid var(--w-gold); outline-offset: 3px; }
+  }
+  &__pimg { flex: none; width: 72px; aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--w-radius-sm); background: var(--w-surface-2);
+    img { width: 100%; height: 100%; object-fit: cover; } }
+  &__pinfo { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px;
+    small { font-size: 11px; letter-spacing: .2em; color: var(--w-muted); }
+    b { font-weight: 600; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; } }
+  &__price { font-size: 14px; ins { text-decoration: none; font-weight: 700; } del { color: var(--w-muted); font-size: 12px; margin-inline-start: 6px; } }
+  &__parrow { flex: none; width: 40px; height: 40px; display: grid; place-items: center; border-radius: 999px; border: 1px solid var(--w-line); transition: background .4s, color .4s; }
+  @media (min-width: 992px) {
+    &__grid { grid-template-columns: 1.05fr 1fr; }
+    &--flip &__visual { order: 2; }
+  }
+}
+[dir='ltr'] .w-hero-split__parrow svg { transform: scaleX(-1); }
+/* IntersectionObserver never reports a fully clipped target, so the mask clip lives on the child, not the observed wrapper. */
+.w-hero-split [data-w-reveal='mask'] { clip-path: none; background: transparent;
+  > * { clip-path: inset(0 0 100% 0); transition: clip-path 1.3s var(--w-ease-out) calc(var(--i, 0) * 120ms); }
+  &.is-in > * { clip-path: inset(0 0 0 0); } }
+.w-hero-split__float[data-w-reveal='mask'] > img { width: 100%; height: 100%; object-fit: cover; }
+[dir='ltr'] .w-hero-split__tag { left: auto; right: 4%; }

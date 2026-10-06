@@ -1,0 +1,137 @@
+{
+  "order": 17,
+  "title": {
+    "ar": "دوائر التصنيفات",
+    "en": "Category circles"
+  },
+  "icon": "sicon-list",
+  "path": "home.w-category-circles",
+  "fields": [
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان (اختياري)",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تسوّقي حسب الفئة",
+      "placeholder": "العنوان (اختياري)"
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "التصنيفات",
+      "item_label": "تصنيف",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 14,
+      "fields": [
+        {
+          "id": "items.image",
+          "type": "string",
+          "format": "image",
+          "label": "الصورة",
+          "description": "المقاس المناسب 400×400",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "items.title",
+          "type": "string",
+          "format": "text",
+          "label": "الاسم",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "الاسم"
+        },
+        {
+          "id": "items.url",
+          "type": "items",
+          "format": "variable-list",
+          "label": "الرابط",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "items.image": null,
+          "items.title": "العبايات",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "الجلابيات",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "الشيلات",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "الأطقم",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "الفساتين",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "الإكسسوارات",
+          "items.url": []
+        },
+        {
+          "items.image": null,
+          "items.title": "وصل حديثاً",
+          "items.url": []
+        }
+      ]
+    }
+  ]
+}

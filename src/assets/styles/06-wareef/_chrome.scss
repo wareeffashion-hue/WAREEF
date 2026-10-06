@@ -1,0 +1,52 @@
+/* Header, announcement bar, footer, product cards, floating buttons, dark-mode bridges for Salla components. */
+.w-announce { background: var(--w-text); color: var(--w-bg); font-size: 12.5px; letter-spacing: .08em; padding-block: 9px; position: relative; z-index: 31; }
+.w-announce a { color: inherit; }
+.w-announce .w-marquee__track span { display: inline-flex; align-items: center; gap: 48px; white-space: nowrap; }
+.w-announce .w-marquee__track span::after { content: '✦'; color: var(--w-gold); font-size: 10px; }
+body.theme-wareef .store-header .top-navbar { background: var(--w-surface); border-bottom: 1px solid var(--w-line); color: var(--w-text-2); }
+body.theme-wareef .main-nav-container, body.theme-wareef #mainnav .inner { background: var(--w-surface) !important; box-shadow: none !important; border-bottom: 1px solid var(--w-line); }
+body.theme-wareef .main-nav-container .text-primary, body.theme-wareef .header-btn__icon { color: var(--w-text) !important; }
+/* Centered: logo in the middle, menu below it on desktop. */
+@media (min-width: 1024px) {
+  body.w-header-centered #mainnav .container > .flex { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+  body.w-header-centered #mainnav .container > .flex > .flex:first-child { display: contents; }
+  body.w-header-centered #mainnav .navbar-brand { grid-column: 2; grid-row: 1; justify-self: center; padding-block: 14px; }
+  body.w-header-centered #mainnav custom-main-menu { grid-column: 1 / -1; grid-row: 2; justify-self: center; border-top: 1px solid var(--w-line); width: 100%; display: flex; justify-content: center; }
+  body.w-header-centered #mainnav .container > .flex > .flex:last-child { grid-column: 3; grid-row: 1; }
+}
+/* Transparent over the hero on the home page until the visitor scrolls. */
+body.w-header-transparent.index .store-header { position: absolute; inset-inline: 0; top: 0; z-index: 40; }
+body.w-header-transparent.index:not(.w-scrolled) #mainnav, body.w-header-transparent.index:not(.w-scrolled) #mainnav .inner { background: transparent !important; border-color: rgba(255,255,255,.18); }
+body.w-header-transparent.index:not(.w-scrolled) #mainnav, body.w-header-transparent.index:not(.w-scrolled) #mainnav a, body.w-header-transparent.index:not(.w-scrolled) #mainnav i { color: #fff !important; }
+body.w-header-transparent.index:not(.w-scrolled) .top-navbar { background: transparent; border-color: rgba(255,255,255,.18); color: #fff; }
+.w-theme-toggle { width: 38px; height: 38px; display: inline-grid; place-items: center; border-radius: 999px; border: 1px solid var(--w-line); color: var(--w-text); transition: transform .4s var(--w-ease); }
+.w-theme-toggle:hover { transform: rotate(-20deg); }
+.w-theme-toggle .w-moon { display: none; } html.dark .w-theme-toggle .w-moon { display: block; } html.dark .w-theme-toggle .w-sun { display: none; }
+/* Product cards */
+body.theme-wareef .s-product-card-entry { background: transparent; border-radius: var(--w-radius); box-shadow: none; overflow: visible; }
+body.w-card-classic .s-product-card-entry { background: var(--w-surface); border: 1px solid var(--w-line); padding: 10px; }
+body.theme-wareef .s-product-card-image { border-radius: var(--w-radius); overflow: hidden; background: var(--w-surface-2); }
+body.w-ratio-portrait .s-product-card-image { aspect-ratio: 3 / 4; height: auto !important; }
+body.w-ratio-tall .s-product-card-image { aspect-ratio: 2 / 3; height: auto !important; }
+body.theme-wareef .s-product-card-image img { transition: transform 1.2s var(--w-ease-out); }
+body.theme-wareef .s-product-card-entry:hover .s-product-card-image img { transform: scale(1.05); }
+body.theme-wareef .s-product-card-content-title a { color: var(--w-text); font-weight: 500; letter-spacing: var(--w-track); }
+body.theme-wareef .s-product-card-price { color: var(--w-text); font-weight: 700; }
+body.w-card-editorial .s-product-card-content { padding-inline: 2px; text-align: start; }
+body.w-card-editorial .s-product-card-entry .s-button-element { border-radius: var(--w-radius-sm); }
+/* Footer */
+body.theme-wareef .store-footer { background: #0d0d0d; color: #d8d2c8; }
+body.theme-wareef .store-footer a { color: inherit; }
+/* Floating actions */
+.w-fab { position: fixed; z-index: 45; inset-inline-start: 18px; bottom: 18px; display: grid; gap: 10px; }
+.w-fab a, .w-fab button { width: 50px; height: 50px; border-radius: 999px; display: grid; place-items: center; box-shadow: 0 14px 34px rgba(0,0,0,.18); transition: transform .4s var(--w-ease), opacity .4s; }
+.w-fab a:hover, .w-fab button:hover { transform: translateY(-3px) scale(1.04); }
+.w-fab .w-wa { background: #25d366; color: #fff; font-size: 24px; }
+.w-fab .w-top { background: var(--w-text); color: var(--w-bg); opacity: 0; pointer-events: none; }
+body.w-scrolled .w-fab .w-top { opacity: 1; pointer-events: auto; }
+/* Dark-mode bridges for Salla markup that uses Tailwind light colours. */
+html.dark body.theme-wareef .bg-white, html.dark body.theme-wareef .bg-gray-50, html.dark body.theme-wareef .bg-gray-100 { background-color: var(--w-surface) !important; }
+html.dark body.theme-wareef .text-gray-900, html.dark body.theme-wareef .text-gray-800, html.dark body.theme-wareef .text-dark { color: var(--w-text) !important; }
+html.dark body.theme-wareef .text-gray-700, html.dark body.theme-wareef .text-gray-600, html.dark body.theme-wareef .text-gray-500 { color: var(--w-text-2) !important; }
+html.dark body.theme-wareef .border-gray-100, html.dark body.theme-wareef .border-gray-200 { border-color: var(--w-line) !important; }
+html.dark body.theme-wareef input, html.dark body.theme-wareef select, html.dark body.theme-wareef textarea { background: var(--w-surface-2); color: var(--w-text); border-color: var(--w-line); }

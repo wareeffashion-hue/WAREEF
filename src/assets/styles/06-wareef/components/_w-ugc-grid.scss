@@ -1,0 +1,56 @@
+/* Wareef UGC grid — "share your look". */
+.w-ugc-grid {
+  &__head {
+    display: grid; gap: 20px; align-items: end; margin-bottom: clamp(24px, 3.4vw, 48px);
+    @media (min-width: 900px) { grid-template-columns: 1fr auto; gap: 48px; }
+    .w-lead { margin: 14px 0 0; }
+  }
+  &__aside {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 22px;
+    @media (min-width: 900px) { flex-direction: column; align-items: flex-end; }
+  }
+  &__tag {
+    font-size: clamp(22px, 2.6vw, 38px); font-weight: 300; font-style: italic; color: var(--w-gold); letter-spacing: .01em; line-height: 1.1;
+  }
+  &__follow { min-height: 46px; padding: 0 22px; font-size: 13px; svg { flex: none; } }
+
+  &__grid {
+    list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; grid-template-columns: repeat(2, 1fr);
+    @media (min-width: 768px) { grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  }
+  /* Six tiles on phones keeps the grid even and the page short. */
+  &__cell:nth-child(n + 7) { display: none; @media (min-width: 768px) { display: block; } }
+  &__cell:nth-child(n + 9) { @media (min-width: 768px) { display: none; } @media (min-width: 1200px) { display: block; } }
+  @media (min-width: 1200px) {
+    &__grid:has(> :nth-child(9)) { grid-template-columns: repeat(5, 1fr); }
+    &__grid:has(> :nth-child(9)) > :nth-child(n + 11) { display: none; }
+  }
+
+  &__tile {
+    position: relative; display: block; overflow: hidden; border-radius: var(--w-radius); color: #fff;
+    .w-media { display: block; aspect-ratio: 4 / 5; border-radius: inherit; }
+    &:focus-visible { outline: 2px solid var(--w-text); outline-offset: 3px; }
+  }
+  &__over {
+    position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 10px;
+    background: rgba(12, 10, 8, .42); opacity: 0; transition: opacity .5s var(--w-ease);
+  }
+  &__ico {
+    width: 46px; height: 46px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255,255,255,.7);
+    transform: scale(.7); transition: transform .6s var(--w-ease-out);
+    svg { width: 20px; height: 20px; }
+  }
+  &__handle { font-size: 13px; letter-spacing: .08em; font-weight: 500; transform: translateY(10px); opacity: 0; transition: transform .6s var(--w-ease-out) .05s, opacity .5s .05s; }
+  &__tile:hover, &__tile:focus-visible {
+    .w-media img { transform: scale(1.07); }
+    .w-ugc-grid__over { opacity: 1; }
+    .w-ugc-grid__ico { transform: none; }
+    .w-ugc-grid__handle { transform: none; opacity: 1; }
+  }
+  /* Touch screens: a quiet corner glyph instead of a hover state. */
+  @media (hover: none) {
+    &__over { opacity: 1; background: none; align-items: flex-end; justify-content: flex-start; padding: 10px; }
+    &__ico { width: 30px; height: 30px; border: 0; transform: none; background: rgba(0,0,0,.28); svg { width: 15px; height: 15px; } }
+    &__handle { display: none; }
+  }
+}

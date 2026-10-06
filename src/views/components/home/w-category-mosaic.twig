@@ -1,0 +1,43 @@
+{# Wareef — editorial collections mosaic (tall / square / square / wide pattern). #}
+{% set lang = language.code %}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[lang]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[lang]|default(title|first)) : title %}
+{% set va = component.view_all_text %}{% set va = va is iterable ? (va[lang]|default(va|first)) : va %}
+{% set va_url = component.view_all_url %}{% set has_va = va_url and va_url != '#' %}
+{% set fallbacks = ['look1', 'square1', 'look3', 'banner', 'look2', 'look4', 'editorial', 'hero'] %}
+<section component-id="{{ componentId }}" class="w-block w-category-mosaic" data-testid="w-category-mosaic">
+  <div class="container">
+    {% if kicker or title or has_va %}
+      <div class="w-head">
+        <div>
+          {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+          {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+        </div>
+        {% if has_va %}<a class="w-link" href="{{ va_url }}" data-w-reveal="fade">{{ va|default(trans('blocks.wareef.view_all')) }}</a>{% endif %}
+      </div>
+    {% endif %}
+    <div class="w-category-mosaic__grid" data-w-stagger>
+      {% for item in component.items %}
+        {% set t = item.title %}{% set t = t is iterable ? (t[lang]|default(t|first)) : t %}
+        {% set s = item.subtitle %}{% set s = s is iterable ? (s[lang]|default(s|first)) : s %}
+        {% set url = item.url %}{% set has_url = url and url != '#' %}
+        {% set tag = has_url ? 'a' : 'div' %}
+        <{{ tag }}{% if has_url %} href="{{ url }}"{% endif %} class="w-category-mosaic__tile w-zoom" data-w-reveal="fade">
+          <span class="w-media w-overlay w-category-mosaic__media">
+            <img src="{{ item.image ?: ('images/wareef/' ~ fallbacks[loop.index0 % 8] ~ '.jpg')|asset }}" alt="{{ t }}" width="1000" height="1200" loading="lazy">
+          </span>
+          <span class="w-category-mosaic__caption w-on-media">
+            <span class="w-category-mosaic__num">{{ loop.index < 10 ? '0' ~ loop.index : loop.index }}</span>
+            {% if t %}<span class="w-category-mosaic__title">{{ t }}</span>{% endif %}
+            {% if s %}<span class="w-category-mosaic__sub">{{ s }}</span>{% endif %}
+          </span>
+          {% if has_url %}
+            <span class="w-category-mosaic__arrow" aria-hidden="true">
+              <svg width="18" height="10" viewBox="0 0 18 10" fill="none"><path d="M17 5H1m0 0 4-4M1 5l4 4" stroke="currentColor" stroke-width="1.2"/></svg>
+            </span>
+          {% endif %}
+        </{{ tag }}>
+      {% endfor %}
+    </div>
+  </div>
+</section>

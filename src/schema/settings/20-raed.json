@@ -1,0 +1,258 @@
+[
+  {
+    "id": "squar_photo_bg_image_size",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "طريقة عرض الصور في قسم قائمة عناصر ",
+    "description": null,
+    "labelHTML": null,
+    "icon": "sicon-list",
+    "selected": [
+      {
+        "label": "اظهار الصورة كاملةً في المنتصف (Contain)",
+        "value": "contain",
+        "key": "f4adec13-6e4c-654b-b978-b2807935ced9"
+      }
+    ],
+    "options": [
+      {
+        "label": "تغطية الصورة كامل المساحة مع المحافظة على أبعاد الصورة (Cover)",
+        "value": "cover",
+        "key": "e9c8ea8f-c5c6-234e-935-3bce269afde4"
+      },
+      {
+        "label": "اظهار الصورة كاملةً في المنتصف (Contain)",
+        "value": "contain",
+        "key": "f4adec13-6e4c-654b-b978-b2807935ced9"
+      }
+    ],
+    "source": "Manual",
+    "required": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "عرض جميع الصور بنفس الحجم في قسم قائمة عناصر",
+    "description": "يؤثر على العدد الفردي فقط (٣ و٥). العدد الزوجي متساوٍ دائماً. عند التفعيل تُرص الصور في صفوف بحد أقصى ثلاث في السطر",
+    "id": "square_photos_equal_size",
+    "format": "switch",
+    "required": false,
+    "value": false,
+    "selected": false
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "وضع عمودي للمنتجات في مربع المنتجات الثابتة في الصفحة الرئيسية",
+    "description": null,
+    "id": "vertical_fixed_products",
+    "format": "switch",
+    "required": false,
+    "value": false,
+    "selected": false
+  },
+  {
+    "type": "boolean",
+    "id": "is_more_button_enabled",
+    "label": "عرض (زر الكل) في الصفحة الرئيسية",
+    "format": "switch"
+  },
+  {
+    "type": "static",
+    "id": "static-line1",
+    "format": "line"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "static-label2",
+    "value": "<div class='rounded-lg' style='background-color: #21636d; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #ffffff;font-size: 15px; font-weight: bold;'> خيارات أعلى الصفحة</h6></div>",
+    "variant": "h6"
+  },
+  {
+    "id": "header_is_sticky",
+    "label": "تثبت القائمة الرئيسية أعلى الصفحة عند التمرير لأسفل",
+    "description": "يُنصح بالغاء تفعيلها في حالة وجود عناصر كثيرة في القائمة المنسدلة",
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "شريط علوي داكن",
+    "description": null,
+    "id": "topnav_is_dark",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": false
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "عرض روابط الصفحات الهامة في الشريط العلوي",
+    "description": "مثل صفحة الهبوط ، المدونة ،الصفحات التعريفية",
+    "id": "important_links",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "تفعيل قائمة المزيد في القائمة الرئيسية",
+    "description": "عند تفعيلها، ستظهر الروابط الإضافية في قائمة منسدلة تسمى 'المزيد' عند عدم وجود مساحة كافية",
+    "id": "enable_more_menu",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "static",
+    "id": "static-line3",
+    "format": "line"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "static-label4",
+    "value": "<div class='rounded-lg' style='background-color: #21636d; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #ffffff;font-size: 15px; font-weight: bold;'> خيارات أسفل الصفحة</h6></div>",
+    "variant": "h6"
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "الوضع الداكن",
+    "description": null,
+    "id": "footer_is_dark",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": false
+  },
+  {
+    "type": "static",
+    "id": "static-line5",
+    "format": "line"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "static-label6",
+    "value": "<div class='rounded-lg' style='background-color: #21636d; display: flex; justify-content: center; align-items: center;padding: 15px;margin-bottom: 20px !important; flex-direction: column;gap: 15px;'><h6 style='color: #ffffff;font-size: 15px; font-weight: bold;'> خيارات صفحة المنتج</h6></div>",
+    "variant": "h6"
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "إظهار مسار التنقل في صفحة المنتج",
+    "description": null,
+    "id": "product_show_breadcrumbs",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "إظهار مسار التنقل في صفحة قائمة المنتجات",
+    "description": null,
+    "id": "product_index_show_breadcrumbs",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "تفعيل إشعار الإضافة للسلة المحسن",
+    "description": null,
+    "id": "enable_add_product_toast",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "إظهار زر \"أعلمني عند التوفر\" في بطاقة المنتج",
+    "description": "يظهر زر إشعار التوفر في بطاقات المنتجات التي نفذت كميتها",
+    "id": "notify_when_available_in_card",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "تثبيت زر الإضافة والكمية أسفل شاشة الجوال",
+    "description": null,
+    "id": "sticky_add_to_cart",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "اظهار الوسوم",
+    "description": null,
+    "id": "show_tags",
+    "format": "switch",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "slider_background_size",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "طريقة عرض الصور في سليدر صور المنتج",
+    "description": null,
+    "labelHTML": null,
+    "icon": "sicon-list",
+    "selected": [
+      {
+        "label": "اظهار الصورة كاملةً في المنتصف (Contain)",
+        "value": "contain",
+        "key": "f4adec13-6e4c-433b-b141-b2807935ced9"
+      }
+    ],
+    "options": [
+      {
+        "label": "تغطية الصورة كامل المساحة مع المحافظة على أبعاد الصورة (Cover)",
+        "value": "cover",
+        "key": "e9c8ea8f-c5c6-438e-9d45-3bce269afde4"
+      },
+      {
+        "label": "اظهار الصورة كاملةً في المنتصف (Contain)",
+        "value": "contain",
+        "key": "f4adec13-6e4c-433b-b141-b2807935ced9"
+      }
+    ],
+    "source": "Manual",
+    "required": true
+  },
+  {
+    "type": "boolean",
+    "icon": "sicon-toggle-off",
+    "label": "تكبير الصور في سليدر صور المنتج",
+    "description": "هذه الخاصية تمكنك من تكبير الصورة لتسهل رؤية المزيد من التفاصيل بها",
+    "id": "imageZoom",
+    "format": "switch",
+    "required": false,
+    "value": false,
+    "selected": false
+  }
+]

@@ -1,0 +1,53 @@
+{#
+  Wareef — Cinematic hero: full-viewport image or MP4 video, split-word headline, two CTAs, scroll cue.
+#}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set lead = component.lead %}{% set lead = lead is iterable ? (lead[language.code]|default(lead|first)) : lead %}
+{% set b1 = component.btn1_text %}{% set b1 = b1 is iterable ? (b1[language.code]|default(b1|first)) : b1 %}
+{% set b2 = component.btn2_text %}{% set b2 = b2 is iterable ? (b2[language.code]|default(b2|first)) : b2 %}
+{% set u1 = component.btn1_url %}{% set u1 = u1 is iterable ? (u1.url|default('')) : u1 %}
+{% set u2 = component.btn2_url %}{% set u2 = u2 is iterable ? (u2.url|default('')) : u2 %}
+{% set align = component.align %}{% set align = align is iterable ? ((align|first).value|default(align.value|default('start'))) : align %}
+{% set align = align == 'center' ? 'center' : 'start' %}
+{% set img = component.image ?: ('images/wareef/hero.jpg'|asset) %}
+{% set img_m = component.mobile_image ?: img %}
+{% set video = component.video_url|default('')|trim %}
+{% set ov = component.overlay is same as(0) ? 0 : (component.overlay|default(45)) %}
+<section component-id="{{ componentId }}" class="w-block w-block--flush w-hero-cinematic w-hero-cinematic--{{ align }}" data-testid="w-hero-cinematic" style="--w-hc-ov: {{ ov / 100 }}">
+  <div class="w-hero-cinematic__media" data-w-parallax="0.12" aria-hidden="true">
+    {% if video %}
+      <video class="w-hero-cinematic__video" autoplay muted loop playsinline preload="metadata" poster="{{ img }}">
+        <source src="{{ video }}" type="video/mp4">
+      </video>
+    {% else %}
+      <picture>
+        <source media="(max-width: 767px)" srcset="{{ img_m }}">
+        <img class="w-hero-cinematic__img" src="{{ img }}" alt="{{ title|default(store.name)|e }}" width="2400" height="1400" fetchpriority="high" decoding="async">
+      </picture>
+    {% endif %}
+  </div>
+  <div class="w-hero-cinematic__shade" aria-hidden="true"></div>
+  <div class="container w-hero-cinematic__inner w-on-media">
+    <div class="w-hero-cinematic__content">
+      {% if kicker %}<span class="w-kicker w-hero-cinematic__kicker" data-w-reveal="fade">{{ kicker }}</span>{% endif %}
+      {% if title %}<h1 class="w-hero-cinematic__title" data-w-split>{{ title }}</h1>{% endif %}
+      {% if lead %}<p class="w-hero-cinematic__lead" data-w-reveal style="--i: 3">{{ lead }}</p>{% endif %}
+      {% if b1 or b2 %}
+        <div class="w-hero-cinematic__ctas" data-w-reveal style="--i: 5">
+          {% if b1 %}
+            {% if u1 and u1 != '#' %}<a href="{{ u1 }}" class="w-btn w-btn--light" data-w-magnetic>{{ b1 }}</a>
+            {% else %}<span class="w-btn w-btn--light">{{ b1 }}</span>{% endif %}
+          {% endif %}
+          {% if b2 %}
+            {% if u2 and u2 != '#' %}<a href="{{ u2 }}" class="w-btn w-btn--ghost w-hero-cinematic__ghost">{{ b2 }}</a>
+            {% else %}<span class="w-btn w-btn--ghost w-hero-cinematic__ghost">{{ b2 }}</span>{% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+  {% if component.show_cue is not same as(false) %}
+    <div class="w-hero-cinematic__cue w-on-media" aria-hidden="true"><span>{{ language.code == 'ar' ? 'مرّري للأسفل' : 'Scroll' }}</span><i></i></div>
+  {% endif %}
+</section>

@@ -1,0 +1,360 @@
+[
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-identity",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>هوية وريف · الطابع العام</div>"
+  },
+  {
+    "id": "w_style",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "الطابع البصري",
+    "description": "يغيّر الخلفيات والخطوط والتباين في المتجر كله دفعة واحدة",
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "فاخر أحادي (أسود وعاجي)",
+        "value": "luxe"
+      },
+      {
+        "label": "بسيط وهادئ",
+        "value": "minimal"
+      },
+      {
+        "label": "ناعم ودافئ",
+        "value": "soft"
+      },
+      {
+        "label": "جريء وعصري",
+        "value": "bold"
+      }
+    ],
+    "selected": [
+      {
+        "label": "فاخر أحادي (أسود وعاجي)",
+        "value": "luxe"
+      }
+    ]
+  },
+  {
+    "id": "w_radius",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "انحناء الزوايا",
+    "description": null,
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "حادة (طابع الأزياء الراقية)",
+        "value": "sharp"
+      },
+      {
+        "label": "ناعمة",
+        "value": "soft"
+      },
+      {
+        "label": "دائرية",
+        "value": "round"
+      }
+    ],
+    "selected": [
+      {
+        "label": "حادة (طابع الأزياء الراقية)",
+        "value": "sharp"
+      }
+    ]
+  },
+  {
+    "id": "w_animations",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "مستوى الحركة",
+    "description": "يحترم إعداد تقليل الحركة في جهاز الزائر تلقائياً",
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "سينمائي كامل",
+        "value": "full"
+      },
+      {
+        "label": "هادئ",
+        "value": "subtle"
+      },
+      {
+        "label": "بدون حركة",
+        "value": "none"
+      }
+    ],
+    "selected": [
+      {
+        "label": "سينمائي كامل",
+        "value": "full"
+      }
+    ]
+  },
+  {
+    "id": "w_dark_toggle",
+    "type": "boolean",
+    "format": "switch",
+    "label": "زر الوضع الداكن في الأعلى",
+    "description": null,
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "w_default_dark",
+    "type": "boolean",
+    "format": "switch",
+    "label": "الوضع الداكن افتراضياً",
+    "description": "يبدأ المتجر داكناً، ويستطيع الزائر التبديل",
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": false,
+    "selected": false
+  },
+  {
+    "type": "static",
+    "format": "line",
+    "id": "w-line-1"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-header",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>الشريط العلوي والقائمة</div>"
+  },
+  {
+    "id": "w_header_style",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "شكل الهيدر",
+    "description": null,
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "كلاسيكي",
+        "value": "classic"
+      },
+      {
+        "label": "الشعار في المنتصف",
+        "value": "centered"
+      },
+      {
+        "label": "شفاف فوق الواجهة (الرئيسية)",
+        "value": "transparent"
+      }
+    ],
+    "selected": [
+      {
+        "label": "الشعار في المنتصف",
+        "value": "centered"
+      }
+    ]
+  },
+  {
+    "id": "w_announcement",
+    "type": "boolean",
+    "format": "switch",
+    "label": "شريط إعلانات متحرك أعلى المتجر",
+    "description": null,
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "w_announcement_text",
+    "type": "string",
+    "format": "text",
+    "label": "نصوص الشريط (افصل بينها بعلامة |)",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "شحن مجاني للطلبات فوق 300 ريال | تشكيلة الشتاء وصلت | استبدال خلال 14 يوماً",
+    "placeholder": "نصوص الشريط (افصل بينها بعلامة |)"
+  },
+  {
+    "id": "w_announcement_link",
+    "type": "string",
+    "format": "text",
+    "label": "رابط الشريط (اختياري)",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": false,
+    "value": "",
+    "placeholder": "رابط الشريط (اختياري)"
+  },
+  {
+    "type": "static",
+    "format": "line",
+    "id": "w-line-2"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-cards",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>بطاقات المنتجات</div>"
+  },
+  {
+    "id": "w_card_style",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "شكل بطاقة المنتج",
+    "description": null,
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "تحريري (صورة طويلة بلا إطار)",
+        "value": "editorial"
+      },
+      {
+        "label": "كلاسيكي بإطار",
+        "value": "classic"
+      },
+      {
+        "label": "بسيط",
+        "value": "minimal"
+      }
+    ],
+    "selected": [
+      {
+        "label": "تحريري (صورة طويلة بلا إطار)",
+        "value": "editorial"
+      }
+    ]
+  },
+  {
+    "id": "w_card_ratio",
+    "type": "items",
+    "format": "dropdown-list",
+    "label": "نسبة صورة المنتج",
+    "description": null,
+    "icon": "sicon-list",
+    "source": "Manual",
+    "required": true,
+    "options": [
+      {
+        "label": "طولية 3:4 (مثالية للعبايات)",
+        "value": "portrait"
+      },
+      {
+        "label": "طولية جداً 2:3",
+        "value": "tall"
+      },
+      {
+        "label": "مربعة",
+        "value": "square"
+      }
+    ],
+    "selected": [
+      {
+        "label": "طولية 3:4 (مثالية للعبايات)",
+        "value": "portrait"
+      }
+    ]
+  },
+  {
+    "type": "static",
+    "format": "line",
+    "id": "w-line-3"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-product",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>صفحة المنتج</div>"
+  },
+  {
+    "id": "w_size_guide",
+    "type": "string",
+    "format": "image",
+    "label": "صورة دليل المقاسات",
+    "description": "تظهر كنافذة في صفحة المنتج عند الضغط على «دليل المقاسات»",
+    "icon": "sicon-image",
+    "required": false,
+    "value": null,
+    "placeholder": "https://"
+  },
+  {
+    "id": "w_delivery_note",
+    "type": "string",
+    "format": "text",
+    "label": "ملاحظة التوصيل",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "يصلك خلال 2-5 أيام عمل",
+    "placeholder": "ملاحظة التوصيل"
+  },
+  {
+    "id": "w_trust_badges",
+    "type": "string",
+    "format": "text",
+    "label": "مزايا تحت زر الشراء (افصل بينها بعلامة |)",
+    "description": null,
+    "icon": "sicon-format-text-alt",
+    "required": false,
+    "multilanguage": true,
+    "value": "دفع آمن | استبدال سهل | خامات أصلية",
+    "placeholder": "مزايا تحت زر الشراء (افصل بينها بعلامة |)"
+  },
+  {
+    "type": "static",
+    "format": "line",
+    "id": "w-line-4"
+  },
+  {
+    "type": "static",
+    "format": "title",
+    "id": "w-title-extras",
+    "variant": "h6",
+    "value": "<div style='background:#111;color:#f4efe6;padding:14px;border-radius:10px;text-align:center;font-weight:700;margin-bottom:16px'>إضافات</div>"
+  },
+  {
+    "id": "w_whatsapp_float",
+    "type": "boolean",
+    "format": "switch",
+    "label": "زر واتساب عائم",
+    "description": "يستخدم رقم الواتساب المسجّل في بيانات المتجر",
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "id": "w_back_to_top",
+    "type": "boolean",
+    "format": "switch",
+    "label": "زر العودة للأعلى",
+    "description": null,
+    "icon": "sicon-toggle-off",
+    "required": false,
+    "value": true,
+    "selected": true
+  },
+  {
+    "type": "static",
+    "format": "line",
+    "id": "w-line-5"
+  }
+]

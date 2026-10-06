@@ -1,0 +1,127 @@
+{
+  "order": 33,
+  "title": {
+    "ar": "رحلة الدار",
+    "en": "Brand Story Timeline"
+  },
+  "icon": "sicon-clock",
+  "path": "home.w-brand-story",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "إرثنا",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "رحلة تُخاط بالشغف",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "lead",
+      "type": "string",
+      "format": "textarea",
+      "label": "النص التعريفي",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "محطات صنعت هوية الدار، وما زالت الحكاية تُكتب.",
+      "placeholder": "النص التعريفي"
+    },
+    {
+      "id": "milestones",
+      "type": "collection",
+      "format": "collection",
+      "label": "المحطات",
+      "item_label": "محطة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 2,
+      "maxLength": 6,
+      "fields": [
+        {
+          "id": "milestones.year",
+          "type": "string",
+          "format": "text",
+          "label": "السنة أو التاريخ",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "السنة أو التاريخ"
+        },
+        {
+          "id": "milestones.title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "العنوان"
+        },
+        {
+          "id": "milestones.text",
+          "type": "string",
+          "format": "textarea",
+          "label": "النص",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "النص"
+        },
+        {
+          "id": "milestones.image",
+          "type": "string",
+          "format": "image",
+          "label": "صورة (اختياري)",
+          "description": "المقاس المناسب 800×1000",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        }
+      ],
+      "value": [
+        {
+          "milestones.year": "البداية",
+          "milestones.title": "فكرة على طاولة الخياطة",
+          "milestones.text": "بدأت الحكاية بقطعة واحدة صُممت بحب، ومعها وُلد اسم الدار.",
+          "milestones.image": null
+        },
+        {
+          "milestones.year": "الخطوة الأولى",
+          "milestones.title": "أول مجموعة",
+          "milestones.text": "مجموعة صغيرة من العبايات اليومية لاقت محبة عميلاتنا الأوائل.",
+          "milestones.image": null
+        },
+        {
+          "milestones.year": "التطور",
+          "milestones.title": "مشغل للحِرفة",
+          "milestones.text": "افتتحنا مشغلنا لنشرف على كل غرزة بأيدٍ ماهرة.",
+          "milestones.image": null
+        },
+        {
+          "milestones.year": "اليوم",
+          "milestones.title": "دار تكبر معكِ",
+          "milestones.text": "نواصل الابتكار بتصاميم تحترم الأصالة وتواكب الذوق المعاصر.",
+          "milestones.image": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "order": 44,
+  "title": {
+    "ar": "الأسئلة الشائعة",
+    "en": "FAQ"
+  },
+  "icon": "sicon-chat-bubbles",
+  "path": "home.w-faq",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مساعدة",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "أسئلة تهمّك",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "text",
+      "type": "string",
+      "format": "textarea",
+      "label": "الوصف",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "جمعنا لكِ أكثر ما تسأل عنه عميلاتنا. لم تجدي إجابتك؟ يسعدنا الحديث معكِ.",
+      "placeholder": "الوصف"
+    },
+    {
+      "id": "contact_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص رابط التواصل",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "تواصلي معنا",
+      "placeholder": "نص رابط التواصل"
+    },
+    {
+      "id": "contact_link",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط التواصل",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "schema",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إضافة بيانات الأسئلة لمحركات البحث (FAQ Schema)",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "الأسئلة",
+      "item_label": "سؤال",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 20,
+      "fields": [
+        {
+          "id": "items.question",
+          "type": "string",
+          "format": "text",
+          "label": "السؤال",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "السؤال"
+        },
+        {
+          "id": "items.answer",
+          "type": "string",
+          "format": "textarea",
+          "label": "الإجابة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "الإجابة"
+        }
+      ],
+      "value": [
+        {
+          "items.question": "كيف أختار المقاس المناسب؟",
+          "items.answer": "ستجدين جدول المقاسات في صفحة كل منتج، ويعتمد على الطول وعرض الكتف. وإن احترتِ بين مقاسين ننصحك بالأكبر للحصول على انسيابية أجمل."
+        },
+        {
+          "items.question": "كم تستغرق مدة التوصيل؟",
+          "items.answer": "يصل طلبك خلال ٢–٥ أيام عمل داخل المملكة، وتصلك رسالة برقم الشحنة فور خروج الطلب من مشغلنا."
+        },
+        {
+          "items.question": "هل يمكنني استبدال أو إرجاع القطعة؟",
+          "items.answer": "نعم، خلال ١٤ يومًا من الاستلام بشرط أن تكون القطعة بحالتها الأصلية مع البطاقة والتغليف."
+        },
+        {
+          "items.question": "هل تقدّمون تفصيلًا حسب الطلب؟",
+          "items.answer": "نوفّر تعديل الطول على عدد من التصاميم، ويمكنك إضافة ملاحظتك عند إتمام الطلب."
+        },
+        {
+          "items.question": "ما طرق الدفع المتاحة؟",
+          "items.answer": "الدفع بالبطاقات البنكية ومدى وأبل باي، إضافة إلى خيارات التقسيط المتاحة عند الدفع."
+        }
+      ]
+    }
+  ]
+}

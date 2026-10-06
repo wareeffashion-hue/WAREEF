@@ -1,0 +1,161 @@
+{
+  "order": 13,
+  "title": {
+    "ar": "منتجات بتصميم مجلة",
+    "en": "Editorial products grid"
+  },
+  "icon": "sicon-layout-grid",
+  "path": "home.w-products-editorial",
+  "fields": [
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "المختارات",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "قطع تحكي قصة الموسم",
+      "placeholder": "العنوان"
+    },
+    {
+      "id": "image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة البطاقة الكبيرة",
+      "description": "المقاس المناسب 1000×1400",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "feature_kicker",
+      "type": "string",
+      "format": "text",
+      "label": "نص صغير فوق عنوان البطاقة",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مجموعة جديدة",
+      "placeholder": "نص صغير فوق عنوان البطاقة"
+    },
+    {
+      "id": "feature_title",
+      "type": "string",
+      "format": "text",
+      "label": "عنوان البطاقة",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "عبايات الكتان الصيفية",
+      "placeholder": "عنوان البطاقة"
+    },
+    {
+      "id": "feature_link_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص رابط البطاقة",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "اكتشفي المجموعة",
+      "placeholder": "نص رابط البطاقة"
+    },
+    {
+      "id": "feature_url",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط البطاقة",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "layout",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "موضع البطاقة",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "في البداية",
+          "value": "start"
+        },
+        {
+          "label": "في النهاية",
+          "value": "end"
+        }
+      ],
+      "selected": [
+        {
+          "label": "في البداية",
+          "value": "start"
+        }
+      ]
+    },
+    {
+      "id": "products",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "المنتجات (٤ أو ٦)",
+      "icon": "sicon-keyboard_arrow_down",
+      "source": "products",
+      "multichoice": true,
+      "searchable": true,
+      "required": false,
+      "minLength": 1,
+      "maxLength": 6,
+      "selected": [],
+      "options": [],
+      "value": []
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+/* Wareef — category circles */
+.w-category-circles {
+  &__title { text-align: center; font-size: var(--w-h3); font-weight: 600; margin: 0 0 clamp(20px, 2.6vw, 36px); color: var(--w-text); letter-spacing: var(--w-track); }
+  &__row {
+    list-style: none; margin: 0; padding: 6px 2px 8px; display: flex; gap: clamp(14px, 2.2vw, 32px);
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; overscroll-behavior-x: contain;
+    &::-webkit-scrollbar { display: none; }
+    /* Flexible spacers centre the row when it fits and collapse to 0 when it scrolls (direction-agnostic). */
+    &::before, &::after { content: ''; flex: 0 0 0; margin: auto; }
+  }
+  &__item { flex: 0 0 auto; width: clamp(88px, 9.4vw, 136px); scroll-snap-align: start; }
+  &__link { display: block; color: var(--w-text); text-align: center;
+    &:focus-visible { outline: none; }
+    &:focus-visible .w-category-circles__img { outline: 2px solid var(--w-text); outline-offset: 3px; }
+  }
+  &__disc { position: relative; display: block; padding: 6px; border-radius: 50%;
+    &::before { content: ''; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--w-line); }
+  }
+  &__ring {
+    position: absolute; inset: 0; width: 100%; height: 100%; transform: rotate(-90deg); overflow: visible;
+    circle { fill: none; stroke: var(--w-text); stroke-width: .9; stroke-dasharray: 100; stroke-dashoffset: 100; transition: stroke-dashoffset 1.1s var(--w-ease-out); }
+  }
+  [dir='rtl'] &__ring { transform: rotate(-90deg) scaleY(-1); }
+  &__img { display: block; aspect-ratio: 1; border-radius: 50%; overflow: hidden; background: var(--w-surface-2);
+    img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.1s var(--w-ease-out); }
+  }
+  &__name { display: block; margin-top: 12px; font-size: 14px; font-weight: 500; line-height: 1.5; transition: color .3s; }
+  &__link:hover &__ring circle, &__link:focus-visible &__ring circle { stroke-dashoffset: 0; }
+  &__link:hover &__img img { transform: scale(1.08); }
+}

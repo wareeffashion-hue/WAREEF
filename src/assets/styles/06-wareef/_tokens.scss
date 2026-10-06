@@ -1,0 +1,36 @@
+/* Wareef design tokens. Presets and dark mode only swap variables, so every
+   component written against them follows automatically. */
+:root {
+  --w-bg: #faf8f4;          /* ivory page */
+  --w-surface: #ffffff;
+  --w-surface-2: #f2eee7;
+  --w-text: #111111;
+  --w-text-2: #4a4744;
+  --w-muted: #8c877f;
+  --w-line: #e6e0d6;
+  --w-accent: var(--color-primary, #111111);
+  --w-accent-ink: var(--color-primary-reverse, #ffffff);
+  --w-gold: #b8955a;         /* champagne detail */
+  --w-radius: 0px;
+  --w-radius-sm: 0px;
+  --w-ease: cubic-bezier(.2, .8, .2, 1);
+  --w-ease-out: cubic-bezier(.16, 1, .3, 1);
+  --w-dur: .9s;
+  --w-gap: clamp(16px, 2.4vw, 32px);
+  --w-section: clamp(56px, 8vw, 120px);
+  --w-h1: clamp(34px, 5.4vw, 76px);
+  --w-h2: clamp(26px, 3.2vw, 46px);
+  --w-h3: clamp(18px, 1.6vw, 24px);
+  --w-track: .02em;
+}
+body.w-style-minimal { --w-bg: #ffffff; --w-surface-2: #f6f6f6; --w-line: #ececec; --w-gold: #111111; }
+body.w-style-soft { --w-bg: #f7f1ec; --w-surface: #fffaf6; --w-surface-2: #efe4da; --w-line: #e7d8cb; --w-text-2: #5b4d44; --w-gold: #b07d62; }
+body.w-style-bold { --w-bg: #ffffff; --w-surface-2: #f1f1f1; --w-text: #0a0a0a; --w-line: #0a0a0a; --w-gold: var(--color-primary); --w-track: 0; }
+body.w-radius-soft { --w-radius: 14px; --w-radius-sm: 8px; }
+body.w-radius-round { --w-radius: 26px; --w-radius-sm: 999px; }
+
+html.dark {
+  color-scheme: dark;
+  --w-bg: #0d0d0d; --w-surface: #161616; --w-surface-2: #1d1d1d; --w-text: #f4efe6; --w-text-2: #c8c1b6; --w-muted: #8d877d; --w-line: #2a2724;
+}
+html.dark body.w-style-soft { --w-bg: #14100e; --w-surface: #1c1714; --w-surface-2: #241e1a; --w-line: #352c26; }

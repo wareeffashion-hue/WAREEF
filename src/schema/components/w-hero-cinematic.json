@@ -1,0 +1,238 @@
+{
+  "order": 1,
+  "title": {
+    "ar": "واجهة سينمائية",
+    "en": "Cinematic Hero"
+  },
+  "icon": "sicon-image",
+  "path": "home.w-hero-cinematic",
+  "fields": [
+    {
+      "id": "n",
+      "type": "static",
+      "format": "description",
+      "value": "<div>واجهة بملء الشاشة بصورة أو فيديو. عند إضافة رابط فيديو MP4 يُعرض الفيديو بدل الصورة، وتُستخدم الصورة كغلاف أثناء التحميل.</div>"
+    },
+    {
+      "id": "image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الخلفية",
+      "description": "المقاس المناسب 2400×1400",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "mobile_image",
+      "type": "string",
+      "format": "image",
+      "label": "صورة الجوال (اختياري)",
+      "description": "المقاس المناسب 1080×1920",
+      "icon": "sicon-image",
+      "required": false,
+      "value": null,
+      "placeholder": "https://"
+    },
+    {
+      "id": "video_url",
+      "type": "string",
+      "format": "text",
+      "label": "رابط فيديو MP4 (اختياري)",
+      "icon": "sicon-play",
+      "multilanguage": false,
+      "required": false,
+      "value": "",
+      "placeholder": "https://",
+      "description": "رابط مباشر لملف ‎.mp4 يُشغَّل صامتاً ومتكرراً"
+    },
+    {
+      "id": "kicker",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الصغير",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "مجموعة خريف ٢٠٢٦",
+      "placeholder": "العنوان الصغير"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان الرئيسي",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "أناقة تُروى بالتفاصيل",
+      "placeholder": "العنوان الرئيسي"
+    },
+    {
+      "id": "lead",
+      "type": "string",
+      "format": "textarea",
+      "label": "النص التعريفي",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "عبايات مصنوعة بعناية من أجود الأقمشة، تجمع وقار الحِرفة بروح العصر.",
+      "placeholder": "النص التعريفي"
+    },
+    {
+      "id": "btn1_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص الزر الأساسي",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "اكتشفي المجموعة",
+      "placeholder": "نص الزر الأساسي"
+    },
+    {
+      "id": "btn1_url",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط الزر الأساسي",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "btn2_text",
+      "type": "string",
+      "format": "text",
+      "label": "نص الزر الثانوي",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "حكايتنا",
+      "placeholder": "نص الزر الثانوي"
+    },
+    {
+      "id": "btn2_url",
+      "type": "items",
+      "format": "variable-list",
+      "label": "رابط الزر الثانوي",
+      "icon": "sicon-link",
+      "source": "custom",
+      "searchable": true,
+      "required": false,
+      "value": [],
+      "sources": [
+        {
+          "label": "منتج",
+          "key": "products",
+          "value": "products"
+        },
+        {
+          "label": "تصنيف",
+          "key": "categories",
+          "value": "categories"
+        },
+        {
+          "label": "ماركة تجارية",
+          "key": "brands",
+          "value": "brands"
+        },
+        {
+          "label": "صفحة تعريفية",
+          "key": "pages",
+          "value": "pages"
+        },
+        {
+          "label": "التخفيضات",
+          "key": "offers_link",
+          "value": "offers_link"
+        },
+        {
+          "label": "رابط خارجي",
+          "key": "custom",
+          "value": "custom"
+        }
+      ]
+    },
+    {
+      "id": "align",
+      "type": "items",
+      "format": "dropdown-list",
+      "label": "محاذاة النص",
+      "icon": "sicon-list",
+      "source": "Manual",
+      "required": true,
+      "options": [
+        {
+          "label": "بداية السطر",
+          "value": "start"
+        },
+        {
+          "label": "في المنتصف",
+          "value": "center"
+        }
+      ],
+      "selected": [
+        {
+          "label": "بداية السطر",
+          "value": "start"
+        }
+      ]
+    },
+    {
+      "id": "overlay",
+      "type": "number",
+      "format": "integer",
+      "label": "قوة التعتيم فوق الصورة (%)",
+      "icon": "sicon-pencil-ruler",
+      "required": false,
+      "value": 45,
+      "minimum": 0,
+      "maximum": 90
+    },
+    {
+      "id": "show_cue",
+      "type": "boolean",
+      "format": "switch",
+      "label": "إظهار مؤشر التمرير",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    }
+  ]
+}

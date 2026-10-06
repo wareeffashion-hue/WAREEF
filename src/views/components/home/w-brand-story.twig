@@ -1,0 +1,37 @@
+{#
+  Wareef — Heritage timeline; a line fills with scroll (w-brand-story.js). Horizontal on desktop, vertical on mobile.
+#}
+{% set kicker = component.kicker %}{% set kicker = kicker is iterable ? (kicker[language.code]|default(kicker|first)) : kicker %}
+{% set title = component.title %}{% set title = title is iterable ? (title[language.code]|default(title|first)) : title %}
+{% set lead = component.lead %}{% set lead = lead is iterable ? (lead[language.code]|default(lead|first)) : lead %}
+{% set items = component.milestones|default([]) %}
+{% if items|length %}
+<section component-id="{{ componentId }}" class="w-block w-brand-story" data-testid="w-brand-story" data-w="w-brand-story" style="--w-bs-n: {{ items|length }}">
+  <div class="container">
+    {% if kicker or title or lead %}
+      <div class="w-head w-head--center w-brand-story__head">
+        {% if kicker %}<span class="w-kicker" data-w-reveal>{{ kicker }}</span>{% endif %}
+        {% if title %}<h2 class="w-title" data-w-split>{{ title }}</h2>{% endif %}
+        {% if lead %}<p class="w-lead" data-w-reveal>{{ lead }}</p>{% endif %}
+      </div>
+    {% endif %}
+    <ol class="w-brand-story__list">
+      <li class="w-brand-story__track" aria-hidden="true"><span class="w-brand-story__fill"></span></li>
+      {% for m in items %}
+        {% set y = m.year %}{% set y = y is iterable ? (y[language.code]|default(y|first)) : y %}
+        {% set t = m.title %}{% set t = t is iterable ? (t[language.code]|default(t|first)) : t %}
+        {% set x = m.text %}{% set x = x is iterable ? (x[language.code]|default(x|first)) : x %}
+        <li class="w-brand-story__item" style="--i: {{ loop.index0 }}">
+          <span class="w-brand-story__dot" aria-hidden="true"></span>
+          <div class="w-brand-story__body" data-w-reveal style="--i: {{ loop.index0 }}">
+            {% if y %}<span class="w-brand-story__year">{{ y }}</span>{% endif %}
+            {% if m.image %}<div class="w-media w-ratio-portrait w-brand-story__img"><img src="{{ m.image }}" alt="{{ t|default(y)|e }}" width="800" height="1000" loading="lazy" decoding="async"></div>{% endif %}
+            {% if t %}<h3 class="w-brand-story__title">{{ t }}</h3>{% endif %}
+            {% if x %}<p class="w-brand-story__text">{{ x }}</p>{% endif %}
+          </div>
+        </li>
+      {% endfor %}
+    </ol>
+  </div>
+</section>
+{% endif %}

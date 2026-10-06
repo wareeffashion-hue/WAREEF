@@ -1,0 +1,190 @@
+{
+  "order": 5,
+  "title": {
+    "ar": "قصص وريف",
+    "en": "Wareef Stories"
+  },
+  "icon": "sicon-play",
+  "path": "home.w-stories",
+  "fields": [
+    {
+      "id": "note",
+      "type": "static",
+      "format": "description",
+      "value": "<div>صفوف دائرية بأسلوب القصص. عند الضغط تُفتح القصة بملء الشاشة مع تقدّم تلقائي (٥ ثوانٍ للصورة، ومدة المقطع للفيديو).</div>"
+    },
+    {
+      "id": "title",
+      "type": "string",
+      "format": "text",
+      "label": "العنوان (اتركيه فارغًا لإخفائه)",
+      "icon": "sicon-format-text-alt",
+      "multilanguage": true,
+      "required": false,
+      "value": "لحظات وريف",
+      "placeholder": "العنوان (اتركيه فارغًا لإخفائه)"
+    },
+    {
+      "id": "items",
+      "type": "collection",
+      "format": "collection",
+      "label": "القصص",
+      "item_label": "قصة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 15,
+      "fields": [
+        {
+          "id": "items.title",
+          "type": "string",
+          "format": "text",
+          "label": "عنوان القصة",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "عنوان القصة"
+        },
+        {
+          "id": "items.cover",
+          "type": "string",
+          "format": "image",
+          "label": "صورة الغلاف الدائرية",
+          "description": "المقاس المناسب 300×300",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "items.image",
+          "type": "string",
+          "format": "image",
+          "label": "صورة القصة",
+          "description": "المقاس المناسب 1080×1920",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "items.video_url",
+          "type": "string",
+          "format": "text",
+          "label": "رابط فيديو MP4 (اختياري)",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": false,
+          "required": false,
+          "value": "",
+          "placeholder": "https://…/story.mp4",
+          "description": "عند إضافة رابط فيديو يُعرض بدلًا من صورة القصة"
+        },
+        {
+          "id": "items.button",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "نص الزر"
+        },
+        {
+          "id": "items.link",
+          "type": "items",
+          "format": "variable-list",
+          "label": "رابط الزر",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "items.title": "وصل حديثًا",
+          "items.cover": null,
+          "items.image": null,
+          "items.video_url": "",
+          "items.button": "اكتشفي الجديد",
+          "items.link": []
+        },
+        {
+          "items.title": "المناسبات",
+          "items.cover": null,
+          "items.image": null,
+          "items.video_url": "",
+          "items.button": "تسوّقي المناسبات",
+          "items.link": []
+        },
+        {
+          "items.title": "اليومي",
+          "items.cover": null,
+          "items.image": null,
+          "items.video_url": "",
+          "items.button": "تسوّقي الآن",
+          "items.link": []
+        },
+        {
+          "items.title": "خلف الكواليس",
+          "items.cover": null,
+          "items.image": null,
+          "items.video_url": "",
+          "items.button": "تعرّفي علينا",
+          "items.link": []
+        },
+        {
+          "items.title": "الأكثر طلبًا",
+          "items.cover": null,
+          "items.image": null,
+          "items.video_url": "",
+          "items.button": "تسوّقي الأكثر طلبًا",
+          "items.link": []
+        },
+        {
+          "items.title": "دليل المقاسات",
+          "items.cover": null,
+          "items.image": null,
+          "items.video_url": "",
+          "items.button": "افتحي الدليل",
+          "items.link": []
+        }
+      ]
+    }
+  ]
+}

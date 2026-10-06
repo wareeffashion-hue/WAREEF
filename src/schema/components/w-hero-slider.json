@@ -1,0 +1,192 @@
+{
+  "order": 2,
+  "title": {
+    "ar": "سلايدر تحريري",
+    "en": "Editorial Slider"
+  },
+  "icon": "sicon-image",
+  "path": "home.w-hero-slider",
+  "fields": [
+    {
+      "id": "slides",
+      "type": "collection",
+      "format": "collection",
+      "label": "الشرائح",
+      "item_label": "شريحة",
+      "icon": "sicon-list-add",
+      "required": false,
+      "minLength": 1,
+      "maxLength": 8,
+      "fields": [
+        {
+          "id": "slides.image",
+          "type": "string",
+          "format": "image",
+          "label": "الصورة",
+          "description": "المقاس المناسب 2400×1400",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "slides.mobile_image",
+          "type": "string",
+          "format": "image",
+          "label": "صورة الجوال (اختياري)",
+          "description": "المقاس المناسب 1080×1920",
+          "icon": "sicon-image",
+          "required": false,
+          "value": null,
+          "placeholder": "https://"
+        },
+        {
+          "id": "slides.kicker",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان الصغير",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "العنوان الصغير"
+        },
+        {
+          "id": "slides.title",
+          "type": "string",
+          "format": "text",
+          "label": "العنوان",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "العنوان"
+        },
+        {
+          "id": "slides.text",
+          "type": "string",
+          "format": "textarea",
+          "label": "النص",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "النص"
+        },
+        {
+          "id": "slides.button",
+          "type": "string",
+          "format": "text",
+          "label": "نص الزر",
+          "icon": "sicon-format-text-alt",
+          "multilanguage": true,
+          "required": false,
+          "value": "",
+          "placeholder": "نص الزر"
+        },
+        {
+          "id": "slides.url",
+          "type": "items",
+          "format": "variable-list",
+          "label": "الرابط",
+          "icon": "sicon-link",
+          "source": "custom",
+          "searchable": true,
+          "required": false,
+          "value": [],
+          "sources": [
+            {
+              "label": "منتج",
+              "key": "products",
+              "value": "products"
+            },
+            {
+              "label": "تصنيف",
+              "key": "categories",
+              "value": "categories"
+            },
+            {
+              "label": "ماركة تجارية",
+              "key": "brands",
+              "value": "brands"
+            },
+            {
+              "label": "صفحة تعريفية",
+              "key": "pages",
+              "value": "pages"
+            },
+            {
+              "label": "التخفيضات",
+              "key": "offers_link",
+              "value": "offers_link"
+            },
+            {
+              "label": "رابط خارجي",
+              "key": "custom",
+              "value": "custom"
+            }
+          ]
+        }
+      ],
+      "value": [
+        {
+          "slides.image": null,
+          "slides.mobile_image": null,
+          "slides.kicker": "المجموعة الجديدة",
+          "slides.title": "حين يصبح الهدوء أسلوباً",
+          "slides.text": "قصّات انسيابية بألوان ترابية هادئة، صُممت لتمنحكِ حضوراً لا يحتاج إلى ضجيج.",
+          "slides.button": "تسوّقي الآن",
+          "slides.url": ""
+        },
+        {
+          "slides.image": null,
+          "slides.mobile_image": null,
+          "slides.kicker": "إصدار محدود",
+          "slides.title": "تطريز يدوي بخيوط الذهب",
+          "slides.text": "قطع معدودة تحمل توقيع الحِرفيات، لكل غرزة حكاية.",
+          "slides.button": "اكتشفي القطع",
+          "slides.url": ""
+        },
+        {
+          "slides.image": null,
+          "slides.mobile_image": null,
+          "slides.kicker": "أساسيات الخزانة",
+          "slides.title": "الأسود كما يليق بكِ",
+          "slides.text": "عبايات يومية بخامات تتنفس، لتكون رفيقتكِ من الصباح حتى المساء.",
+          "slides.button": "تسوّقي الأساسيات",
+          "slides.url": ""
+        },
+        {
+          "slides.image": null,
+          "slides.mobile_image": null,
+          "slides.kicker": "مناسبات",
+          "slides.title": "إطلالة تُكمل المناسبة",
+          "slides.text": "أقمشة فاخرة وتفاصيل مدروسة لحضورٍ يبقى في الذاكرة.",
+          "slides.button": "تسوّقي المناسبات",
+          "slides.url": ""
+        }
+      ]
+    },
+    {
+      "id": "interval",
+      "type": "number",
+      "format": "integer",
+      "label": "مدة عرض كل شريحة (ثوانٍ)",
+      "icon": "sicon-pencil-ruler",
+      "required": false,
+      "value": 6,
+      "minimum": 3,
+      "maximum": 15
+    },
+    {
+      "id": "autoplay",
+      "type": "boolean",
+      "format": "switch",
+      "label": "تشغيل تلقائي",
+      "icon": "sicon-toggle-off",
+      "required": false,
+      "value": true,
+      "selected": true
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+.w-marquee-text {
+  overflow: hidden; padding-block: clamp(28px, 4vw, 56px); color: var(--w-text);
+  &--inverted { background: var(--w-text); color: var(--w-bg); margin-block: calc(var(--w-section) / 2); }
+  .w-marquee { --w-marquee-gap: clamp(22px, 3vw, 48px); }
+  .w-marquee__track { align-items: center; }
+  &--reverse .w-marquee__track { animation-direction: reverse; }
+  &__word {
+    white-space: nowrap; font-size: clamp(52px, 9vw, 150px); line-height: 1.25; font-weight: 800; letter-spacing: -.01em;
+    &:nth-of-type(even) { color: transparent; -webkit-text-stroke: 1px currentColor; -webkit-text-stroke-color: var(--w-text); }
+  }
+  &--inverted &__word:nth-of-type(even) { -webkit-text-stroke-color: var(--w-bg); }
+  &__sep { font-style: normal; color: var(--w-gold); font-size: clamp(18px, 2.4vw, 36px); line-height: 1; flex: none; }
+}
+@supports not (-webkit-text-stroke: 1px black) { .w-marquee-text__word:nth-of-type(even) { color: var(--w-muted); } }
