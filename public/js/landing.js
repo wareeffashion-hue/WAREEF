@@ -38,6 +38,11 @@ fetch('/api/public/config').then((r) => r.json()).then((c) => {
   document.querySelectorAll('[data-trial-days]').forEach((e) => { e.textContent = c.trialDays; });
   document.title = `${c.appName} · اعرف من وين يجي عميلك فعلاً`;
   if (c.supportEmail) { const s = $('#support'); s.hidden = false; s.href = `mailto:${c.supportEmail}`; }
-  if (!c.signupEnabled) document.querySelectorAll('a[href="/app#/signup"]').forEach((a) => { a.href = '/app#/login'; a.textContent = 'دخول'; });
+  if (!c.signupEnabled) {
+    // Invite-only: the signup buttons turn into login, so drop the separate login button to avoid two of them.
+    document.querySelectorAll('.nav-cta a[href="/app#/login"]').forEach((a) => a.remove());
+    document.querySelector('.hero .fine')?.remove();
+    document.querySelectorAll('a[href="/app#/signup"]').forEach((a) => { a.href = '/app#/login'; a.textContent = 'دخول'; });
+  }
   renderPlans();
 }).catch(() => renderPlans());

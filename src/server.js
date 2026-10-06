@@ -1,4 +1,5 @@
 import { createServer } from 'node:http';
+import { createHash } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
 import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -402,7 +403,7 @@ export function createApp(db) {
         return;
       }
       if (m?.methodNotAllowed) throw new HttpError(405, 'method not allowed');
-      if (req.method === 'GET' && !pathname.startsWith('/api/')) return await serveStatic(res, pathname);
+      if (req.method === 'GET' && !pathname.startsWith('/api/')) return await serveStatic(req, res, pathname);
       throw new HttpError(404, 'not found');
     } catch (err) {
       const status = err.status || 500;
@@ -412,16 +413,28 @@ export function createApp(db) {
   };
 }
 
-async function serveStatic(res, pathname) {
+// Pages, scripts and styles revalidate on every load (cheap 304 via ETag), so a deploy never
+// pairs new HTML with a stale stylesheet. Images and fonts may cache briefly.
+const REVALIDATE = new Set(['.html', '.css', '.js']);
+
+async function serveStatic(req, res, pathname) {
   const page = PAGES[pathname.replace(/\/$/, '') || '/'];
   const file = normalize(join(PUBLIC_DIR, page || pathname));
   if (!file.startsWith(PUBLIC_DIR)) throw new HttpError(404, 'not found');
   try {
     const data = await readFile(file);
     const ext = extname(file);
+    const etag = `"${createHash('sha1').update(data).digest('base64url').slice(0, 20)}"`;
+    const cacheControl = REVALIDATE.has(ext) ? 'no-cache' : 'public, max-age=300';
+    if (req.headers['if-none-match'] === etag) {
+      res.writeHead(304, { ETag: etag, 'Cache-Control': cacheControl });
+      res.end();
+      return;
+    }
     send(res, 200, data, {
       'Content-Type': MIME[ext] || 'application/octet-stream',
-      'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=300',
+      'Cache-Control': cacheControl,
+      ETag: etag,
       ...(ext === '.html' ? SECURITY_HEADERS : {}),
       ...(config.secureCookies ? { 'Strict-Transport-Security': 'max-age=31536000; includeSubDomains' } : {}),
     });
