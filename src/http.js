@@ -50,8 +50,16 @@ export function parseCookies(header = '') {
   return out;
 }
 
+/**
+ * Client IP behind one trusted reverse proxy (Railway, Nginx, Cloudflare...).
+ * The first X-Forwarded-For entry is whatever the client sent, so it can't be
+ * trusted for rate limits; the proxy's own X-Real-IP or the last entry can.
+ */
 export function clientIp(req) {
-  return String(req.headers['x-forwarded-for'] || '').split(',')[0].trim() || req.socket.remoteAddress || '';
+  const real = String(req.headers['x-real-ip'] || '').trim();
+  if (real) return real;
+  const xff = String(req.headers['x-forwarded-for'] || '').split(',').map((s) => s.trim()).filter(Boolean);
+  return xff[xff.length - 1] || req.socket.remoteAddress || '';
 }
 
 export class Router {

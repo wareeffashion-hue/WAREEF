@@ -47,12 +47,14 @@ const salla = (ws, payload, secret = ws.webhook_secret) => {
   });
 };
 
-test('first run: setup creates the admin and first workspace, then locks', async () => {
-  assert.deepEqual((await admin.get('/api/auth/state')).body, { needsSetup: true, user: null });
-  const r = await admin.post('/api/auth/setup', { email: 'boss@agency.sa', name: 'Boss', password: 'longpassword', workspace: 'متجر' });
+test('first signup owns the platform and gets an active account', async () => {
+  assert.equal((await admin.get('/api/auth/state')).body.needsSetup, true);
+  const r = await admin.post('/api/auth/signup', { email: 'boss@agency.sa', name: 'Boss', password: 'longpassword', company: 'الوكالة', store: 'متجر' });
   assert.equal(r.status, 200);
-  assert.equal((await admin.get('/api/auth/state')).body.user.role, 'admin');
-  assert.equal((await client().post('/api/auth/setup', { email: 'x@y.z', password: 'longpassword' })).status, 403);
+  const state = (await admin.get('/api/auth/state')).body;
+  assert.equal(state.user.role, 'admin');
+  assert.equal(state.user.is_superadmin, 1);
+  assert.equal(state.org.state, 'ok');
   shop = (await admin.get('/api/workspaces/1')).body;
   other = (await admin.post('/api/workspaces', { name: 'عميل آخر' })).body;
   assert.ok(shop.site_key && shop.api_key && shop.webhook_secret);
@@ -164,4 +166,98 @@ test('rejects bad events', async () => {
   assert.equal((await fetch(`${base}/collect?k=${shop.site_key}`, { method: 'POST', body: '{"v":"x","e":"pageview"}', headers: { 'User-Agent': 'Mozilla' } })).status, 400);
   assert.equal((await fetch(`${base}/collect?k=${shop.site_key}`, { method: 'POST', body: '{"v":"visitor_abc12345","e":"hack"}', headers: { 'User-Agent': 'Mozilla' } })).status, 400);
   assert.equal((await fetch(`${base}/collect?k=missing`, { method: 'POST', body: '{}' })).status, 404);
+});
+
+// ------------------------------------------------------------------ SaaS
+
+const { sent } = await import('../src/email.js');
+
+test('a second signup is a separate account on a trial, isolated from the first', async () => {
+  const b = client();
+  assert.equal((await b.post('/api/auth/signup', { email: 'b@other.sa', name: 'B', password: 'longpassword', company: 'Other Agency', store: 'B Store' })).status, 200);
+  const state = (await b.get('/api/auth/state')).body;
+  assert.equal(state.user.is_superadmin, 0);
+  assert.equal(state.org.status, 'trialing');
+  assert.equal(state.org.state, 'ok');
+  assert.ok(sent.some((m) => m.to === 'b@other.sa'), 'welcome email');
+  const list = (await b.get('/api/workspaces')).body;
+  assert.equal(list.length, 1);
+  assert.notEqual(list[0].id, shop.id);
+  // Cannot touch the first account's data or users, even as an admin.
+  assert.equal((await b.get(`/api/w/${shop.id}/report/channels?${q}`)).status, 404);
+  assert.equal((await b.get(`/api/workspaces/${shop.id}`)).status, 404);
+  assert.ok((await b.get('/api/users')).body.every((u) => u.email === 'b@other.sa'));
+  const firstUser = (await admin.get('/api/users')).body[0];
+  assert.equal((await b.put(`/api/users/${firstUser.id}`, { role: 'member' })).status, 404);
+  assert.equal((await b.post('/api/users', { email: 'x@x.sa', name: 'x', password: 'longpassword', workspaces: [shop.id] })).status, 200);
+  const x = (await b.get('/api/users')).body.find((u) => u.email === 'x@x.sa');
+  assert.deepEqual(x.workspaces, [], 'cannot grant access to another account\'s workspace');
+  assert.ok((await b.get(`/api/agency?${q}`)).body.every((w) => w.id !== shop.id));
+  // Platform panel is for the owner only.
+  assert.equal((await b.get('/api/platform/overview')).status, 403);
+  const panel = (await admin.get('/api/platform/overview')).body;
+  assert.equal(panel.summary.organizations, 1);
+  assert.equal(panel.summary.trialing, 1);
+});
+
+test('plan limits: trial allows 3 stores and 3 members', async () => {
+  const c = client();
+  await c.post('/api/auth/signup', { email: 'c@limits.sa', name: 'C', password: 'longpassword', company: 'Limits' });
+  for (let i = 0; i < 3; i++) assert.equal((await c.post('/api/workspaces', { name: `s${i}` })).status, 200);
+  const r = await c.post('/api/workspaces', { name: 'one too many' });
+  assert.equal(r.status, 402);
+  assert.match(r.body.error, /3/);
+});
+
+test('expired subscription: reports locked, tracking keeps going during grace, then stops', async () => {
+  const d = client();
+  await d.post('/api/auth/signup', { email: 'd@expired.sa', name: 'D', password: 'longpassword', company: 'Expired', store: 'D' });
+  const orgId = (await d.get('/api/auth/state')).body.org.id;
+  const w = (await d.get('/api/workspaces')).body[0];
+  const full = (await d.get(`/api/workspaces/${w.id}`)).body;
+  const { invalidateOrg } = await import('../src/orgs.js');
+  const DAYMS = 86_400_000;
+
+  db.prepare('UPDATE organizations SET trial_ends_at = ? WHERE id = ?').run(Date.now() - 2 * DAYMS, orgId);
+  invalidateOrg(orgId);
+  const rep = await d.get(`/api/w/${w.id}/report/overview?${q}`);
+  assert.equal(rep.status, 402);
+  assert.equal((await d.get('/api/billing')).status, 200, 'billing stays reachable');
+  assert.equal((await collect(full.site_key, { v: 'visitor_grace_001', e: 'pageview', s: 1, url: 'https://d.sa/?gclid=1' })).stored, 'touchpoint');
+
+  db.prepare('UPDATE organizations SET trial_ends_at = ? WHERE id = ?').run(Date.now() - 30 * DAYMS, orgId);
+  invalidateOrg(orgId);
+  assert.equal((await collect(full.site_key, { v: 'visitor_grace_001', e: 'pageview', s: 1, url: 'https://d.sa/?gclid=1' })).reason, 'subscription');
+
+  // Platform owner extends access: works again.
+  assert.equal((await admin.put(`/api/platform/orgs/${orgId}`, { plan: 'starter', extend_days: 30 })).status, 200);
+  assert.equal((await d.get(`/api/w/${w.id}/report/overview?${q}`)).status, 200);
+  // Suspension blocks everything for that account.
+  await admin.put(`/api/platform/orgs/${orgId}`, { status: 'suspended' });
+  assert.equal((await d.get('/api/workspaces')).status, 403);
+});
+
+test('password reset by email', async () => {
+  const anon = client();
+  assert.equal((await anon.post('/api/auth/forgot', { email: 'nobody@nowhere.sa' })).status, 200, 'no account enumeration');
+  await anon.post('/api/auth/forgot', { email: 'boss@agency.sa' });
+  const mail = sent.filter((m) => m.to === 'boss@agency.sa').pop();
+  const token = /#\/reset\/([A-Za-z0-9_-]+)/.exec(mail.html)[1];
+  assert.equal((await anon.post('/api/auth/reset', { token: 'bad', password: 'newpassword1' })).status, 400);
+  assert.equal((await anon.post('/api/auth/reset', { token, password: 'newpassword1' })).status, 200);
+  assert.equal((await anon.post('/api/auth/reset', { token, password: 'newpassword2' })).status, 400, 'single use');
+  assert.equal((await anon.get('/api/auth/state')).body.user.email, 'boss@agency.sa');
+  assert.equal((await client().post('/api/auth/login', { email: 'boss@agency.sa', password: 'newpassword1' })).status, 200);
+});
+
+test('public pages and config', async () => {
+  const cfg = (await client().get('/api/public/config')).body;
+  assert.ok(cfg.plans.length >= 3);
+  assert.equal(cfg.needsSetup, false);
+  for (const path of ['/', '/app', '/terms', '/privacy']) {
+    const res = await fetch(base + path);
+    assert.equal(res.status, 200, path);
+    assert.match(res.headers.get('content-security-policy') || '', /frame-ancestors 'none'/);
+  }
+  assert.equal((await fetch(`${base}/nope`)).status, 404);
 });

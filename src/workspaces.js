@@ -4,12 +4,13 @@ import { HttpError } from './http.js';
 
 const key = (prefix, bytes) => `${prefix}_${randomBytes(bytes).toString('base64url')}`;
 
-export function createWorkspace(db, { name, currency = 'SAR' }) {
+export function createWorkspace(db, { name, currency = 'SAR', orgId }) {
+  if (!orgId) throw new Error('orgId is required');
   name = String(name || '').trim().slice(0, 100);
   if (!name) throw new HttpError(400, 'اسم العميل مطلوب');
-  const res = db.prepare(`INSERT INTO workspaces (name, site_key, api_key, webhook_secret, currency, created_at)
-                          VALUES (?, ?, ?, ?, ?, ?)`)
-    .run(name, key('site', 9), key('key', 24), randomBytes(24).toString('hex'), String(currency).toUpperCase().slice(0, 3), Date.now());
+  const res = db.prepare(`INSERT INTO workspaces (name, site_key, api_key, webhook_secret, currency, org_id, created_at)
+                          VALUES (?, ?, ?, ?, ?, ?, ?)`)
+    .run(name, key('site', 9), key('key', 24), randomBytes(24).toString('hex'), String(currency || 'SAR').toUpperCase().slice(0, 3), orgId, Date.now());
   return getWorkspace(db, Number(res.lastInsertRowid));
 }
 
@@ -31,9 +32,9 @@ export function workspaceByApiKey(db, apiKey) {
 
 export function listWorkspaces(db, user) {
   const rows = user.role === 'admin'
-    ? db.prepare('SELECT id, name, currency FROM workspaces ORDER BY name').all()
+    ? db.prepare('SELECT id, name, currency FROM workspaces WHERE org_id = ? ORDER BY name').all(user.org_id)
     : db.prepare(`SELECT w.id, w.name, w.currency FROM workspaces w JOIN user_workspaces uw ON uw.workspace_id = w.id
-                  WHERE uw.user_id = ? ORDER BY w.name`).all(user.id);
+                  WHERE uw.user_id = ? AND w.org_id = ? ORDER BY w.name`).all(user.id, user.org_id);
   return rows.map((r) => ({ ...r }));
 }
 

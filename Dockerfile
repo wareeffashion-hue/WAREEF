@@ -1,6 +1,6 @@
 FROM node:22-alpine
 WORKDIR /app
-ENV NODE_ENV=production PORT=3000 DB_PATH=/data/tracking.db
+ENV NODE_ENV=production PORT=3000 DB_PATH=/data/tracking.db SECURE_COOKIES=1
 COPY package.json ./
 COPY src ./src
 COPY public ./public

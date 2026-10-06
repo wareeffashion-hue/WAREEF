@@ -126,6 +126,67 @@ const MIGRATIONS = [
     UNIQUE (workspace_id, platform, account_id)
   );
   `,
+  // v2: SaaS accounts. Every user and workspace belongs to an organization
+  // (a subscribing agency or store); billing, limits and usage are per org.
+  `
+  CREATE TABLE organizations (
+    id INTEGER PRIMARY KEY,
+    name TEXT NOT NULL,
+    plan TEXT NOT NULL DEFAULT 'trial',
+    status TEXT NOT NULL DEFAULT 'trialing' CHECK (status IN ('trialing', 'active', 'expired', 'suspended')),
+    trial_ends_at INTEGER,
+    current_period_end INTEGER,
+    billing_cycle TEXT NOT NULL DEFAULT 'monthly',
+    reminder_sent TEXT,
+    created_at INTEGER NOT NULL
+  );
+  ALTER TABLE users ADD COLUMN org_id INTEGER REFERENCES organizations(id) ON DELETE CASCADE;
+  ALTER TABLE users ADD COLUMN is_superadmin INTEGER NOT NULL DEFAULT 0;
+  ALTER TABLE workspaces ADD COLUMN org_id INTEGER REFERENCES organizations(id) ON DELETE CASCADE;
+  CREATE INDEX users_org ON users(org_id);
+  CREATE INDEX workspaces_org ON workspaces(org_id);
+
+  CREATE TABLE password_resets (
+    token_hash TEXT PRIMARY KEY,
+    user_id INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    expires_at INTEGER NOT NULL
+  );
+
+  CREATE TABLE payments (
+    id INTEGER PRIMARY KEY,
+    org_id INTEGER NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    provider TEXT NOT NULL,
+    provider_id TEXT NOT NULL UNIQUE,
+    plan TEXT NOT NULL,
+    cycle TEXT NOT NULL,
+    amount INTEGER NOT NULL, -- smallest currency unit (halalas)
+    currency TEXT NOT NULL,
+    status TEXT NOT NULL,
+    url TEXT,
+    created_at INTEGER NOT NULL,
+    paid_at INTEGER,
+    period_end INTEGER
+  );
+  CREATE INDEX payments_org ON payments(org_id, created_at);
+
+  -- Tracked events per org per month (YYYY-MM), for plan quotas.
+  CREATE TABLE usage_monthly (
+    org_id INTEGER NOT NULL REFERENCES organizations(id) ON DELETE CASCADE,
+    month TEXT NOT NULL,
+    events INTEGER NOT NULL DEFAULT 0,
+    PRIMARY KEY (org_id, month)
+  );
+
+  -- Existing single-agency installs become one organization; its first
+  -- admin becomes the platform owner.
+  INSERT INTO organizations (id, name, plan, status, created_at)
+    SELECT 1, 'الوكالة', 'agency', 'active', CAST(strftime('%s', 'now') AS INTEGER) * 1000
+    WHERE EXISTS (SELECT 1 FROM users) OR EXISTS (SELECT 1 FROM workspaces);
+  UPDATE organizations SET current_period_end = created_at + 3650 * 86400000 WHERE id = 1;
+  UPDATE users SET org_id = 1 WHERE org_id IS NULL AND EXISTS (SELECT 1 FROM organizations WHERE id = 1);
+  UPDATE workspaces SET org_id = 1 WHERE org_id IS NULL AND EXISTS (SELECT 1 FROM organizations WHERE id = 1);
+  UPDATE users SET is_superadmin = 1 WHERE id = (SELECT MIN(id) FROM users WHERE role = 'admin');
+  `,
 ];
 
 export function openDb(path) {

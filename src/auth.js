@@ -25,14 +25,15 @@ export function validatePassword(password) {
   if (typeof password !== 'string' || password.length < 8) throw new HttpError(400, 'كلمة المرور لازم تكون 8 أحرف على الأقل');
 }
 
-export function createUser(db, { email, name, password, role = 'member' }) {
+export function createUser(db, { email, name, password, role = 'member', orgId, superadmin = false }) {
   email = String(email || '').trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) throw new HttpError(400, 'البريد غير صحيح');
   validatePassword(password);
   if (!['admin', 'member'].includes(role)) throw new HttpError(400, 'invalid role');
   if (db.prepare('SELECT 1 FROM users WHERE email = ?').get(email)) throw new HttpError(409, 'البريد مستخدم من قبل');
-  const res = db.prepare('INSERT INTO users (email, name, password_hash, role, created_at) VALUES (?, ?, ?, ?, ?)')
-    .run(email, String(name || email).trim().slice(0, 100), hashPassword(password), role, Date.now());
+  if (!orgId) throw new Error('orgId is required');
+  const res = db.prepare('INSERT INTO users (email, name, password_hash, role, org_id, is_superadmin, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)')
+    .run(email, String(name || email).trim().slice(0, 100), hashPassword(password), role, orgId, superadmin ? 1 : 0, Date.now());
   return Number(res.lastInsertRowid);
 }
 
@@ -69,12 +70,14 @@ export function logout(db, req) {
 export function currentUser(db, req) {
   const token = parseCookies(req.headers.cookie)[SESSION_COOKIE];
   if (!token) return null;
-  const row = db.prepare(`SELECT u.id, u.email, u.name, u.role FROM sessions s JOIN users u ON u.id = s.user_id
+  const row = db.prepare(`SELECT u.id, u.email, u.name, u.role, u.org_id, u.is_superadmin FROM sessions s JOIN users u ON u.id = s.user_id
                           WHERE s.token_hash = ? AND s.expires_at > ?`).get(tokenHash(token), Date.now());
   return row ? { ...row } : null;
 }
 
 export function canAccessWorkspace(db, user, workspaceId) {
+  const ws = db.prepare('SELECT org_id FROM workspaces WHERE id = ?').get(workspaceId);
+  if (!ws || ws.org_id !== user.org_id) return false;
   if (user.role === 'admin') return true;
   return !!db.prepare('SELECT 1 FROM user_workspaces WHERE user_id = ? AND workspace_id = ?').get(user.id, workspaceId);
 }
@@ -83,9 +86,29 @@ export function requireAdmin(user) {
   if (user.role !== 'admin') throw new HttpError(403, 'هذي العملية للمدير فقط');
 }
 
-export function bootstrapAdmin(db) {
-  if (config.adminEmail && config.adminPassword && userCount(db) === 0) {
-    createUser(db, { email: config.adminEmail, name: 'Admin', password: config.adminPassword, role: 'admin' });
-    console.log(`Created admin user ${config.adminEmail}`);
-  }
+export function requireSuperadmin(user) {
+  if (!user.is_superadmin) throw new HttpError(403, 'هذي الصفحة لمالك المنصة فقط');
+}
+
+// --------------------------------------------------------- password reset
+const RESET_MINUTES = 60;
+
+export function createPasswordReset(db, email) {
+  const user = db.prepare('SELECT id, name, email FROM users WHERE email = ?').get(String(email || '').trim().toLowerCase());
+  if (!user) return null;
+  const token = randomBytes(32).toString('base64url');
+  db.prepare('DELETE FROM password_resets WHERE user_id = ? OR expires_at < ?').run(user.id, Date.now());
+  db.prepare('INSERT INTO password_resets (token_hash, user_id, expires_at) VALUES (?, ?, ?)')
+    .run(tokenHash(token), user.id, Date.now() + RESET_MINUTES * 60_000);
+  return { token, user: { ...user } };
+}
+
+export function resetPassword(db, token, password) {
+  validatePassword(password);
+  const row = db.prepare('SELECT user_id FROM password_resets WHERE token_hash = ? AND expires_at > ?').get(tokenHash(String(token || '')), Date.now());
+  if (!row) throw new HttpError(400, 'الرابط منتهي أو غير صحيح. اطلب رابط جديد.');
+  db.prepare('UPDATE users SET password_hash = ? WHERE id = ?').run(hashPassword(password), row.user_id);
+  db.prepare('DELETE FROM password_resets WHERE user_id = ?').run(row.user_id);
+  db.prepare('DELETE FROM sessions WHERE user_id = ?').run(row.user_id);
+  return createSession(db, row.user_id);
 }

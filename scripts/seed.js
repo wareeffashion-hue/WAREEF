@@ -6,8 +6,10 @@
 import { rmSync } from 'node:fs';
 import { config, DAY, dayOf } from '../src/config.js';
 import { openDb, transaction } from '../src/db.js';
-import { createUser } from '../src/auth.js';
+import { signup } from '../src/accounts.js';
 import { createWorkspace } from '../src/workspaces.js';
+import { createOrganization } from '../src/orgs.js';
+import { hashPassword } from '../src/auth.js';
 
 let seed = 7;
 const rand = () => ((seed = (seed * 1664525 + 1013904223) % 2 ** 32) / 2 ** 32);
@@ -40,14 +42,15 @@ const LATER = { google: 30, direct: 22, snapchat: 12, tiktok: 8, meta: 12, organ
 const BUY = { google: 0.13, meta: 0.09, snapchat: 0.07, tiktok: 0.05, organic_search: 0.1, organic_social: 0.05, direct: 0.12, email: 0.15 };
 
 if (config.dbPath !== ':memory:') rmSync(config.dbPath, { force: true });
-const db = openDb(config.dbPath);
 const now = Date.now();
 const DAYS = 120;
+const db = openDb(config.dbPath);
 
-createUser(db, { email: 'admin@example.com', name: 'مدير الوكالة', password: 'admin12345', role: 'admin' });
+// First signup = platform owner, whose own agency holds the demo clients.
+const { orgId } = signup(db, { email: 'admin@example.com', name: 'مدير الوكالة', password: 'admin12345', company: 'وكالة ريسنق' });
 
 for (const client of CLIENTS) {
-  const ws = createWorkspace(db, { name: client.name });
+  const ws = createWorkspace(db, { name: client.name, orgId });
   const insTp = db.prepare(`INSERT INTO touchpoints (workspace_id, visitor_id, ts, channel, source, medium, campaign, content, click_id, landing_url, device)
                             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`);
   const insEv = db.prepare('INSERT INTO events (workspace_id, visitor_id, ts, type) VALUES (?, ?, ?, ?)');
@@ -187,4 +190,27 @@ for (const client of CLIENTS) {
   const stats = db.prepare('SELECT type, COUNT(*) n FROM conversions WHERE workspace_id = ? GROUP BY type').all(ws.id);
   console.log(`${client.name}: ${stats.map((s) => `${s.type}=${s.n}`).join(' ')}`);
 }
+// A few subscriber accounts so the platform owner panel has something to show.
+const SUBSCRIBERS = [
+  ['وكالة الأفق الرقمي', 'growth', 'active', 21, 'monthly'], ['متجر لمسات', 'starter', 'active', 200, 'yearly'],
+  ['براند نجد', 'trial', 'trialing', 9, null], ['وكالة مدى', 'agency', 'active', 12, 'monthly'],
+  ['عطارة الريف', 'trial', 'expired', -3, null], ['متجر سنا', 'starter', 'active', 4, 'monthly'],
+];
+for (const [i, [name, plan, status, daysLeft, cycle]] of SUBSCRIBERS.entries()) {
+  const id = createOrganization(db, { name, now: now - (40 + i * 9) * DAY });
+  const ends = now + daysLeft * DAY;
+  db.prepare('UPDATE organizations SET plan = ?, status = ?, trial_ends_at = ?, current_period_end = ?, billing_cycle = ? WHERE id = ?')
+    .run(plan, status, plan === 'trial' ? ends : now - 30 * DAY, plan === 'trial' ? null : ends, cycle || 'monthly', id);
+  db.prepare(`INSERT INTO users (email, name, password_hash, role, org_id, created_at) VALUES (?, ?, ?, 'admin', ?, ?)`)
+    .run(`owner${i + 1}@example.com`, name, hashPassword('demo12345'), id, now - (40 + i * 9) * DAY);
+  createWorkspace(db, { name, orgId: id });
+  if (plan !== 'trial') {
+    const amount = (cycle === 'yearly' ? { starter: 1990, growth: 4990, agency: 12990 } : { starter: 199, growth: 499, agency: 1299 })[plan] * 100;
+    db.prepare(`INSERT INTO payments (org_id, provider, provider_id, plan, cycle, amount, currency, status, created_at, paid_at, period_end)
+                VALUES (?, 'moyasar', ?, ?, ?, ?, 'SAR', 'paid', ?, ?, ?)`)
+      .run(id, `demo-inv-${i}`, plan, cycle, amount, ends - 30 * DAY, ends - 30 * DAY, ends);
+  }
+  db.prepare(`INSERT INTO usage_monthly (org_id, month, events) VALUES (?, ?, ?)`).run(id, new Date(now).toISOString().slice(0, 7), Math.round(20000 + rand() * 400000));
+}
+
 console.log('\nLogin: admin@example.com / admin12345');

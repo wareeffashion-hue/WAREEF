@@ -1,4 +1,15 @@
 export const config = {
+  appName: process.env.APP_NAME || 'Tracking',
+  supportEmail: process.env.SUPPORT_EMAIL || '',
+  signupEnabled: process.env.SIGNUP_ENABLED !== '0',
+  // Transactional email via Resend (https://resend.com). Without a key, emails are logged.
+  resendApiKey: process.env.RESEND_API_KEY || '',
+  emailFrom: process.env.EMAIL_FROM || 'Tracking <no-reply@example.com>',
+  // Moyasar payments (https://moyasar.com). Without a key, checkout is disabled.
+  moyasarSecretKey: process.env.MOYASAR_SECRET_KEY || '',
+  moyasarWebhookSecret: process.env.MOYASAR_WEBHOOK_SECRET || '',
+  backupDays: Number(process.env.BACKUP_KEEP_DAYS || 14),
+  retentionDays: Number(process.env.RETENTION_DAYS || 400),
   port: Number(process.env.PORT || 3000),
   dbPath: process.env.DB_PATH || 'data/tracking.db',
   // Public URL of this server, baked into the tracking snippet and webhook URLs.

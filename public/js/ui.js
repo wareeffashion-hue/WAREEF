@@ -16,7 +16,7 @@ export function h(tag, attrs = {}, ...children) {
     if (v == null || v === false) continue;
     if (k === 'class') el.className = v;
     else if (k.startsWith('on') && typeof v === 'function') el.addEventListener(k.slice(2), v);
-    else if (k === 'style' && typeof v === 'object') Object.assign(el.style, v);
+    else if (k === 'style') { if (typeof v === 'object') Object.assign(el.style, v); else el.style.cssText = v; }
     else el.setAttribute(k, v === true ? '' : v);
   }
   for (const c of children.flat(Infinity)) if (c != null && c !== false) el.append(c instanceof Node ? c : String(c));
@@ -26,7 +26,8 @@ export function h(tag, attrs = {}, ...children) {
 const SVG_NS = 'http://www.w3.org/2000/svg';
 export function s(tag, attrs = {}, ...children) {
   const el = document.createElementNS(SVG_NS, tag);
-  for (const [k, v] of Object.entries(attrs)) if (v != null) el.setAttribute(k, v);
+  // Styles go through CSSOM (style.cssText), which the CSP allows; style attributes would be blocked.
+  for (const [k, v] of Object.entries(attrs)) if (v != null) { if (k === 'style') el.style.cssText = v; else el.setAttribute(k, v); }
   for (const c of children.flat()) if (c != null) el.append(c instanceof Node ? c : document.createTextNode(String(c)));
   return el;
 }

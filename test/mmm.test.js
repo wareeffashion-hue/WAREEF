@@ -4,6 +4,7 @@ import { adstock, ridge, mmmReport } from '../src/analytics/mmm.js';
 import { openDb } from '../src/db.js';
 import { addDays, dayStart } from '../src/config.js';
 import { createWorkspace } from '../src/workspaces.js';
+import { createOrganization } from '../src/orgs.js';
 
 test('adstock carries spend forward', () => {
   assert.deepEqual(adstock([100, 0, 0], 0.5, { warmStart: false }), [100, 50, 25]);
@@ -26,7 +27,7 @@ test('ridge recovers a known linear model', () => {
 
 test('MMM recovers which channel drives revenue and moves budget toward it', () => {
   const db = openDb(':memory:');
-  const ws = createWorkspace(db, { name: 't' });
+  const ws = createWorkspace(db, { name: 't', orgId: createOrganization(db, { name: 'o' }) });
   const to = '2026-10-06';
   let seed = 1;
   const rand = () => ((seed = (seed * 1664525 + 1013904223) % 2 ** 32) / 2 ** 32);
@@ -57,7 +58,7 @@ test('MMM recovers which channel drives revenue and moves budget toward it', () 
 
 test('MMM refuses to run on too little data', () => {
   const db = openDb(':memory:');
-  const ws = createWorkspace(db, { name: 't' });
+  const ws = createWorkspace(db, { name: 't', orgId: createOrganization(db, { name: 'o' }) });
   const m = mmmReport(db, ws, { to: '2026-10-06', days: 90 });
   assert.equal(m.ready, false);
 });

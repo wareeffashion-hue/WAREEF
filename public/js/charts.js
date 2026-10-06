@@ -22,7 +22,7 @@ export function lineChart({ series, labels, format = fmt.compact, tooltipFormat 
   const H = height;
   const pad = { t: 14, r: 92, b: 28, l: 52 };
   const n = labels.length;
-  const max = Math.max(1, ...series.flatMap((x) => x.values.filter((v) => v != null)));
+  const max = Math.max(4, ...series.flatMap((x) => x.values.filter((v) => v != null)));
   const ticks = niceTicks(max);
   const top = ticks[ticks.length - 1];
   const x = (i) => pad.l + (n <= 1 ? 0 : (i / (n - 1)) * (W - pad.l - pad.r));

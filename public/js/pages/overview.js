@@ -2,9 +2,32 @@ import { h, fmt, kpi, card, table, label, channelCell, shareBar } from '../ui.js
 import { lineChart, pairedBars } from '../charts.js';
 import { pageHead, modelName } from './common.js';
 
+/** First-run checklist, shown until the store sends data. */
+async function onboarding(ctx) {
+  const conns = await ctx.api.get(`/api/w/${ctx.state.wsId}/connections`).catch(() => []);
+  const ever = await ctx.api.get(`/api/w/${ctx.state.wsId}/report/overview?${ctx.query({ from: '2000-01-01' })}`).catch(() => null);
+  const t = ever?.current || {};
+  const steps = [
+    [t.sessions > 0, 'ركّب كود التتبع في متجرك', 'سطر واحد في <head> يسجل مصدر كل زيارة.', 'tracking'],
+    [t.orders > 0, 'اربط طلبات المتجر', 'Webhook سلة أو الـ API، عشان المبيعات الحقيقية توصل.', 'store'],
+    [conns.length > 0 || t.spend > 0, 'اربط منصاتك الإعلانية', 'سناب وتيك توك وميتا وجوجل، أو ارفع ملف CSV.', 'platforms'],
+    [false, 'أضف قوالب روابط الإعلانات', 'عشان كل بيعة تنربط بحملتها وإعلانها.', 'tracking'],
+  ];
+  const done = steps.filter((x) => x[0]).length;
+  return h('div', { class: 'view' },
+    h('div', { class: 'page-head' }, h('div', {}, h('h1', {}, `أهلاً بك في ${ctx.state.meta.appName} 👋`), h('p', {}, `${ctx.ws.name} · خلّنا نجهز حسابك، أول البيانات تبدأ توصل خلال دقائق من التركيب.`))),
+    card({ title: `خطوات البداية (${done} من ${steps.length})` },
+      h('ol', { class: 'checklist' }, steps.map(([ok, title, sub, tab]) => h('li', { class: ok ? 'done' : '' },
+        h('span', { class: 'check' }, ok ? '✓' : ''),
+        h('div', {}, h('strong', {}, title), h('div', { class: 'muted' }, sub)),
+        ok ? h('span', { class: 'tag good' }, 'تم') : h('a', { class: 'btn sm primary', href: `#/w/${ctx.state.wsId}/settings`, onclick: () => { try { sessionStorage.setItem('wt:settings-tab', tab); } catch { /* ignore */ } } }, 'ابدأ'))))),
+    h('div', { class: 'note' }, 'التقارير تظهر هنا تلقائياً أول ما تبدأ الزيارات والطلبات توصل. تقدر ترجع لهذي الخطوات من "الإعدادات والربط" في أي وقت.'));
+}
+
 export default async function overview(ctx) {
   const r = await ctx.api.get(`/api/w/${ctx.state.wsId}/report/overview?${ctx.query()}`);
   const c = r.current;
+  if (!c.sessions && !c.orders && !c.spend && !r.previous.sessions && !r.previous.orders) return onboarding(ctx);
   const ch = r.change;
   const gapPct = c.claim_gap != null && c.revenue ? c.claim_gap / c.revenue : null;
 

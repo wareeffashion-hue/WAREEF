@@ -9,6 +9,7 @@ process.env.SNAPCHAT_CLIENT_SECRET = 'ssecret';
 const { PLATFORMS, saveConnection, syncConnection, listConnections } = await import('../src/connectors/index.js');
 const { openDb } = await import('../src/db.js');
 const { createWorkspace } = await import('../src/workspaces.js');
+const { createOrganization } = await import('../src/orgs.js');
 
 /** Fake fetch: routes by URL substring, records calls. */
 function fakeFetch(routes) {
@@ -92,7 +93,7 @@ test('google: exchanges refresh token and parses searchStream', async () => {
 
 test('sync writes spend, replaces stale rows, records errors', async () => {
   const db = openDb(':memory:');
-  const ws = createWorkspace(db, { name: 't' });
+  const ws = createWorkspace(db, { name: 't', orgId: createOrganization(db, { name: 'o' }) });
   const id = saveConnection(db, ws.id, { platform: 'meta', account_id: '1', credentials: { access_token: 'secret-token' } });
   assert.doesNotMatch(db.prepare('SELECT credentials FROM connections').get().credentials, /secret-token/);
 
