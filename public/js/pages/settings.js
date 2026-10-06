@@ -67,8 +67,16 @@ async function store(ctx, ws, redraw) {
   const orderExample = `curl -X POST ${ws.orders_api_url} \\
   -H "X-Api-Key: ${isAdmin ? ws.api_key : 'API_KEY'}" -H "Content-Type: application/json" \\
   -d '[{"order_id":"1001","value":450,"status":"completed","customer_id":"77","ts":"2026-10-01T12:00:00+03:00"}]'`;
+  const sl = ws.salla || { linked: false };
   return h('div', { class: 'view' },
-    card({ title: 'سلة (Salla)', sub: 'تصل المبالغ وحالات الطلبات الفعلية من المتجر مباشرة، وتُستبعد الطلبات الملغاة والمستردة من الحساب تلقائياً.' },
+    card({ title: 'تطبيق عزو في سلة', sub: 'الطريقة الموصى بها: بعد ربط متجرك، تصل الطلبات تلقائياً ويُفعَّل التتبع في المتجر دون لصق أي كود.' },
+      h('div', { class: 'kv' },
+        h('span', {}, 'الحالة'),
+        sl.linked ? h('span', { class: 'status ok' }, `مربوط بمتجر سلة رقم ${sl.merchant_id}`) : h('span', { class: 'status pending' }, 'غير مربوط بعد'),
+        h('span', {}),
+        ...(isAdmin ? [h('span', {}, 'رمز الربط'), h('code', {}, ws.salla_link_code), h('button', { class: 'btn sm', onclick: (e) => copy(ws.salla_link_code, e.target) }, 'نسخ')] : [])),
+      h('div', { class: 'note' }, '١. ثبّت تطبيق «عزو» من متجر تطبيقات سلة. ٢. الصق رمز الربط في إعدادات التطبيق داخل لوحة سلة واحفظها. ٣. حدّث هذه الصفحة؛ ستظهر الحالة «مربوط».')),
+    card({ title: 'سلة: الربط اليدوي', sub: 'بديل للتطبيق: تصل المبالغ وحالات الطلبات الفعلية مباشرة، وتُستبعد الطلبات الملغاة والمستردة تلقائياً.' },
       h('div', { class: 'kv' },
         h('span', {}, 'رابط Webhook'), h('code', {}, ws.salla_webhook_url), h('button', { class: 'btn sm', onclick: (e) => copy(ws.salla_webhook_url, e.target) }, 'نسخ'),
         ...(isAdmin ? [h('span', {}, 'المفتاح السري (Signature)'), h('code', {}, ws.webhook_secret), h('div', { style: { display: 'flex', gap: '6px' } },

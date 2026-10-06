@@ -8,6 +8,12 @@ export const config = {
   // Moyasar payments (https://moyasar.com). Without a key, checkout is disabled.
   moyasarSecretKey: process.env.MOYASAR_SECRET_KEY || '',
   moyasarWebhookSecret: process.env.MOYASAR_WEBHOOK_SECRET || '',
+  // The AZWO app on Salla Partners (https://portal.salla.partners): app webhook secret and OAuth client.
+  salla: {
+    webhookSecret: process.env.SALLA_WEBHOOK_SECRET || '',
+    clientId: process.env.SALLA_CLIENT_ID || '',
+    clientSecret: process.env.SALLA_CLIENT_SECRET || '',
+  },
   backupDays: Number(process.env.BACKUP_KEEP_DAYS || 14),
   retentionDays: Number(process.env.RETENTION_DAYS || 400),
   port: Number(process.env.PORT || 3000),

@@ -36,6 +36,42 @@
 
 الأسعار والحدود في `src/plans.js`، عدّلها قبل الإطلاق.
 
+## ٢-ب. تطبيق عزو في سلة (Salla Partners)
+
+التطبيق يربط متاجر سلة بالمنصة تلقائياً: الطلبات تصل، والتتبع يُحقن في المتجر بدون لصق كود.
+
+**في Railway (Variables):**
+
+| المتغير | القيمة |
+|---|---|
+| `SALLA_WEBHOOK_SECRET` | «مفتاح التنبيهات السري» من صفحة التطبيق |
+| `SALLA_CLIENT_ID` | «الرقم التعريفي للعميل» |
+| `SALLA_CLIENT_SECRET` | «المفتاح السري للعميل» |
+
+**في بوابة شركاء سلة (صفحة التطبيق):**
+1. **نمط المصادقة:** النمط السهل.
+2. **الصلاحيات:** الطلبات (قراءة فقط)، العملاء (قراءة فقط)، ويب هوك (قراءة وتعديل).
+3. **التنبيهات:** الرابط `https://<دومين المنصة>/webhooks/salla/app`، والحماية **Signature**.
+4. **أحداث المتجر:** `order.created`، `order.updated`، `order.status.updated`، `order.cancelled`، `order.refunded`، `order.deleted`.
+5. **إعدادات التطبيق:** حقل نصي إلزامي بعنوان «رمز الربط من عزو» (المفتاح `link_code`).
+6. **Snippets التطبيق:** الصق الكود التالي (مع استبدال الدومين):
+
+```js
+(function () {
+  var tries = 0;
+  (function load() {
+    var s = window.salla, id = s && s.config && s.config.get && s.config.get('store.id');
+    if (!id) { if (++tries < 40) setTimeout(load, 250); return; }
+    var el = document.createElement('script');
+    el.async = true;
+    el.src = 'https://<دومين المنصة>/t.js?salla=' + encodeURIComponent(id);
+    document.head.appendChild(el);
+  })();
+})();
+```
+
+**عند التاجر:** يثبّت التطبيق، ثم يلصق «رمز الربط» من عزو (**الإعدادات والربط ← ربط المتجر**) في إعدادات التطبيق داخل سلة. بعدها تظهر الحالة «مربوط».
+
 ## ٣. الإيميل: Resend
 
 1. 👤 سجّل في [resend.com](https://resend.com) (مجاني حتى 3,000 إيميل شهرياً).

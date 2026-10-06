@@ -8,9 +8,10 @@ export function createWorkspace(db, { name, currency = 'SAR', orgId }) {
   if (!orgId) throw new Error('orgId is required');
   name = String(name || '').trim().slice(0, 100);
   if (!name) throw new HttpError(400, 'يرجى إدخال اسم المتجر');
-  const res = db.prepare(`INSERT INTO workspaces (name, site_key, api_key, webhook_secret, currency, org_id, created_at)
-                          VALUES (?, ?, ?, ?, ?, ?, ?)`)
-    .run(name, key('site', 9), key('key', 24), randomBytes(24).toString('hex'), String(currency || 'SAR').toUpperCase().slice(0, 3), orgId, Date.now());
+  const res = db.prepare(`INSERT INTO workspaces (name, site_key, api_key, webhook_secret, salla_link_code, currency, org_id, created_at)
+                          VALUES (?, ?, ?, ?, ?, ?, ?, ?)`)
+    .run(name, key('site', 9), key('key', 24), randomBytes(24).toString('hex'), `azwo-${randomBytes(12).toString('hex')}`,
+      String(currency || 'SAR').toUpperCase().slice(0, 3), orgId, Date.now());
   return getWorkspace(db, Number(res.lastInsertRowid));
 }
 
