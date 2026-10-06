@@ -179,6 +179,7 @@ test('Salla app: one webhook for all stores, linked by code from the app setting
   assert.deepEqual((await admin.get(`/api/workspaces/${id}`)).body.salla.merchant_id, '9001');
   assert.match(await fetch(`${base}/t.js?salla=9001`).then((r) => r.text()), new RegExp(`collect\\?k=${ws.site_key}`));
   assert.equal((await app(order('C2', 400))).body.stored, 'purchase');
+  assert.equal((await app({ event: 'order.shipment.created', merchant: 9001, data: { id: 'SHIP1', amounts: { total: { amount: 77 } } } })).body.ignored, true, 'shipment events are not orders');
   // Token strategy works too.
   assert.equal((await app(order('C3', 50), { Authorization: 'Bearer app-secret' })).body.stored, 'purchase');
   const ch = (await admin.get(`/api/w/${id}/report/channels?${q}&model=last_non_direct`)).body;

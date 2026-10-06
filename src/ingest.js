@@ -119,9 +119,14 @@ export function verifySignature(rawBody, signature, secret) {
 }
 
 /** Salla order webhooks (order.created / order.updated / order.status.updated / order.deleted). */
+// Events whose payload is the order itself. Others (shipments, coupons, addresses…)
+// carry a different object in `data`, so they must not be read as orders.
+export const SALLA_ORDER_EVENTS = new Set(['order.created', 'order.updated', 'order.status.updated', 'order.total.price.updated',
+  'order.cancelled', 'order.refunded', 'order.deleted', 'order.payment.updated', 'order.products.updated']);
+
 export function recordSallaWebhook(db, ws, payload, now = Date.now()) {
   const event = String(payload?.event || '');
-  if (!event.startsWith('order.')) return { stored: null, ignored: event };
+  if (!SALLA_ORDER_EVENTS.has(event)) return { stored: null, ignored: event };
   const order = payload.data || {};
   if (order.id == null) throw new HttpError(400, 'missing order id');
   const amount = order.amounts?.total?.amount ?? order.total?.amount ?? order.amount ?? 0;

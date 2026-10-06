@@ -3,7 +3,7 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { config } from './config.js';
 import { HttpError } from './http.js';
-import { recordSallaWebhook } from './ingest.js';
+import { SALLA_ORDER_EVENTS, recordSallaWebhook } from './ingest.js';
 import { encrypt } from './secrets.js';
 
 const LINK_CODE = /^azwo-[0-9a-f]{24}$/;
@@ -82,7 +82,7 @@ export function handleSallaAppEvent(db, payload, { admit = () => true, now = Dat
       return { ok: true, event, linked: true, workspace: ws.id };
     }
     default: {
-      if (!event.startsWith('order.')) return { ok: true, event, ignored: true };
+      if (!SALLA_ORDER_EVENTS.has(event)) return { ok: true, event, ignored: true };
       const ws = sallaWorkspaceFor(db, merchantId);
       if (!ws) return { ok: true, event, stored: null, reason: 'store not linked' };
       if (!admit(ws)) return { ok: true, event, stored: null, reason: 'subscription' };
