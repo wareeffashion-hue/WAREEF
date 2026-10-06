@@ -9,9 +9,10 @@
   <meta property="og:description" content="سناب يقول جبت مليون، تيك توك يقول نص مليون، والمتجر باع مليون بس. عزو ينهي الخلاف.">
   <meta property="og:image" content="/img/og.png">
   <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/svg+xml" href="/img/mark.svg">
   <link rel="icon" type="image/png" href="/img/favicon.png">
   <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
-  <meta name="theme-color" content="#4335ec">
+  <meta name="theme-color" content="#0e0f22">
   <link rel="preload" href="/fonts/gamila-400.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -20,7 +21,7 @@
 <body>
   <header class="nav">
     <div class="wrap nav-in">
-      <a class="brand" href="/"><img class="brand-logo on-light" src="/img/logo.png" alt="عزو AZWO" width="96" height="42"><img class="brand-logo on-dark" src="/img/logo-dark.png" alt="عزو AZWO" width="96" height="42"></a>
+      <a class="brand" href="/"><img class="brand-logo on-dark" src="/img/logo-dark.svg" alt="عزو AZWO" width="113" height="38"></a>
       <nav class="links">
         <a href="#how">كيف يشتغل</a>
         <a href="#features">المميزات</a>
@@ -36,57 +37,79 @@
 
   <main>
     <section class="hero">
-      <div class="wrap">
-        <p class="eyebrow">أداة إسناد موحّدة للمتاجر والوكالات</p>
-        <h1>سناب يقول جاب مليون.<br>تيك توك يقول نص مليون.<br><span class="hl">والمتجر باع مليون بس.</span></h1>
-        <p class="lead">كل منصة تحسب البيعة لنفسها، وأنت تقرر ميزانيتك على أرقام مكررة. <span data-app-name>عزو</span> يحسب كل بيعة <strong>مرة وحدة</strong> من مبيعات متجرك الحقيقية، ويقولك العميل جاء من أي منصة حسب نموذج الإسناد اللي تحتاجه.</p>
-        <div class="hero-cta">
-          <a class="btn primary lg" href="/app#/signup">جرّب مجاناً <span data-trial-days>14</span> يوم</a>
-          <a class="btn ghost lg" href="#how">شوف كيف يشتغل</a>
+      <div class="wrap hero-grid">
+        <div>
+          <p class="eyebrow">أداة إسناد موحّدة للمتاجر والوكالات</p>
+          <h1><span class="dim">سناب يقول جاب مليون.<br>تيك توك يقول نص مليون.</span><br><span class="hl">والمتجر باع مليون بس.</span></h1>
+          <p class="lead">كل منصة تحسب البيعة لنفسها، وأنت تقرر ميزانيتك على أرقام مكررة. <span data-app-name>عزو</span> يحسب كل بيعة <strong>مرة وحدة</strong> من مبيعات متجرك الحقيقية، ويقولك العميل جاء من أي منصة حسب نموذج الإسناد اللي تحتاجه.</p>
+          <div class="hero-cta">
+            <a class="btn primary lg" href="/app#/signup">جرّب مجاناً <span data-trial-days>14</span> يوم <span class="arr">←</span></a>
+            <a class="btn ghost lg" href="#how">شوف كيف يشتغل</a>
+          </div>
+          <p class="fine">بدون بطاقة ائتمانية · الإعداد خلال 10 دقائق · يدعم سلة وأي متجر</p>
         </div>
-        <p class="fine">بدون بطاقة ائتمانية · الإعداد خلال 10 دقائق · يدعم سلة وأي متجر</p>
-        <div class="shot"><img src="/img/dashboard.png" alt="لوحة التحكم: المبيعات الفعلية مقابل ما تدّعيه المنصات" width="1440" height="1000"></div>
+        <div class="stage" role="img" aria-label="مثال: مجموع ادعاءات سناب وتيك توك مليون ونص، بينما مبيعات المتجر الفعلية مليون">
+          <div class="geo" aria-hidden="true"><span class="geo-s1"></span><span class="geo-s2"></span><span class="geo-s3"></span><span class="geo-sq"></span></div>
+          <div class="dispute" aria-hidden="true">
+            <div class="dispute-head"><strong>مين جاب البيعة؟</strong><span>مثال · ر.س</span></div>
+            <div class="drow"><span class="lbl">سناب يدّعي</span><span class="track"><i class="snap w67"></i></span><span class="val">1.0M</span></div>
+            <div class="drow"><span class="lbl">تيك توك يدّعي</span><span class="track"><i class="tiktok w33"></i></span><span class="val">0.5M</span></div>
+            <div class="drow"><span class="lbl">مجموع الادعاءات</span><span class="track"><i class="snap w67"></i><i class="tiktok w33 at67"></i><span class="cap at67"></span></span><span class="val">1.5M</span></div>
+            <div class="drow"><span class="lbl">المتجر باع فعلاً</span><span class="track"><i class="real w67"></i></span><span class="val">1.0M</span></div>
+            <div class="dispute-foot"><span>مبيعات محسوبة مرتين</span><span class="pill">0.5M مكررة</span></div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <section class="problem">
-      <div class="wrap grid-3">
-        <div class="stat"><div class="n">6</div><p>نماذج إسناد تقارن فيها نفس المبيعات جنب بعض</p></div>
-        <div class="stat"><div class="n">4</div><p>منصات إعلانية بالربط المباشر: سناب، تيك توك، ميتا، جوجل</p></div>
-        <div class="stat"><div class="n">10 دقائق</div><p>للإعداد: سطر كود في المتجر وربط طلبات سلة</p></div>
+    <section class="strip">
+      <div class="wrap strip-in"><span>يتكامل مع</span><b>سلة</b><i class="sep"></i><b>سناب شات</b><i class="sep"></i><b>تيك توك</b><i class="sep"></i><b>ميتا</b><i class="sep"></i><b>جوجل</b><i class="sep"></i><b>أي متجر عبر API</b></div>
+    </section>
+
+    <section class="stats">
+      <div class="wrap">
+        <div class="stats-in">
+          <div class="stat"><div class="n">6</div><p>نماذج إسناد تقارن فيها نفس المبيعات جنب بعض</p></div>
+          <div class="stat"><div class="n">4</div><p>منصات إعلانية بالربط المباشر: سناب، تيك توك، ميتا، جوجل</p></div>
+          <div class="stat"><div class="n">10<small>دقائق</small></div><p>للإعداد: سطر كود في المتجر وربط طلبات سلة</p></div>
+        </div>
       </div>
     </section>
 
     <section id="how" class="section">
       <div class="wrap">
+        <span class="kicker">كيف يشتغل</span>
         <h2>ثلاث خطوات وتشوف الحقيقة</h2>
         <div class="steps">
-          <div class="step"><span class="num">١</span><h3>ركّب كود التتبع</h3><p>سطر واحد في متجرك يلتقط مصدر كل زيارة: الإعلان، الحملة، والإبداع، ونقرات واتساب والاتصال.</p></div>
-          <div class="step"><span class="num">٢</span><h3>اربط المتجر والمنصات</h3><p>طلبات سلة تجي تلقائياً بمبالغها الحقيقية، والصرف وادعاءات سناب وتيك توك وميتا وجوجل تنسحب كل ساعة.</p></div>
-          <div class="step"><span class="num">٣</span><h3>اتخذ القرار بثقة</h3><p>ROAS حقيقي لكل منصة وحملة وإعلان، ومعامل تصحيح لأرقام كل منصة، وتوصيات توزيع الميزانية.</p></div>
+          <div class="step"><span class="num"><span>١</span></span><h3>ركّب كود التتبع</h3><p>سطر واحد في متجرك يلتقط مصدر كل زيارة: الإعلان، الحملة، والإبداع، ونقرات واتساب والاتصال.</p></div>
+          <div class="step"><span class="num"><span>٢</span></span><h3>اربط المتجر والمنصات</h3><p>طلبات سلة تجي تلقائياً بمبالغها الحقيقية، والصرف وادعاءات سناب وتيك توك وميتا وجوجل تنسحب كل ساعة.</p></div>
+          <div class="step"><span class="num"><span>٣</span></span><h3>اتخذ القرار بثقة</h3><p>ROAS حقيقي لكل منصة وحملة وإعلان، ومعامل تصحيح لأرقام كل منصة، وتوصيات توزيع الميزانية.</p></div>
         </div>
+        <div class="shot-frame"><div class="shot-bar" aria-hidden="true"><i></i><i></i><i></i></div><img src="/img/dashboard.png" alt="لوحة التحكم: المبيعات الفعلية مقابل ما تدّعيه المنصات" width="1440" height="1000" loading="lazy"></div>
       </div>
     </section>
 
     <section id="features" class="section alt">
       <div class="wrap">
+        <span class="kicker">المميزات</span>
         <h2>كل اللي تحتاجه عشان توقف هدر الميزانية</h2>
-        <div class="features">
-          <div class="feature"><h3>القياس الموحّد</h3><p>مبيعات المتجر الفعلية موزعة على المنصات بدون تكرار، جنب ما تدّعيه كل منصة، مع معامل تصحيح جاهز.</p></div>
-          <div class="feature"><h3>6 نماذج إسناد</h3><p>آخر نقرة، أول نقرة، خطي، تناقص زمني، حسب الموقع… قارنها جنب بعض واعرف مين يجيب العميل ومين يقفل البيعة.</p></div>
-          <div class="feature"><h3>رحلة العميل عبر الأجهزة</h3><p>شاف الإعلان من الجوال واشترى من اللابتوب؟ تنحسب رحلة وحدة ويأخذ الإعلان حقه.</p></div>
-          <div class="feature"><h3>الحملات والإبداعات</h3><p>أي فيديو أو صورة جابت مبيعات فعلية، وأي حملة تصرف بدون نتيجة.</p></div>
-          <div class="feature"><h3>القيمة الدائمة للعميل</h3><p>LTV و CAC لكل قناة اكتساب: القناة الرخيصة اللي عملاؤها ما يرجعون قد تكون الأغلى.</p></div>
-          <div class="feature"><h3>المزيج التسويقي (MMM)</h3><p>نموذج إحصائي مستقل عن الكوكيز يقيس أثر كل قناة ويقترح توزيع الميزانية، ويقولك بصراحة إذا البيانات ما تكفي.</p></div>
-          <div class="feature"><h3>التواصل والقُمع</h3><p>واتساب والاتصال والنماذج منسوبة لمصدرها، وقمع الشراء لكل قناة مع أكبر نقطة تسرب.</p></div>
-          <div class="feature"><h3>للوكالات</h3><p>كل عملائك في لوحة وحدة، وأعطِ كل عميل دخول يشوف فيه بياناته فقط.</p></div>
+        <div class="bento">
+          <div class="feature big"><span class="glyph"></span><h3>القياس الموحّد</h3><p>مبيعات المتجر الفعلية موزعة على المنصات بدون تكرار، جنب ما تدّعيه كل منصة، مع معامل تصحيح جاهز.</p></div>
+          <div class="feature big"><span class="glyph"></span><h3>6 نماذج إسناد</h3><p>آخر نقرة، أول نقرة، خطي، تناقص زمني، حسب الموقع… قارنها جنب بعض واعرف مين يجيب العميل ومين يقفل البيعة.</p></div>
+          <div class="feature"><span class="glyph"></span><h3>رحلة العميل عبر الأجهزة</h3><p>شاف الإعلان من الجوال واشترى من اللابتوب؟ تنحسب رحلة وحدة ويأخذ الإعلان حقه.</p></div>
+          <div class="feature"><span class="glyph"></span><h3>الحملات والإبداعات</h3><p>أي فيديو أو صورة جابت مبيعات فعلية، وأي حملة تصرف بدون نتيجة.</p></div>
+          <div class="feature"><span class="glyph"></span><h3>القيمة الدائمة للعميل</h3><p>LTV و CAC لكل قناة اكتساب: القناة الرخيصة اللي عملاؤها ما يرجعون قد تكون الأغلى.</p></div>
+          <div class="feature"><span class="glyph"></span><h3>المزيج التسويقي (MMM)</h3><p>نموذج إحصائي مستقل عن الكوكيز يقيس أثر كل قناة ويقترح توزيع الميزانية، ويقولك بصراحة إذا البيانات ما تكفي.</p></div>
+          <div class="feature big"><span class="glyph"></span><h3>التواصل والقُمع</h3><p>واتساب والاتصال والنماذج منسوبة لمصدرها، وقمع الشراء لكل قناة مع أكبر نقطة تسرب.</p></div>
+          <div class="feature big"><span class="glyph"></span><h3>للوكالات</h3><p>كل عملائك في لوحة وحدة، وأعطِ كل عميل دخول يشوف فيه بياناته فقط.</p></div>
         </div>
-        <div class="shot small"><img src="/img/measurement.png" alt="القياس الموحد: منسوب فعلياً مقابل ما تدّعيه كل منصة" width="1440" height="1000" loading="lazy"></div>
+        <div class="shot-frame"><div class="shot-bar" aria-hidden="true"><i></i><i></i><i></i></div><img src="/img/measurement.png" alt="القياس الموحد: منسوب فعلياً مقابل ما تدّعيه كل منصة" width="1440" height="1000" loading="lazy"></div>
       </div>
     </section>
 
     <section id="pricing" class="section">
       <div class="wrap">
+        <span class="kicker">الأسعار</span>
         <h2>أسعار واضحة</h2>
         <p class="sub center">كل الباقات فيها كل نماذج الإسناد والتقارير. الأسعار شاملة الضريبة.</p>
         <div class="cycle" role="group" aria-label="مدة الاشتراك">
@@ -99,6 +122,7 @@
 
     <section id="faq" class="section alt">
       <div class="wrap narrow">
+        <span class="kicker">الأسئلة</span>
         <h2>أسئلة شائعة</h2>
         <details><summary>ليش أرقامكم أقل من أرقام المنصات؟</summary><p>لأننا نبدأ من مبيعات متجرك الفعلية ونحسب كل طلب مرة وحدة. المنصات تحسب الطلب لنفسها حتى لو العميل بس شاف الإعلان، أو جاء من منصة ثانية بعدها، فمجموعها دايماً أكبر من الحقيقة.</p></details>
         <details><summary>هل يشتغل مع سلة؟</summary><p>نعم. الطلبات توصل تلقائياً عن طريق Webhook من سلة بمبالغها وحالاتها الحقيقية، والملغي والمسترد ينحذف من الحساب. ويشتغل مع أي متجر ثاني عن طريق الـ API.</p></details>
@@ -109,18 +133,21 @@
       </div>
     </section>
 
-    <section class="final">
-      <div class="wrap center">
-        <h2>وقّف الخلاف بين المنصات اليوم</h2>
-        <p>جرّب <span data-trial-days>14</span> يوم مجاناً بكل المميزات.</p>
-        <a class="btn primary lg" href="/app#/signup">أنشئ حسابك</a>
+    <section class="final section">
+      <div class="wrap">
+        <div class="final-card center">
+          <div class="geo" aria-hidden="true"><span class="geo-s1"></span><span class="geo-s2"></span><span class="geo-s3"></span><span class="geo-sq"></span></div>
+          <h2>وقّف الخلاف بين المنصات اليوم</h2>
+          <p>جرّب <span data-trial-days>14</span> يوم مجاناً بكل المميزات.</p>
+          <a class="btn primary lg" href="/app#/signup">أنشئ حسابك <span class="arr">←</span></a>
+        </div>
       </div>
     </section>
   </main>
 
   <footer class="foot">
     <div class="wrap foot-in">
-      <span>© <span id="year"></span> <span data-app-name>عزو</span></span>
+      <span class="foot-brand"><img src="/img/logo-dark.svg" alt="" width="89" height="30"><span>© <span id="year"></span> <span data-app-name>عزو</span></span></span>
       <nav><a href="/terms">الشروط والأحكام</a><a href="/privacy">سياسة الخصوصية</a><a id="support" hidden>تواصل معنا</a></nav>
     </div>
   </footer>

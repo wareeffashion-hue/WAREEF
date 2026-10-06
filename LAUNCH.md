@@ -11,7 +11,7 @@
 
    | المتغير | القيمة |
    |---|---|
-   | `PUBLIC_URL` | رابط المنصة النهائي، مثل `https://app.yourbrand.com` |
+   | `PUBLIC_URL` | رابط المنصة النهائي، مثل `https://azwo-production.up.railway.app` (أو دومينك لاحقاً) |
    | `SECRET_KEY` | ناتج `openssl rand -hex 32` (احفظه في مكان آمن؛ ضياعه يعني إعادة ربط كل المنصات الإعلانية) |
    | `APP_NAME` | `عزو` (الافتراضي) |
    | `SUPPORT_EMAIL` | بريد الدعم |
@@ -27,7 +27,7 @@
 1. 👤 سجّل في [moyasar.com](https://moyasar.com) كتاجر. يتطلب **سجل تجاري أو وثيقة عمل حر** وحساب بنكي، والتفعيل ياخذ أيام.
 2. من لوحة Moyasar: **Settings ← API Keys**، وانسخ **Secret Key** (يبدأ بـ `sk_live_`) إلى `MOYASAR_SECRET_KEY`.
 3. **Settings ← Webhooks ← Add**:
-   - الرابط: `https://app.yourbrand.com/webhooks/moyasar`
+   - الرابط: `https://azwo-production.up.railway.app/webhooks/moyasar`
    - الأحداث: `payment_paid`
    - Secret: اختر كلمة سر عشوائية وحطها في `MOYASAR_WEBHOOK_SECRET`.
 4. جرّب أولاً بمفتاح الاختبار `sk_test_` وبطاقات الاختبار من توثيق Moyasar، ثم بدّل لمفتاح الإنتاج.

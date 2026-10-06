@@ -3,13 +3,21 @@ import { h } from '../ui.js';
 
 /** Login / signup / forgot / reset, chosen by the URL hash. */
 export function authView({ needsSetup, config, onDone }) {
-  const root = h('div', { class: 'auth' });
+  const pane = h('div', { class: 'auth-pane' });
+  const root = h('div', { class: 'auth' },
+    h('aside', { class: 'auth-art', 'aria-hidden': 'true' },
+      h('div', { class: 'geo' }, h('span', { class: 'geo-s1' }), h('span', { class: 'geo-s2' }), h('span', { class: 'geo-s3' }), h('span', { class: 'geo-sq' })),
+      h('div', { class: 'auth-art-copy' },
+        h('img', { src: '/img/logo-dark.svg', alt: '', class: 'auth-art-logo' }),
+        h('p', { class: 'auth-art-title' }, 'كل بيعة تنحسب ', h('em', {}, 'مرة وحدة'), '.'),
+        h('p', { class: 'auth-art-sub' }, 'مبيعات متجرك الحقيقية، منسوبة لمصدرها، جنب ما تدّعيه كل منصة.'))),
+    pane);
   function draw() {
     const hash = location.hash.replace(/^#\/?/, '');
     let mode = hash.startsWith('reset/') ? 'reset' : ['signup', 'forgot', 'login'].includes(hash) ? hash : 'login';
     if (needsSetup) mode = 'signup';
     if (mode === 'signup' && !config.signupEnabled) mode = 'login';
-    root.replaceChildren(form(mode, hash.slice(6)));
+    pane.replaceChildren(form(mode, hash.slice(6)));
   }
   window.addEventListener('hashchange', draw);
 
@@ -64,8 +72,8 @@ export function authView({ needsSetup, config, onDone }) {
       },
     },
     h('a', { class: 'brand', href: '/', style: { padding: 0 } },
-      h('img', { class: 'brand-logo on-light', src: '/img/logo.png', alt: config.appName, style: { height: '44px' } }),
-      h('img', { class: 'brand-logo on-dark', src: '/img/logo-dark.png', alt: config.appName, style: { height: '44px' } })),
+      h('img', { class: 'brand-logo on-light', src: '/img/logo.svg', alt: config.appName, style: { height: '44px' } }),
+      h('img', { class: 'brand-logo on-dark', src: '/img/logo-dark.svg', alt: config.appName, style: { height: '44px' } })),
     h('h1', {}, TITLES[mode][0]),
     h('p', {}, TITLES[mode][1]),
     FIELDS[mode], err, ok, btn,
