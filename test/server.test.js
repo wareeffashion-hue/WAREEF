@@ -141,6 +141,21 @@ test('end to end: cross-device journey, leads, order merge, funnel, spend, repor
   assert.equal(ag.find((w) => w.id === shop.id).current.revenue, 1300);
 });
 
+
+test('logged-in Salla shopper: webhook-only order finds its ad journey via identify', async () => {
+  const ws = (await admin.post('/api/workspaces', { name: 'متجر سلة' })).body;
+  const v = 'visitor_snap_00001';
+  await collect(ws.site_key, { v, e: 'pageview', s: 1, url: 'https://shop.sa/?ScCid=abc&utm_campaign=Promo' });
+  assert.equal((await collect(ws.site_key, { v, e: 'identify', customer_id: '501' })).stored, 'identify');
+  assert.match((await collect(ws.site_key, { v, e: 'identify' })).error || '', /customer_id/);
+  // No pixel purchase event: the order only arrives from Salla, carrying the customer id.
+  await salla(ws, { event: 'order.created', data: { id: 'B1', amounts: { total: { amount: 250 } }, status: { slug: 'completed' }, customer: { id: 501 } } });
+  const ch = (await admin.get(`/api/w/${ws.id}/report/channels?${q}&model=last_non_direct`)).body;
+  assert.equal(ch.totals.orders, 1);
+  assert.equal(ch.rows.find((r) => r.channel === 'snapchat')?.revenue, 250, JSON.stringify(ch.rows));
+  const js = await fetch(`${base}/t.js?k=${ws.site_key}`).then((r) => r.text());
+  assert.match(js, /salla\.config\.get\('user\.id'\)/);
+});
 test('server-to-server orders API uses the workspace API key', async () => {
   assert.equal((await client().post('/api/v1/orders', { order_id: 'S1', value: 10 }, { 'X-Api-Key': 'bad' })).status, 401);
   const r = await client().post('/api/v1/orders', [{ order_id: 'S1', value: 10 }], { 'X-Api-Key': other.api_key });

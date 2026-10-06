@@ -54,8 +54,22 @@ export const TRACKER_SOURCE = `(function (w, d) {
   }
   hookSalla(); d.addEventListener('DOMContentLoaded', hookSalla); w.addEventListener('load', hookSalla);
 
+  // Logged-in Salla customer: link this browser to the store's customer id, so orders that
+  // arrive by webhook (which carry the customer but not the browser) find their ad journey.
+  function identifySalla() {
+    try {
+      var c = w.salla && w.salla.config && w.salla.config.get;
+      if (!c) return;
+      var id = w.salla.config.get('user.id'), type = w.salla.config.get('user.type');
+      if (!id || type === 'guest' || store('wt_cid') === String(id)) return;
+      store('wt_cid', String(id));
+      send('identify', { customer_id: String(id) });
+    } catch (err) {}
+  }
+  identifySalla(); d.addEventListener('DOMContentLoaded', identifySalla); w.addEventListener('load', identifySalla);
+
   // Manual API: wtrack('purchase', {order_id: '123', value: 450, customer_id: '77'}),
-  // wtrack('add_to_cart'), wtrack('begin_checkout'), wtrack('view_item')
+  // wtrack('identify', {customer_id: '77'}), wtrack('add_to_cart'), wtrack('begin_checkout'), wtrack('view_item')
   var queue = (w.wtrack && w.wtrack.q) || [];
   w.wtrack = function (e, data) { send(e, data); };
   for (var i = 0; i < queue.length; i++) w.wtrack.apply(null, queue[i]);

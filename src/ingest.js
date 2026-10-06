@@ -46,6 +46,12 @@ export function recordEvent(db, ws, event, { now = Date.now(), userAgent = '' } 
         .run(ws.id, visitorId, now, event.e, key, url);
       return { stored: res.changes ? event.e : null };
     }
+    case 'identify': {
+      // A logged-in shopper: tie this browser to the store's customer id.
+      if (!event.customer_id) throw new HttpError(400, 'customer_id is required');
+      linkVisitor(db, ws, visitorId, upsertCustomer(db, ws, { externalId: event.customer_id }));
+      return { stored: 'identify' };
+    }
     case 'purchase': {
       const orderId = clip(event.order_id, 100);
       if (!orderId) throw new HttpError(400, 'order_id is required');
