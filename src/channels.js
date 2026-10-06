@@ -56,6 +56,7 @@ export function classify({ url, referrer }) {
     source: params.get('utm_source') || '',
     medium: params.get('utm_medium') || '',
     campaign: params.get('utm_campaign') || '',
+    content: params.get('utm_content') || params.get('utm_ad') || '',
   };
 
   for (const [param, channel] of CLICK_IDS) {
@@ -77,8 +78,21 @@ export function classify({ url, referrer }) {
   const refHost = hostOf(referrer);
   const ownHost = hostOf(url);
   if (refHost && refHost === ownHost) return null;
-  if (!refHost) return { channel: 'direct', source: '(direct)', medium: '(none)', campaign: '', clickId: null };
-  if (SEARCH_HOSTS.test(refHost)) return { channel: 'organic_search', source: refHost, medium: 'organic', campaign: '', clickId: null };
-  if (SOCIAL_HOSTS.test(refHost)) return { channel: 'organic_social', source: refHost, medium: 'social', campaign: '', clickId: null };
-  return { channel: 'referral', source: refHost, medium: 'referral', campaign: '', clickId: null };
+  if (!refHost) return { channel: 'direct', source: '(direct)', medium: '(none)', campaign: '', content: '', clickId: null };
+  if (SEARCH_HOSTS.test(refHost)) return { channel: 'organic_search', source: refHost, medium: 'organic', campaign: '', content: '', clickId: null };
+  if (SOCIAL_HOSTS.test(refHost)) return { channel: 'organic_social', source: refHost, medium: 'social', campaign: '', content: '', clickId: null };
+  return { channel: 'referral', source: refHost, medium: 'referral', campaign: '', content: '', clickId: null };
+}
+
+export const PAID_CHANNELS = ['google', 'meta', 'snapchat', 'tiktok', 'x'];
+
+export function deviceOf(userAgent = '') {
+  if (/ipad|tablet/i.test(userAgent)) return 'tablet';
+  if (/mobi|iphone|android/i.test(userAgent)) return 'mobile';
+  return 'desktop';
+}
+
+const BOTS = /bot|crawl|spider|slurp|facebookexternalhit|preview|headless|lighthouse|pingdom|monitor/i;
+export function isBot(userAgent = '') {
+  return !userAgent || BOTS.test(userAgent);
 }

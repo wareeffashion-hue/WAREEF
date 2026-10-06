@@ -1,7 +1,7 @@
-// Source of the snippet served at /t.js. __ENDPOINT__ is replaced at runtime.
+// Source of the snippet served at /t.js?k=<site key>. Placeholders are replaced at runtime.
 export const TRACKER_SOURCE = `(function (w, d) {
   if (w.__wtLoaded) return; w.__wtLoaded = true;
-  var E = '__ENDPOINT__/collect', SESSION_MS = 30 * 60 * 1000;
+  var E = '__ENDPOINT__/collect?k=__SITE_KEY__', SESSION_MS = 30 * 60 * 1000;
   var CAMPAIGN = /[?&](utm_source|gclid|gbraid|wbraid|fbclid|ttclid|ScCid|sccid|twclid)=/;
 
   function rid() {
@@ -28,6 +28,10 @@ export const TRACKER_SOURCE = `(function (w, d) {
   store('wt_last', String(now));
   send('pageview', { s: newSession ? 1 : 0 });
 
+  // Funnel steps from the URL (Salla product pages look like /<slug>/p<id>).
+  if (/\\/p\\d+(\\/|$)/.test(location.pathname)) send('view_item');
+  if (/checkout/i.test(location.pathname)) send('begin_checkout');
+
   d.addEventListener('click', function (ev) {
     var a = ev.target && ev.target.closest && ev.target.closest('a[href]');
     if (!a) return;
@@ -37,10 +41,21 @@ export const TRACKER_SOURCE = `(function (w, d) {
   }, true);
   d.addEventListener('submit', function (ev) {
     var f = ev.target;
-    if (f && !(f.getAttribute('data-wt') === 'ignore') && !/search/i.test(f.getAttribute('role') || f.action || '')) send('form');
+    if (f && f.getAttribute('data-wt') !== 'ignore' && !/search/i.test(f.getAttribute('role') || f.action || '')) send('form');
   }, true);
 
-  // Manual API: wtrack('purchase', {order_id: '123', value: 450, currency: 'SAR'})
+  // Salla storefront SDK, when present.
+  function hookSalla() {
+    var s = w.salla;
+    if (!s || hookSalla.done) return;
+    try {
+      if (s.cart && s.cart.event && s.cart.event.onItemAdded) { s.cart.event.onItemAdded(function () { send('add_to_cart'); }); hookSalla.done = true; }
+    } catch (err) {}
+  }
+  hookSalla(); d.addEventListener('DOMContentLoaded', hookSalla); w.addEventListener('load', hookSalla);
+
+  // Manual API: wtrack('purchase', {order_id: '123', value: 450, customer_id: '77'}),
+  // wtrack('add_to_cart'), wtrack('begin_checkout'), wtrack('view_item')
   var queue = (w.wtrack && w.wtrack.q) || [];
   w.wtrack = function (e, data) { send(e, data); };
   for (var i = 0; i < queue.length; i++) w.wtrack.apply(null, queue[i]);

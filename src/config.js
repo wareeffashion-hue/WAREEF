@@ -1,15 +1,24 @@
 export const config = {
   port: Number(process.env.PORT || 3000),
   dbPath: process.env.DB_PATH || 'data/tracking.db',
-  // Public URL of this server, baked into the tracking snippet.
+  // Public URL of this server, baked into the tracking snippet and webhook URLs.
   publicUrl: (process.env.PUBLIC_URL || '').replace(/\/$/, ''),
-  // Protects the dashboard and /api/* with HTTP basic auth when set.
+  // Optional first admin, created on boot when the users table is empty.
+  adminEmail: process.env.ADMIN_EMAIL || '',
   adminPassword: process.env.ADMIN_PASSWORD || '',
-  // Verifies Salla webhooks (HMAC-SHA256 of the raw body) when set.
-  sallaWebhookSecret: process.env.SALLA_WEBHOOK_SECRET || '',
+  // Encrypts ad-platform tokens at rest. Required in production.
+  secretKey: process.env.SECRET_KEY || '',
   // Business timezone used for day boundaries (default: Riyadh).
   tzOffset: process.env.TZ_OFFSET || '+03:00',
-  currency: process.env.CURRENCY || 'SAR',
+  secureCookies: process.env.SECURE_COOKIES === '1',
+  syncIntervalMinutes: Number(process.env.SYNC_INTERVAL_MINUTES || 60),
+  // OAuth app credentials, used to refresh platform access tokens.
+  snapchat: { clientId: process.env.SNAPCHAT_CLIENT_ID || '', clientSecret: process.env.SNAPCHAT_CLIENT_SECRET || '' },
+  google: {
+    clientId: process.env.GOOGLE_CLIENT_ID || '',
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
+    developerToken: process.env.GOOGLE_ADS_DEVELOPER_TOKEN || '',
+  },
 };
 
 export const DAY = 86_400_000;
@@ -29,4 +38,16 @@ export function dayStart(day) {
 /** YYYY-MM-DD of an epoch ms timestamp in the business timezone. */
 export function dayOf(ts) {
   return new Date(ts + tzOffsetMs()).toISOString().slice(0, 10);
+}
+
+/** YYYY-MM-DD shifted by n days. */
+export function addDays(day, n) {
+  return new Date(Date.parse(`${day}T00:00:00Z`) + n * DAY).toISOString().slice(0, 10);
+}
+
+/** Inclusive list of days between from and to. */
+export function daysBetween(from, to) {
+  const out = [];
+  for (let d = from; d <= to; d = addDays(d, 1)) out.push(d);
+  return out;
 }

@@ -45,24 +45,29 @@ export function eligiblePath(touchpoints, convTs, windowDays) {
     .sort((a, b) => a.ts - b.ts);
 }
 
+const UNATTRIBUTED_TP = Object.freeze({ channel: UNATTRIBUTED, campaign: '', content: '' });
+
 /**
- * @param touchpoints [{ts, channel}] for the converting visitor
- * @returns Map<channel, credit>
+ * Credit per touchpoint, so campaigns and creatives can be attributed too.
+ * @param touchpoints [{ts, channel, ...}] for the converting customer
+ * @returns [{tp, credit}] with credits summing to 1
  */
-export function attribute(touchpoints, convTs, { model = DEFAULT_MODEL, windowDays = 30, halfLifeDays = 7 } = {}) {
+export function attributeTouchpoints(touchpoints, convTs, { model = DEFAULT_MODEL, windowDays = 30, halfLifeDays = 7 } = {}) {
   let path = eligiblePath(touchpoints, convTs, windowDays);
   if (model === 'last_non_direct') {
     const nonDirect = path.filter((tp) => tp.channel !== 'direct');
     path = nonDirect.length ? nonDirect : path;
   }
-  const credits = new Map();
-  if (!path.length) {
-    credits.set(UNATTRIBUTED, 1);
-    return credits;
-  }
+  if (!path.length) return [{ tp: UNATTRIBUTED_TP, credit: 1 }];
   const w = weights(path, convTs, model, halfLifeDays);
-  path.forEach((tp, i) => {
-    if (w[i]) credits.set(tp.channel, (credits.get(tp.channel) || 0) + w[i]);
-  });
+  return path.map((tp, i) => ({ tp, credit: w[i] })).filter((x) => x.credit > 0);
+}
+
+/** @returns Map<channel, credit> */
+export function attribute(touchpoints, convTs, opts) {
+  const credits = new Map();
+  for (const { tp, credit } of attributeTouchpoints(touchpoints, convTs, opts)) {
+    credits.set(tp.channel, (credits.get(tp.channel) || 0) + credit);
+  }
   return credits;
 }
