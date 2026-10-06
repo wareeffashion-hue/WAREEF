@@ -206,7 +206,10 @@ function buildShell(root) {
   fillWorkspaceSelect(wsSelect);
 
   const sidebar = h('aside', { class: 'sidebar' },
-    h('a', { class: 'brand', href: '/', style: { color: 'inherit', textDecoration: 'none' } }, h('span', { class: 'logo' }, icon('analytics')), h('div', {}, h('strong', {}, state.meta.appName.toUpperCase()), h('small', {}, state.org?.name || 'الإسناد الموحّد'))),
+    h('a', { class: 'brand', href: '/', style: { color: 'inherit', textDecoration: 'none', display: 'block' } },
+      h('img', { class: 'brand-logo on-light', src: '/img/logo.png', alt: state.meta.appName }),
+      h('img', { class: 'brand-logo on-dark', src: '/img/logo-dark.png', alt: state.meta.appName }),
+      h('span', { class: 'brand-sub' }, state.org?.name || '')),
     navLinks,
     h('div', { class: 'sidebar-foot' },
       h('div', { class: 'user-chip' }, h('span', { class: 'avatar' }, (state.user.name || '?').trim().charAt(0)), h('div', {}, h('div', {}, state.user.name), h('div', { class: 'muted' }, state.user.role === 'admin' ? 'مدير' : 'عضو'))),

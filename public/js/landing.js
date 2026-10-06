@@ -2,7 +2,7 @@ const $ = (s) => document.querySelector(s);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 $('#year').textContent = new Date().getFullYear();
 
-let cfg = { plans: [], trialDays: 14, appName: 'Tracking' };
+let cfg = { plans: [], trialDays: 14, appName: 'عزو' };
 let cycle = 'monthly';
 const nf = new Intl.NumberFormat('en-US');
 

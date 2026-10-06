@@ -4,14 +4,14 @@
   --surface: #fcfcfb;
   --surface-2: #f3f3f0;
   --border: #e4e3dd;
-  --text: #0b0b0b;
+  --text: #12152b;
   --text-2: #52514e;
   --muted: #898781;
   --grid: #e9e8e2;
   --axis: #c3c2b7;
-  --accent: #4f46e5;
-  --accent-ink: #4338ca;
-  --accent-soft: #eef0ff;
+  --accent: #4335ec;
+  --accent-ink: #3a2ce0;
+  --accent-soft: #eeedfd;
   --good: #006300;
   --bad: #c42b2b;
   --good-soft: #e7f5e7;
@@ -29,7 +29,7 @@
   :root:not([data-theme="light"]) {
     color-scheme: dark;
     --page: #0d0d0d; --surface: #1a1a19; --surface-2: #222220; --border: #2f2f2c; --text: #ffffff; --text-2: #c3c2b7;
-    --muted: #898781; --grid: #2c2c2a; --axis: #383835; --accent: #818cf8; --accent-ink: #a5b4fc; --accent-soft: #23264a;
+    --muted: #898781; --grid: #2c2c2a; --axis: #383835; --accent: #6f63f2; --accent-ink: #a39cf8; --accent-soft: #24214a;
     --good: #0ca30c; --bad: #e66767; --good-soft: #10291a; --bad-soft: #321616; --warn-soft: #2e2610;
     --series-a: #3987e5; --series-b: #d95926; --shadow: none;
     --ch-google: #3987e5; --ch-tiktok: #d95926; --ch-meta: #199e70; --ch-snapchat: #c98500;
@@ -40,7 +40,7 @@
 :root[data-theme="dark"] {
   color-scheme: dark;
   --page: #0d0d0d; --surface: #1a1a19; --surface-2: #222220; --border: #2f2f2c; --text: #ffffff; --text-2: #c3c2b7;
-  --muted: #898781; --grid: #2c2c2a; --axis: #383835; --accent: #818cf8; --accent-ink: #a5b4fc; --accent-soft: #23264a;
+  --muted: #898781; --grid: #2c2c2a; --axis: #383835; --accent: #6f63f2; --accent-ink: #a39cf8; --accent-soft: #24214a;
   --good: #0ca30c; --bad: #e66767; --good-soft: #10291a; --bad-soft: #321616; --warn-soft: #2e2610;
   --series-a: #3987e5; --series-b: #d95926; --shadow: none;
   --ch-google: #3987e5; --ch-tiktok: #d95926; --ch-meta: #199e70; --ch-snapchat: #c98500;
@@ -67,8 +67,15 @@ a { color: var(--accent-ink); }
 .brand { display: flex; gap: 10px; align-items: center; padding: 4px 8px 16px; }
 .brand strong { display: block; letter-spacing: .1em; font-size: 15px; line-height: 1.1; }
 .brand small { display: block; color: var(--muted); font-size: 10.5px; letter-spacing: .05em; }
-.logo { width: 34px; height: 34px; border-radius: 9px; background: var(--accent); color: #fff; display: grid; place-items: center; flex: none; }
-.logo svg { width: 20px; height: 20px; }
+.brand-logo { height: 44px; width: auto; display: block; }
+.brand-logo.on-dark { display: none; }
+:root[data-theme="dark"] .brand-logo.on-light { display: none; }
+:root[data-theme="dark"] .brand-logo.on-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .brand-logo.on-light { display: none; }
+  :root:not([data-theme="light"]) .brand-logo.on-dark { display: block; }
+}
+.brand-sub { display: block; color: var(--muted); font-size: 11.5px; margin-top: 2px; }
 .nav-group { color: var(--muted); font-size: 11.5px; padding: 14px 10px 4px; }
 .nav-link {
   display: flex; align-items: center; gap: 10px; padding: 7px 10px; border-radius: 8px; color: var(--text-2);
@@ -112,8 +119,10 @@ a { color: var(--accent-ink); }
 .grid-3 { display: grid; grid-template-columns: 2fr 1fr; gap: 16px; }
 
 /* ------------------------------------------------------------ components */
-.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
-.kpi { background: var(--surface); padding: 14px 18px; min-width: 0; }
+/* Tile separators are drawn per tile (not as grid-gap background) so a
+   half-empty last row stays clean. */
+.kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); background: var(--surface); border: 1px solid var(--border); border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.kpi { background: var(--surface); padding: 14px 18px; min-width: 0; border-inline-start: 1px solid var(--border); border-top: 1px solid var(--border); margin-inline-start: -1px; margin-top: -1px; }
 .kpi-label { color: var(--text-2); font-size: 12.5px; }
 .kpi-value { font-size: 24px; font-weight: 700; margin: 2px 0; display: flex; align-items: baseline; gap: 4px 8px; flex-wrap: wrap; letter-spacing: -.01em; white-space: nowrap; }
 .kpi-sub { color: var(--muted); font-size: 11.5px; }

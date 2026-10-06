@@ -5,13 +5,15 @@ import { config } from './config.js';
 const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
 export function layout(title, bodyHtml, cta) {
-  return `<!doctype html><html lang="ar" dir="rtl"><body style="margin:0;background:#f6f6f4;font-family:Tahoma,Arial,sans-serif;color:#0b0b0b">
+  return `<!doctype html><html lang="ar" dir="rtl"><body style="margin:0;background:#f6f6f4;font-family:Tahoma,Arial,sans-serif;color:#12152b">
 <div style="max-width:520px;margin:0 auto;padding:32px 16px">
-  <div style="font-weight:700;letter-spacing:.1em;margin-bottom:16px">${esc(config.appName.toUpperCase())}</div>
+  <div style="margin-bottom:16px">${config.publicUrl
+    ? `<img src="${esc(config.publicUrl)}/img/logo.png" alt="${esc(config.appName)}" height="40" style="height:40px;width:auto">`
+    : `<strong style="font-size:18px">${esc(config.appName)}</strong>`}</div>
   <div style="background:#fff;border:1px solid #e4e3dd;border-radius:12px;padding:24px;line-height:1.8">
     <h1 style="font-size:18px;margin:0 0 12px">${esc(title)}</h1>
     ${bodyHtml}
-    ${cta ? `<p style="margin:24px 0 8px"><a href="${esc(cta.url)}" style="background:#4f46e5;color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;display:inline-block">${esc(cta.label)}</a></p>` : ''}
+    ${cta ? `<p style="margin:24px 0 8px"><a href="${esc(cta.url)}" style="background:#4335ec;color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;display:inline-block">${esc(cta.label)}</a></p>` : ''}
   </div>
   <p style="color:#898781;font-size:12px;margin-top:16px">${config.supportEmail ? `للمساعدة: ${esc(config.supportEmail)}` : ''}</p>
 </div></body></html>`;

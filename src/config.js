@@ -1,10 +1,10 @@
 export const config = {
-  appName: process.env.APP_NAME || 'Tracking',
+  appName: process.env.APP_NAME || 'عزو',
   supportEmail: process.env.SUPPORT_EMAIL || '',
   signupEnabled: process.env.SIGNUP_ENABLED !== '0',
   // Transactional email via Resend (https://resend.com). Without a key, emails are logged.
   resendApiKey: process.env.RESEND_API_KEY || '',
-  emailFrom: process.env.EMAIL_FROM || 'Tracking <no-reply@example.com>',
+  emailFrom: process.env.EMAIL_FROM || 'AZWO <no-reply@example.com>',
   // Moyasar payments (https://moyasar.com). Without a key, checkout is disabled.
   moyasarSecretKey: process.env.MOYASAR_SECRET_KEY || '',
   moyasarWebhookSecret: process.env.MOYASAR_WEBHOOK_SECRET || '',
