@@ -207,8 +207,8 @@ function buildShell(root) {
 
   const sidebar = h('aside', { class: 'sidebar' },
     h('a', { class: 'brand', href: '/', style: { color: 'inherit', textDecoration: 'none', display: 'block' } },
-      h('img', { class: 'brand-logo on-light', src: '/img/logo.png', alt: state.meta.appName }),
-      h('img', { class: 'brand-logo on-dark', src: '/img/logo-dark.png', alt: state.meta.appName }),
+      h('img', { class: 'brand-logo on-light', src: '/img/logo.svg', alt: state.meta.appName }),
+      h('img', { class: 'brand-logo on-dark', src: '/img/logo-dark.svg', alt: state.meta.appName }),
       h('span', { class: 'brand-sub' }, state.org?.name || '')),
     navLinks,
     h('div', { class: 'sidebar-foot' },
