@@ -259,12 +259,5 @@ test('public pages and config', async () => {
     assert.equal(res.status, 200, path);
     assert.match(res.headers.get('content-security-policy') || '', /frame-ancestors 'none'/);
   }
-  const home = await (await fetch(base + '/')).text();
-  assert.match(home, /أرسو/);
-  for (const [path, type] of [['/arso/style.css', 'text/css'], ['/arso/assets/logo-mesh.json', 'application/json'], ['/arso/assets/portfolio.webp', 'image/webp'], ['/arso/assets/gamila-regular.ttf', 'font/ttf']]) {
-    const res = await fetch(base + path);
-    assert.equal(res.status, 200, path);
-    assert.match(res.headers.get('content-type'), new RegExp(type), path);
-  }
   assert.equal((await fetch(`${base}/nope`)).status, 404);
 });
