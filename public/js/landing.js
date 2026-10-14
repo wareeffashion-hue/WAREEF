@@ -2,6 +2,39 @@ const $ = (s) => document.querySelector(s);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
 $('#year').textContent = new Date().getFullYear();
 
+// Mobile menu: the inline nav links are hidden under 960px, so the toggle must work.
+const menuBtn = $('.menu-toggle');
+const menu = $('#mobile-menu');
+const setMenu = (open) => {
+  menuBtn.setAttribute('aria-expanded', String(open));
+  menuBtn.setAttribute('aria-label', open ? 'إغلاق القائمة' : 'فتح القائمة');
+  menu.hidden = !open;
+};
+menuBtn.addEventListener('click', () => setMenu(menu.hidden));
+menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !menu.hidden) { setMenu(false); menuBtn.focus(); } });
+
+// Nav gets a shadow once the page scrolls, so it reads as floating above content.
+const nav = $('.nav');
+const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 8);
+window.addEventListener('scroll', onScroll, { passive: true });
+onScroll();
+
+// Scroll reveal for sections. Only enabled when motion is allowed and IntersectionObserver exists;
+// otherwise content simply stays visible.
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (!reduceMotion && 'IntersectionObserver' in window) {
+  document.documentElement.classList.add('js-reveal');
+  const targets = document.querySelectorAll('.section .wrap > *, .stats-in, .hero-grid > *');
+  targets.forEach((t) => t.classList.add('reveal'));
+  const io = new IntersectionObserver((entries) => {
+    for (const en of entries) {
+      if (en.isIntersecting) { en.target.classList.add('in'); io.unobserve(en.target); }
+    }
+  }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+  targets.forEach((t) => io.observe(t));
+}
+
 let cfg = { plans: [], trialDays: 14, appName: 'عزو' };
 let cycle = 'monthly';
 const nf = new Intl.NumberFormat('en-US');
